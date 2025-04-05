@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/root">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        app:titleCentered="true"
+        android:id="@+id/toolbar" />
+
+    <ProgressBar
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/progress"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal" 
+        android:indeterminate="true"
+        android:progressDrawable="@drawable/progress"/>
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/progress"
+        android:padding="6dp"
+        android:id="@+id/content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:strokeColor="@color/primary"
+            android:elevation="6dp"
+            app:strokeWidth="1dp"
+            android:id="@+id/about">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="6dp"
+                android:textSize="20sp"
+                android:text="@string/about_app"
+                android:id="@+id/about_app"
+                android:clickable="true"
+                android:textIsSelectable="true" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/about"
+            android:layout_marginTop="6dp"
+            android:id="@+id/last_folders" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/plus"
+            android:backgroundTint="@color/actionButton"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/new_project" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/copy"
+            android:layout_above="@+id/new_project"
+            android:backgroundTint="@color/actionButton"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/clone_repo" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

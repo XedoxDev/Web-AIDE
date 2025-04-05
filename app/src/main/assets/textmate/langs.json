@@ -1,0 +1,45 @@
+{
+  "languages": [
+    {
+      "grammar": "textmate/html/html-tmLanguage.json",
+      "name": "HTML",
+      "scopeName": "source.html",
+      "languageConfiguration": "textmate/html/html-config.json"
+    },
+        
+    {
+      "grammar": "textmate/css/css-tmLanguage.json",
+      "name": "css",
+      "scopeName": "source.css",
+      "languageConfiguration": "textmate/css/css-config.json"
+    },
+        
+    {
+      "grammar": "textmate/js/js-tmLanguage.json",
+      "name": "js",
+      "scopeName": "source.js",
+      "languageConfiguration": "textmate/js/js-config.json"
+    },
+        
+    {
+      "grammar": "textmate/php/php-tmLanguage.json",
+      "name": "php",
+      "scopeName": "source.php",
+      "languageConfiguration": "textmate/php/php-config.json"
+    }, 
+           
+    {
+      "grammar": "textmate/python/py-tmLanguage.json",
+      "name": "python",
+      "scopeName": "source.py",
+      "languageConfiguration": "textmate/python/py-config.json"
+    },
+        
+    {
+      "grammar": "textmate/markdown/md-tmLanguage.json",
+      "name": "markdown",
+      "scopeName": "source.md",
+      "languageConfiguration": "textmate/markdown/md-config.json"
+    }           
+  ]
+}

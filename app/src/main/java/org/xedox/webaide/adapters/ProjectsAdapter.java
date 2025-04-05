@@ -1,0 +1,141 @@
+package org.xedox.webaide.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import org.xedox.webaide.R;
+import org.xedox.webaide.OverflowMenu;
+import org.xedox.webaide.Project;
+import java.util.ArrayList;
+import java.util.List;
+import org.xedox.webaide.ProjectManager;
+import org.xedox.webaide.dialogs.RenameProjectDialog;
+import org.xedox.webaide.io.IFile;
+
+public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> {
+
+    private final List<Project> projects = new ArrayList<>();
+    private final LayoutInflater inflater;
+    private OnProjectClickListener clickListener;
+    private final Context context;
+
+    public ProjectsAdapter(@NonNull Context context) {
+        this.inflater = LayoutInflater.from(context);
+        this.context = context;
+    }
+
+    public interface OnProjectClickListener {
+        void onProjectClick(Project project);
+    }
+
+    public void setOnProjectClickListener(OnProjectClickListener listener) {
+        this.clickListener = listener;
+    }
+
+    @NonNull
+    @Override
+    public ProjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = inflater.inflate(R.layout.project_item, parent, false);
+        return new ProjectViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
+        holder.bind(projects.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return projects.size();
+    }
+
+    public void updateProjects(@NonNull List<Project> newProjects) {
+        projects.clear();
+        projects.addAll(newProjects);
+        notifyDataSetChanged();
+    }
+
+    public void appendProject(@NonNull Project project) {
+        projects.add(project);
+        notifyItemInserted(projects.size() - 1);
+    }
+
+    public void removeProject(int position) {
+        if (position >= 0 && position < projects.size()) {
+            projects.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    class ProjectViewHolder extends RecyclerView.ViewHolder {
+        private final TextView nameView;
+        private final TextView pathView;
+        private final ImageButton more;
+
+        public ProjectViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nameView = itemView.findViewById(R.id.name);
+            pathView = itemView.findViewById(R.id.path);
+            more = itemView.findViewById(R.id.more);
+        }
+
+        void bind(@NonNull Project project) {
+            nameView.setText(project.name);
+            pathView.setText(
+                    project.path
+                            .getFullPath()
+                            .replaceAll("/data/user/0/org.xedox.webaide/", "/data/"));
+
+            more.setOnClickListener(
+                    (v) -> {
+                        OverflowMenu.show(
+                                context,
+                                v,
+                                R.menu.project,
+                                (item) -> {
+                                    int id = item.getItemId();
+                                    if (id == R.id.rename) {
+                                        RenameProjectDialog.show(
+                                                context, project.name, getAdapterPosition());
+                                    } else if (id == R.id.remove) {
+                                        ProjectManager.removeProject(project.name);
+                                        remove(project);
+                                    }
+                                });
+                    });
+            itemView.setOnClickListener(
+                    v -> {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                            clickListener.onProjectClick(project);
+                        }
+                    });
+        }
+    }
+
+    public void add(Project project) {
+        projects.add(project);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void remove(Project project) {
+        notifyItemRemoved(projects.indexOf(project));
+        IFile f = projects.get(projects.indexOf(project)).path;
+        if (f.isFile()) {
+            f.remove();
+        } else {
+            f.removeDir();
+        }
+        projects.remove(project);
+    }
+
+    public void rename(int pos, String name) {
+        projects.get(pos).name = name;
+        notifyItemChanged(pos);
+    }
+}

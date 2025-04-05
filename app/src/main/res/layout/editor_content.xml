@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/tabs"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:visibility="visible">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/undo_redo"
+            app:tabMode="scrollable"
+            android:background="#00000000"
+            app:tabBackground="@drawable/tab"
+            app:tabIndicatorColor="@color/hint"
+            app:tabSelectedTextColor="@color/onPrimary" 
+            app:tabIndicatorHeight="0dp"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/undo_redo">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:visibility="visible" />
+            <ImageButton
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:id="@+id/undo"
+                android:src="@drawable/undo"
+                android:contentDescription="@string/undo"
+                 android:visibility="visible"/>
+
+            <ImageButton
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:id="@+id/redo"
+                android:contentDescription="@string/redo"
+                android:src="@drawable/redo" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    
+    <include
+        android:layout_below="@id/toolbar"
+        layout="@layout/empty_editor_layout"/>
+    
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/editor_pager"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tabs" />
+
+    <org.xedox.webaide.console.ConsoleLayout
+        android:id="@+id/console_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/toolbar" />
+
+</RelativeLayout>

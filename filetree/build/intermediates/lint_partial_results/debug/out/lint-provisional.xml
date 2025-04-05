@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.2.0" type="conditional_incidents">
+
+    <incident
+        id="RtlHardcoded"
+        severity="warning"
+        message="Use &quot;`start`&quot; instead of &quot;`left`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="${:filetree*debug*MAIN*sourceProvider*0*resDir*0}/layout/file_item.xml"
+            line="27"
+            column="30"
+            startOffset="941"
+            endLine="27"
+            endColumn="50"
+            endOffset="961"/>
+        <map>
+            <entry
+                name="applies"
+                int="2"/>
+        </map>
+    </incident>
+
+</incidents>

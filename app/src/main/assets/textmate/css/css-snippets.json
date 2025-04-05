@@ -1,0 +1,146 @@
+[
+  {
+    "prefix": "rule",
+    "description": "CSS Rule",
+    "body": [
+      "${1:selector} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  {
+    "prefix": "display",
+    "description": "CSS Display Property",
+    "body": [
+      "display: ${1|block,inline,inline-block,flex,grid,none|};"
+    ]
+  },
+  {
+    "prefix": "position",
+    "description": "CSS Position Property",
+    "body": [
+      "position: ${1|static,relative,absolute,fixed,sticky|};"
+    ]
+  },
+  {
+    "prefix": "margin",
+    "description": "CSS Margin Property",
+    "body": [
+      "margin: ${1:value};"
+    ]
+  },
+  {
+    "prefix": "padding",
+    "description": "CSS Padding Property",
+    "body": [
+      "padding: ${1:value};"
+    ]
+  },
+  {
+    "prefix": "width",
+    "description": "CSS Width Property",
+    "body": [
+      "width: ${1:value};"
+    ]
+  },
+  {
+    "prefix": "height",
+    "description": "CSS Height Property",
+    "body": [
+      "height: ${1:value};"
+    ]
+  },
+  {
+    "prefix": "font-size",
+    "description": "CSS Font Size Property",
+    "body": [
+      "font-size: ${1:value};"
+    ]
+  },
+  {
+    "prefix": "color",
+    "description": "CSS Color Property",
+    "body": [
+      "color: ${1:color};"
+    ]
+  },
+  {
+    "prefix": "background",
+    "description": "CSS Background Property",
+    "body": [
+      "background: ${1:color};"
+    ]
+  },
+  {
+    "prefix": "border",
+    "description": "CSS Border Property",
+    "body": [
+      "border: ${1:width} ${2|solid,dashed,dotted|} ${3:color};"
+    ]
+  },
+  {
+    "prefix": "text-align",
+    "description": "CSS Text Align Property",
+    "body": [
+      "text-align: ${1|left,center,right,justify|};"
+    ]
+  },
+  {
+    "prefix": "float",
+    "description": "CSS Float Property",
+    "body": [
+      "float: ${1|left,right,none|};"
+    ]
+  },
+  {
+    "prefix": "clear",
+    "description": "CSS Clear Property",
+    "body": [
+      "clear: ${1|both,left,right,none|};"
+    ]
+  },
+  {
+    "prefix": "font-family",
+    "description": "CSS Font Family Property",
+    "body": [
+      "font-family: ${1:font_name}, ${2:fallback_font};"
+    ]
+  },
+  {
+    "prefix": "transition",
+    "description": "CSS Transition Property",
+    "body": [
+      "transition: ${1:property} ${2:duration} ${3:timing_function};"
+    ]
+  },
+  {
+    "prefix": "animation",
+    "description": "CSS Animation Property",
+    "body": [
+      "animation: ${1:name} ${2:duration} ${3:timing_function} ${4:iteration_count};"
+    ]
+  },
+  {
+    "prefix": "transform",
+    "description": "CSS Transform Property",
+    "body": [
+      "transform: ${1:translate(x, y)};"
+    ]
+  },
+  {
+    "prefix": "box-shadow",
+    "description": "CSS Box Shadow Property",
+    "body": [
+      "box-shadow: ${1:horizontal_offset} ${2:vertical_offset} ${3:blur_radius} ${4:color};"
+    ]
+  },
+  {
+    "prefix": "media",
+    "description": "CSS Media Query",
+    "body": [
+      "@media (${1:screen and (max-width: 768px)}) {",
+      "\t${0}",
+      "}"
+    ]
+  }
+]

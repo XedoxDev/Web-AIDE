@@ -1,0 +1,33 @@
+<resources>
+    <color name="primary">#6A7FDB</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="tab">#506A7FDB</color>
+
+    <color name="secondary">#4FC3F7</color>
+    <color name="onSecondary">#1B1B1F</color>
+    <color name="secondaryContainer">#00344A</color>
+
+    <color name="error">#CF6679</color>
+    <color name="onError">#1B1B1F</color>
+
+    <color name="background">#1B1B1F</color>
+    <color name="onBackground">#FFFFFF</color>
+    <color name="surface">#212126</color>
+    <color name="onSurface">#FFFFFF</color>
+
+    <color name="divider">#484551</color>
+    <color name="actionButton">#FFB200</color>
+    <color name="hint">#FFFFFF</color>
+
+    <color name="link">#7A9CC6</color>
+    <color name="ripple">@color/ripple_material_dark</color>
+
+    <color name="console_bg">#1E1E1E</color>
+    <color name="console_text">#FFFFFF</color>
+    <color name="console_error">@color/error</color>
+    <color name="console_warn">#FFB74D</color>
+
+    <color name="tint">#FFFFFF</color>
+    <color name="run_icon">#25AA25</color>
+    <color name="git_icon">#F05033</color>
+</resources>

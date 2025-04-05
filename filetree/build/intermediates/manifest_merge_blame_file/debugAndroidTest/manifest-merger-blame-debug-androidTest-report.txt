@@ -1,0 +1,69 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.xedox.filetree.test" >
+4
+5    <uses-sdk
+5-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:5:5-74
+6        android:minSdkVersion="21"
+6-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:5:15-41
+7        android:targetSdkVersion="33" />
+7-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:5:42-71
+8
+9    <instrumentation
+9-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:11:5-15:73
+10        android:name="android.test.InstrumentationTestRunner"
+10-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:11:22-75
+11        android:functionalTest="false"
+11-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:14:22-52
+12        android:handleProfiling="false"
+12-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:13:22-53
+13        android:label="Tests for org.xedox.filetree.test"
+13-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:15:22-71
+14        android:targetPackage="org.xedox.filetree.test" />
+14-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:12:22-69
+15
+16    <permission
+16-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:22:5-24:47
+17        android:name="org.xedox.filetree.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+17-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:23:9-81
+18        android:protectionLevel="signature" />
+18-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
+19
+20    <uses-permission android:name="org.xedox.filetree.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+20-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
+20-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
+21
+22    <application
+22-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:7:5-9:19
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.9.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/a842ab5fbbc082b76c761cff2962d664/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
+24        android:debuggable="true"
+25        android:extractNativeLibs="true" >
+26        <uses-library android:name="android.test.runner" />
+26-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:8:9-60
+26-->/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest7106599178190940471.xml:8:23-57
+27
+28        <provider
+28-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+29            android:name="androidx.startup.InitializationProvider"
+29-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+30            android:authorities="org.xedox.filetree.test.androidx-startup"
+30-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+31            android:exported="false" >
+31-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+32            <meta-data
+32-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+33                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+33-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+34                android:value="androidx.startup" />
+34-->[androidx.emoji2:emoji2:1.2.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/ec23f86cf813c2ec8eedf4582c9f8740/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+35            <meta-data
+35-->[androidx.lifecycle:lifecycle-process:2.4.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/252cb99ca8c4dfd81f84dc0790aa4fda/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+36                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+36-->[androidx.lifecycle:lifecycle-process:2.4.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/252cb99ca8c4dfd81f84dc0790aa4fda/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+37                android:value="androidx.startup" />
+37-->[androidx.lifecycle:lifecycle-process:2.4.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/252cb99ca8c4dfd81f84dc0790aa4fda/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+38        </provider>
+39    </application>
+40
+41</manifest>

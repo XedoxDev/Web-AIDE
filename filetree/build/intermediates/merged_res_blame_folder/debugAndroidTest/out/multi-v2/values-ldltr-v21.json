@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.xedox.filetree.test.filetree-mergeDebugAndroidTestResources-25:/values-ldltr-v21/values-ldltr-v21.xml",
+            "map": [
+                {
+                    "source": "/data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/07f4ea9baf3ebf385cc9100030feb6b5/transformed/appcompat-1.6.1/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "112",
+                        "endOffsets": "163"
+                    }
+                }
+            ]
+        }
+    ]
+}

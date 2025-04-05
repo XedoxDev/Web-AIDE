@@ -1,0 +1,20 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Web-AIDE/gradle/wrapper/gradle-wrapper.properties",
+      "selection": {
+        "end": {
+          "column": 70,
+          "index": 135,
+          "line": 2
+        },
+        "start": {
+          "column": 70,
+          "index": 135,
+          "line": 2
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Web-AIDE/gradle/wrapper/gradle-wrapper.properties"
+}

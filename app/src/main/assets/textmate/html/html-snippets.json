@@ -1,0 +1,211 @@
+[
+  {
+    "prefix": "doc",
+    "description": "HTML Document",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"en\">",
+      "<head>",
+      "\t<meta charset=\"UTF-8\" />",
+      "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "\t<title>${1:title}</title>",
+      "\t<link rel=\"stylesheet\" href=\"style.css\">",
+      "</head>",
+      "<body>",
+      "\t${0}",
+      "\t<script src=\"script.js\"></script>",
+      "</body>",
+      "</html>"
+    ]
+  },
+  {
+    "prefix": "link",
+    "description": "HTML Link",
+    "body": [
+      "<a href=\"${1:url}\">${2:text}</a>"
+    ]
+  },
+  {
+    "prefix": "img",
+    "description": "HTML Image",
+    "body": [
+      "<img src=\"${1:source}\" alt=\"${2:alt_text}\" width=\"${3:width}\" height=\"${4:height}\">"
+    ]
+  },
+  {
+    "prefix": "div",
+    "description": "HTML Div",
+    "body": [
+      "<div class=\"${1:class}\">",
+      "\t${0}",
+      "</div>"
+    ]
+  },
+  {
+    "prefix": "p",
+    "description": "HTML Paragraph",
+    "body": [
+      "<p>${0}</p>"
+    ]
+  },
+  {
+    "prefix": "h1",
+    "description": "HTML Heading 1",
+    "body": [
+      "<h1>${0}</h1>"
+    ]
+  },
+  {
+    "prefix": "h2",
+    "description": "HTML Heading 2",
+    "body": [
+      "<h2>${0}</h2>"
+    ]
+  },
+  {
+    "prefix": "h3",
+    "description": "HTML Heading 3",
+    "body": [
+      "<h3>${0}</h3>"
+    ]
+  },
+  {
+    "prefix": "h4",
+    "description": "HTML Heading 4",
+    "body": [
+      "<h4>${0}</h4>"
+    ]
+  },
+  {
+    "prefix": "h5",
+    "description": "HTML Heading 5",
+    "body": [
+      "<h5>${0}</h5>"
+    ]
+  },
+  {
+    "prefix": "h6",
+    "description": "HTML Heading 6",
+    "body": [
+      "<h6>${0}</h6>"
+    ]
+  },
+  {
+    "prefix": "ul",
+    "description": "HTML Unordered List",
+    "body": [
+      "<ul>",
+      "\t<li>${0}</li>",
+      "</ul>"
+    ]
+  },
+  {
+    "prefix": "ol",
+    "description": "HTML Ordered List",
+    "body": [
+      "<ol>",
+      "\t<li>${0}</li>",
+      "</ol>"
+    ]
+  },
+  {
+    "prefix": "li",
+    "description": "HTML List Item",
+    "body": [
+      "<li>${0}</li>"
+    ]
+  },
+  {
+  "prefix": "form",
+  "description": "HTML Form",
+  "body": [
+    "<form action=\"${1:action}\" method=\"${2:method}\">",
+    "\t${0}",
+    "</form>"
+  ]
+},
+{
+  "prefix": "input",
+  "description": "HTML Input",
+  "body": [
+    "<input type=\"${1:type}\" name=\"${2:name}\" id=\"${3:id}\" value=\"${4:value}\">"
+  ]
+},
+{
+  "prefix": "label",
+  "description": "HTML Label",
+  "body": [
+    "<label for=\"${1:id}\">${0}</label>"
+  ]
+},
+{
+  "prefix": "button",
+  "description": "HTML Button",
+  "body": [
+    "<button type=\"${1:type}\">${0}</button>"
+  ]
+},
+{
+  "prefix": "textarea",
+  "description": "HTML Textarea",
+  "body": [
+    "<textarea name=\"${1:name}\" id=\"${2:id}\" rows=\"${3:rows}\" cols=\"${4:cols}\">${0}</textarea>"
+  ]
+},
+{
+  "prefix": "select",
+  "description": "HTML Select",
+  "body": [
+    "<select name=\"${1:name}\" id=\"${2:id}\">",
+    "\t<option value=\"${3:value}\">${4:text}</option>",
+    "</select>"
+  ]
+},
+{
+  "prefix": "table",
+  "description": "HTML Table",
+  "body": [
+    "<table>",
+    "  <thead>",
+    "    <tr>",
+    "      <th>${1:Header 1}</th>",
+    "      <th>${2:Header 2}</th>",
+    "    </tr>",
+    "  </thead>",
+    "  <tbody>",
+    "    <tr>",
+    "      <td>${3:Data 1}</td>",
+    "      <td>${4:Data 2}</td>",
+    "    </tr>",
+    "  </tbody>",
+    "</table>"
+  ]
+},
+{
+  "prefix": "nav",
+  "description": "HTML Navigation",
+  "body": [
+    "<nav>",
+    "\t<ul>",
+    "\t<li><a href=\"${1:url}\">${2:text}</a></li>",
+    "\t</ul>",
+    "</nav>"
+  ]
+},
+{
+  "prefix": "template",
+  "description": "HTML Template",
+  "body": [
+    "<template>",
+    "\t${0}",
+    "</template>"
+  ]
+},
+  {
+    "prefix": "slot",
+    "description": "HTML Slot",
+    "body": [
+      "<slot name=\"${1:name}\"></slot>"
+    ]
+  }
+]
