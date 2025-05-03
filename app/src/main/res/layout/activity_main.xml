@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/copy"
+            android:src="@drawable/git"
             android:layout_above="@+id/new_project"
             android:backgroundTint="@color/actionButton"
             android:layout_marginRight="16dp"
