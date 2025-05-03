@@ -1,17 +1,9 @@
 package org.xedox.webaide;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.FileUtils;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.xedox.webaide.activity.BaseActivity;
-import org.xedox.webaide.R;
 import org.xedox.webaide.io.Assets;
 import org.xedox.webaide.io.FileX;
 import static org.xedox.webaide.IDE.*;
@@ -33,9 +25,15 @@ public class ProjectManager {
         file.mkdirs();
 
         IFile index = new FileX(file, "index.html");
+        IFile styles = new FileX(file, "styles.css");
+        IFile script = new FileX(file, "script.js");
         index.mkfile();
+        styles.mkfile();
+        script.mkfile();
         try {
             index.write(Assets.from(activity).asset("base_index.html").read());
+            styles.write(Assets.from(activity).asset("base_styles.css").read());
+            script.write(Assets.from(activity).asset("base_script.js").read());
         } catch (Exception err) {
             err.printStackTrace();
         }

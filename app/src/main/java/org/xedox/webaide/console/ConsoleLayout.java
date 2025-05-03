@@ -1,5 +1,8 @@
 package org.xedox.webaide.console;
 
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -98,11 +101,10 @@ public class ConsoleLayout extends RelativeLayout {
     public void printError(int text, Throwable e) {
         console.printError(getContext().getString(text) + " " + e.toString());
     }
-    
+
     public void printError(int text) {
         console.printError(getContext().getString(text));
     }
-
 
     public void printText(String text) {
         console.printText(text);
@@ -112,7 +114,14 @@ public class ConsoleLayout extends RelativeLayout {
         console.printWarn(text);
     }
 
-    public void moveTo(float y, boolean smooth) {
-        header.animate().translationY(y).start();
+    public void moveTo(float y) {
+        ObjectAnimator anim =
+                ObjectAnimator.ofFloat(header, "translationY", header.getTranslationY(), getHeight()/ 1.6f);
+        anim.addUpdateListener(
+                (valueAnimator) -> {
+                    updateContentHeight();
+                });
+        
+        anim.start();
     }
 }

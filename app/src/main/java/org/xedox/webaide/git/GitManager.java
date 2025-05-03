@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
+
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Repository;
+
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+
 import org.xedox.webaide.Project;
 
 import java.io.File;
@@ -101,10 +105,20 @@ public class GitManager {
     }
 
     public void add(@NonNull String filePattern) throws GitAPIException {
-        git.add().addFilepattern(filePattern).call();
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized. Call init() first.");
+        }
+        try {
+            git.add().addFilepattern(filePattern).call();
+        } catch (NullPointerException e) {
+            throw new IllegalStateException("Git repository not properly initialized", e);
+        }
     }
 
     public void commit(@NonNull String message) throws GitAPIException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
         if (message.isEmpty()) {
             throw new IllegalArgumentException("Commit message cannot be empty");
         }
@@ -112,24 +126,32 @@ public class GitManager {
     }
 
     public void push() throws GitAPIException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
         checkAuthentication();
         git.push().setCredentialsProvider(auth).call();
     }
 
     public void pull() throws GitAPIException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
         checkAuthentication();
         git.pull().setCredentialsProvider(auth).call();
     }
 
     public void addRemote(@NonNull String url, @NonNull String remoteName) throws GitAPIException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
         if (remoteName.isEmpty()) {
             throw new IllegalArgumentException("Remote name cannot be empty");
         }
         try {
-
             git.remoteAdd().setName(remoteName).setUri(new URIish(url)).call();
         } catch (Exception err) {
-            err.printStackTrace();
+            throw new RuntimeException("Failed to add remote: " + err.getMessage(), err);
         }
     }
 
@@ -195,6 +217,9 @@ public class GitManager {
     }
 
     public Status getStatus() throws GitAPIException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
         return git.status().call();
     }
 
@@ -224,7 +249,10 @@ public class GitManager {
 
     @NonNull
     public RepositoryStatus getInfo() throws GitAPIException, IOException {
-        
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
+
         Status status = git.status().call();
         Map<String, Set<String>> fileStatuses = new HashMap<>();
 
@@ -238,7 +266,6 @@ public class GitManager {
         fileStatuses.put("uncommittedChanges", status.getUncommittedChanges());
 
         String branch = git.getRepository().getBranch();
-
         String repoState = git.getRepository().getRepositoryState().name();
 
         return new RepositoryStatus(
@@ -252,6 +279,10 @@ public class GitManager {
 
     @NonNull
     public String getFullStatus() throws GitAPIException, IOException {
+        if (git == null) {
+            throw new IllegalStateException("Git repository not initialized");
+        }
+
         Status status = git.status().call();
         StringBuilder sb = new StringBuilder();
 

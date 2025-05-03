@@ -1,35 +1,31 @@
-org.xedox.filetree.R$drawable
-org.xedox.filetree.R$id
 org.xedox.filetree.R
-org.xedox.filetree.R$string
+org.xedox.filetree.R$drawable
 org.xedox.filetree.R$layout
-org.xedox.filetree.R$drawable: int undo
-org.xedox.filetree.R$drawable: int ripple
-org.xedox.filetree.R$drawable: int arrow_up
-org.xedox.filetree.R$layout: int file_item
-org.xedox.filetree.R$drawable: int folder_hidden
-org.xedox.filetree.R$string: int FileTreeLibraryName
-org.xedox.filetree.R$drawable: int javascript
-org.xedox.filetree.R$drawable: int folder
+org.xedox.filetree.R$id
+org.xedox.filetree.R$string
 org.xedox.filetree.R$drawable: int folder_open
-org.xedox.filetree.R$drawable: int file_tree
-org.xedox.filetree.R$drawable: int html
-org.xedox.filetree.R$drawable: int redo
-org.xedox.filetree.R$id: int icon
-org.xedox.filetree.R$drawable: int file_image
-org.xedox.filetree.R$id: int name
+org.xedox.filetree.R$drawable: int more
+org.xedox.filetree.R$drawable: int ripple
 org.xedox.filetree.R$id: int isOpen
+org.xedox.filetree.R$drawable: int folder_hidden
+org.xedox.filetree.R$drawable: int arrow_up
+org.xedox.filetree.R$string: int FileTreeLibraryName
+org.xedox.filetree.R$drawable: int file_plus
+org.xedox.filetree.R$drawable: int file_hidden
 org.xedox.filetree.R$drawable: int file_png
+org.xedox.filetree.R$drawable: int html
+org.xedox.filetree.R$id: int name
+org.xedox.filetree.R$drawable: int file_image
 org.xedox.filetree.R$id: int parent
 org.xedox.filetree.R$drawable: int file_jpg
 org.xedox.filetree.R$drawable: int file
-org.xedox.filetree.R$drawable: int file_hidden
-org.xedox.filetree.R$drawable: int file_plus
+org.xedox.filetree.R$layout: int file_item
+org.xedox.filetree.R$drawable: int javascript
 org.xedox.filetree.R$drawable: int css
-org.xedox.filetree.R$drawable: int more
-org.xedox.filetree.R$drawable: int plus
+org.xedox.filetree.R$id: int icon
+org.xedox.filetree.R$drawable: int folder
 org.xedox.filetree.R$drawable: R$drawable()
+org.xedox.filetree.R$id: R$id()
 org.xedox.filetree.R: R()
 org.xedox.filetree.R$string: R$string()
 org.xedox.filetree.R$layout: R$layout()
-org.xedox.filetree.R$id: R$id()

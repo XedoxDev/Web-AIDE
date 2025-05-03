@@ -8,10 +8,10 @@ android {
     
     defaultConfig {
         applicationId "org.xedox.webaide"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.0.1a"
     }
 
     buildTypes {
@@ -31,17 +31,17 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.13.0-alpha13")
     implementation(project(":filetree"))
     
     implementation(platform("io.github.Rosemoe.sora-editor:bom:0.23.5"))
     implementation("io.github.Rosemoe.sora-editor:editor")
     implementation("io.github.Rosemoe.sora-editor:language-textmate")
-    implementation("io.github.Rosemoe.sora-editor:language-treesitter")
+    // implementation("io.github.Rosemoe.sora-editor:language-treesitter") now no using...
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     
     implementation("org.eclipse.jgit:org.eclipse.jgit:7.2.0.202503040940-r")
     
-    implementation 'com.google.code.gson:gson:2.12.1'
+    implementation("com.google.code.gson:gson:2.13.1")
 }

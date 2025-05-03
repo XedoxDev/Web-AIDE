@@ -6,17 +6,13 @@ int drawable file_image 0x0
 int drawable file_jpg 0x0
 int drawable file_plus 0x0
 int drawable file_png 0x0
-int drawable file_tree 0x0
 int drawable folder 0x0
 int drawable folder_hidden 0x0
 int drawable folder_open 0x0
 int drawable html 0x0
 int drawable javascript 0x0
 int drawable more 0x0
-int drawable plus 0x0
-int drawable redo 0x0
 int drawable ripple 0x0
-int drawable undo 0x0
 int id icon 0x0
 int id isOpen 0x0
 int id name 0x0

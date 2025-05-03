@@ -7,5 +7,5 @@
         android:radius="25dp" />
     <stroke
         android:color="@color/onSurface"
-        android:width="2dp" />
+        android:width="1dp" />
 </shape>

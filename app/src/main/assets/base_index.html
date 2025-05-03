@@ -3,115 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Starter</title>
-    <style>
-        :root {
-            --primary: #6366f1;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --muted: #64748b;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--light);
-            min-height: 100vh;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-        }
-        
-        header {
-            background: white;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        p {
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-        }
-        
-        footer {
-            background: white;
-            padding: 1.5rem;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.875rem;
-            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
-        }
-    </style>
+    <title>WebAIDE by Xedox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="#" class="logo">Starter</a>
-            <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">Features</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Web-AIDE project example</h1>
+            <button class="icon-button" id="theme-toggle">
+                <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+        </header>
+
+        <main class="app-main">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" data-tab="home">
+                        <span class="material-symbols-outlined">home</span>
+                        <span>Home</span>
+                    </button>
+                    <button class="tab-button" data-tab="explore">
+                        <span class="material-symbols-outlined">explore</span>
+                        <span>Search</span>
+                    </button>
+                    <button class="tab-button" data-tab="favorites">
+                        <span class="material-symbols-outlined">favorite</span>
+                        <span>Favorites</span>
+                    </button>
+                    <button class="tab-button" data-tab="profile">
+                        <span class="material-symbols-outlined">person</span>
+                        <span>Profile</span>
+                    </button>
+                </div>
+
+                <div class="tabs-content">
+                    <div class="tab-pane active" id="home">
+                        <h2>Welcome!</h2>
+                        <p>This is a modern application with Material Design.</p>
+                        <button class="primary-button">Get Started</button>
+                    </div>
+
+                    <div class="tab-pane" id="explore">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search...">
+                            <button class="icon-button">
+                                <span class="material-symbols-outlined">search</span>
+                            </button>
+                        </div>
+                        <div class="card-grid">
+                            <div class="card">Item 1</div>
+                            <div class="card">Item 2</div>
+                            <div class="card">Item 3</div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="favorites">
+                        <h2>Favorites</h2>
+                        <div class="list">
+                            <div class="list-item">Item 1</div>
+                            <div class="list-item">Item 2</div>
+                            <div class="list-item">Item 3</div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="profile">
+                        <div class="profile-card">
+                            <div class="avatar">👤</div>
+                            <h2>User</h2>
+                            <p>example@email.com</p>
+                            <button class="outlined-button">Log Out</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </nav>
-    </header>
+        </main>
+    </div>
 
-    <main>
-        <h1>Welcome to Your Project</h1>
-        <p>This is an elegant starter template with modern styling. Edit this content to begin building your website or application.</p>
-        <p>The template includes responsive design, CSS variables for easy theming, and semantic HTML structure.</p>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

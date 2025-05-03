@@ -1,7 +1,6 @@
 package org.xedox.webaide;
 
 import java.io.File;
-import java.util.Arrays;
 import org.xedox.webaide.io.FileX;
 import org.xedox.webaide.io.IFile;
 
@@ -39,7 +38,6 @@ public class Project {
                 }
             }
         } catch (Exception err) {
-            err.printStackTrace();
         }
     }
 }

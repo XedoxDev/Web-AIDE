@@ -19,9 +19,7 @@
     <color name="actionButton">#FFB200</color>
     <color name="hint">#FFFFFF</color>
 
-    <color name="link">#7A9CC6</color>
-    <color name="ripple">@color/ripple_material_dark</color>
-
+    <color name="link">#B1C5FF</color>
     <color name="console_bg">#1E1E1E</color>
     <color name="console_text">#FFFFFF</color>
     <color name="console_error">@color/error</color>

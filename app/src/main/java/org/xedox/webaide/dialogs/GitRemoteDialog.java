@@ -39,7 +39,7 @@ public class GitRemoteDialog {
 
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
         builder.setPositiveButton(
-                R.string.git_add,
+                R.string.git_remote,
                 (dialog, which) -> {
                     String url = urlF.getText().toString();
                     ConsoleLayout console = null;
@@ -54,7 +54,7 @@ public class GitRemoteDialog {
                     }
                     try {
                         git.addRemote(url, "origin");
-                        if(console!=null)console.printError(R.string.git_remote_successful);
+                        if(console!=null)console.printText(R.string.git_remote_successful);
                     } catch (Exception err) {
                         err.printStackTrace();
                         if(console!=null)console.printError(R.string.git_remote_failed, err);

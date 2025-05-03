@@ -1,65 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:id="@+id/root">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:id="@+id/root">
 
     <ScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="@color/background"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/content">
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:background="@color/background"
+         android:layout_alignParentBottom="true"
+         android:id="@+id/content">
+
         <HorizontalScrollView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent">
+
             <org.xedox.webaide.console.ConsoleView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="5dp"
-                android:id="@+id/console" />
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent"
+                 android:padding="5dp"
+                 android:id="@+id/console" />
+
         </HorizontalScrollView>
+
     </ScrollView>
 
     <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@color/background"
-        android:orientation="vertical"
-        android:id="@+id/header">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:background="@color/background"
+         android:orientation="vertical"
+         android:id="@+id/header">
 
         <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:id="@+id/divider" />
+             android:layout_height="1dp"
+             android:layout_width="match_parent"
+             android:background="@color/divider" />
 
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/onSurface"
-            android:text="@string/console"
-            android:id="@+id/title"
-            android:layout_gravity="center_horizontal" />
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:gravity="center"
+             android:textSize="20sp"
+             android:textColor="@color/onSurface"
+             android:text="@string/console"
+             android:id="@+id/title"
+             android:layout_gravity="center_horizontal" />
 
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:padding="6dp"
-            android:textSize="16sp"
-            android:textColor="@color/hint"
-            android:text="@string/console_help"
-            android:id="@+id/help_text"
-            android:layout_gravity="center_horizontal" />
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:gravity="center"
+             android:padding="6dp"
+             android:textSize="16sp"
+             android:textColor="@color/hint"
+             android:text="@string/console_help"
+             android:id="@+id/help_text"
+             android:layout_gravity="center_horizontal" />
+
         <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:id="@+id/divider" />
+             android:layout_height="1dp"
+             android:layout_width="match_parent"
+             android:background="@color/divider" />
+
     </LinearLayout>
 
 </RelativeLayout>

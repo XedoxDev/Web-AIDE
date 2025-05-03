@@ -1,8 +1,8 @@
 <variant
     name="release"
     package="org.xedox.filetree"
-    minSdkVersion="21"
-    targetSdkVersion="33"
+    minSdkVersion="26"
+    targetSdkVersion="34"
     shrinking="true"
     mergedManifest="build/intermediates/merged_manifest/release/AndroidManifest.xml"
     manifestMergeReport="build/outputs/logs/manifest-merger-release-report.txt"

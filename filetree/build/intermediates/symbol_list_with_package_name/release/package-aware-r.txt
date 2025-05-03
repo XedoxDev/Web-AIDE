@@ -7,17 +7,13 @@ drawable file_image
 drawable file_jpg
 drawable file_plus
 drawable file_png
-drawable file_tree
 drawable folder
 drawable folder_hidden
 drawable folder_open
 drawable html
 drawable javascript
 drawable more
-drawable plus
-drawable redo
 drawable ripple
-drawable undo
 id icon
 id isOpen
 id name

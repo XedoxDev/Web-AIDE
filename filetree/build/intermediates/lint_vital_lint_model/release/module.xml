@@ -6,9 +6,9 @@
     maven="Web-AIDE:filetree:"
     agpVersion="8.2.0"
     buildFolder="build"
-    bootClassPath="/data/data/com.itsaky.androidide/files/home/android-sdk/platforms/android-33/android.jar:/data/data/com.itsaky.androidide/files/home/android-sdk/build-tools/34.0.0/core-lambda-stubs.jar"
+    bootClassPath="/data/data/com.itsaky.androidide/files/home/android-sdk/platforms/android-34/android.jar:/data/data/com.itsaky.androidide/files/home/android-sdk/build-tools/34.0.0/core-lambda-stubs.jar"
     javaSourceLevel="17"
-    compileTarget="android-33">
+    compileTarget="android-34">
   <lintOptions
       abortOnError="true"
       absolutePaths="true"

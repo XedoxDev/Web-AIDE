@@ -1,8 +1,8 @@
 <variant
     name="release"
     package="org.xedox.filetree"
-    minSdkVersion="21"
-    targetSdkVersion="33"
+    minSdkVersion="26"
+    targetSdkVersion="34"
     shrinking="true"
     mergedManifest="build/intermediates/merged_manifest/release/AndroidManifest.xml"
     proguardFiles="build/intermediates/default_proguard_files/global/proguard-android-optimize.txt-8.2.0:proguard-rules.pro"

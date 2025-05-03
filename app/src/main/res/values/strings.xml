@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Web Android IDE</string>
-    <string name="about_app">WebAIDE (InDev) - A mobile IDE for web development, created by Xedox</string>
+    <string name="about_app">WebAIDE (InDev) - A mobile IDE for web development. Its project have open source code in GitHub. If you found error or want ask me, write me to telegram.</string>
 
     <string name="exit">Exit</string>
     <string name="ok">OK</string>
@@ -15,7 +15,7 @@
     <string name="run">Run</string>
     <string name="clone">Clone</string>
     <string name="git_cloning">Cloning repository</string>
-<string name="git_commit_name">Git commit name</string>
+    <string name="git_commit_name">Git commit name</string>
 
     <string name="files_not_saved">You have unsaved files. Save before exiting?</string>
 
@@ -39,7 +39,7 @@
 
     <string name="git_init_successful">Git initialized successfully.</string>
     <string name="git_init_failed">Failed to initialize Git.</string>
-      <string name="git_remote_successful">Git remote successfully.</string>
+    <string name="git_remote_successful">Git remote successfully.</string>
     <string name="git_remote_failed">Failed to remote Git.</string>
     <string name="git_add_successful">Git add pattern successfully.</string>
     <string name="git_add_failed">Failed to add pattern Git.</string>
@@ -79,12 +79,12 @@
     <string name="editor_empty_hint_see_files">see files</string>
     <string name="file_delete_failed">File delete failed</string>
     <string name="file_delete_permission_denied">Dile delete permission denied</string>
-<string name="url_repo_not_corrected">Repository URL not correct</string>
+    <string name="url_repo_not_corrected">Repository URL not correct</string>
 
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="login_or_password_cannot_be_empty">Login or password cannot be empty</string>
-  <string name="git_auth_successful">Git auth successful!</string>
-  <string name="git_commit_name_cannot_be_empty">Git commit name cannot be empty</string>
+    <string name="git_auth_successful">Git auth successful!</string>
+    <string name="git_commit_name_cannot_be_empty">Git commit name cannot be empty</string>
 
 </resources>
