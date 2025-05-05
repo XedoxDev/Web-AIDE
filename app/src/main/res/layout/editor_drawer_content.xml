@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/background">
 
-    <org.xedox.filetree.widget.FileTree
+    <org.xedox.filetree.widget.FileTreeView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/file_tree" />

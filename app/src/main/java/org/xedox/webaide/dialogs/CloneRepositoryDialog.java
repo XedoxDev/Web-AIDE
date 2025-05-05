@@ -66,7 +66,7 @@ public class CloneRepositoryDialog {
         service.execute(
                 () -> {
                     try {
-                        GitManager.clone(repoUrl, IDE.PROJECTS_PATH.getAbsolutePath());
+                        GitManager.clone(context, repoUrl, IDE.PROJECTS_PATH.getAbsolutePath());
                         context.showSnackbar(R.string.git_clone_successful);
                         handler.post(
                                 () -> {

@@ -1,0 +1,13 @@
+EN:# What's New?  
+**WebDroid Update v0.0.2 (Build 2)**  
+
+### New Features  
+- Added icons for menus  
+- Added initial editor settings  
+
+### Improvements  
+- Updated site preview  
+- Updated file tree  
+
+### Bug Fixes  
+- Fixed issues in git managerEND

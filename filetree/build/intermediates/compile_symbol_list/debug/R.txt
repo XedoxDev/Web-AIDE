@@ -12,7 +12,6 @@ int drawable folder_open 0x0
 int drawable html 0x0
 int drawable javascript 0x0
 int drawable more 0x0
-int drawable ripple 0x0
 int id icon 0x0
 int id isOpen 0x0
 int id name 0x0

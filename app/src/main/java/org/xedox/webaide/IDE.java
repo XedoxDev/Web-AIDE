@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import androidx.core.content.FileProvider;
+import android.webkit.MimeTypeMap;
+import androidx.multidex.MultiDexApplication;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
@@ -16,7 +19,7 @@ import java.io.File;
 import org.xedox.webaide.activity.BaseActivity;
 import static org.xedox.webaide.ProjectManager.*;
 
-public class IDE extends Application {
+public class IDE extends MultiDexApplication {
 
     public static File HOME;
     public static File PROJECTS_PATH;
@@ -79,5 +82,29 @@ public class IDE extends Application {
     public static void openLinkInBrowser(Activity activity, String link) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         activity.startActivity(i);
+    }
+
+    public static void openFileInExternalApp(Context context, File file) {
+        Uri fileUri =
+                FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+
+        String mimeType = getMimeType(file.getPath());
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(fileUri, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    private static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        return type != null ? type : "*/*";
     }
 }

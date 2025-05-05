@@ -1,76 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/run"
         android:title="@string/run"
+        android:icon="@drawable/run"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/run"
-        app:iconTint="@color/run_icon"
-    />
+        app:iconTint="@color/run_icon" />
 
     <item
         android:id="@+id/save"
         android:title="@string/save"
-        android:orderInCategory="110"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/save"
-    />
-
+        android:orderInCategory="110"
+        app:showAsAction="always" />
+    
     <item
         android:id="@+id/git"
         android:title="@string/git"
-        android:orderInCategory="120"
         android:icon="@drawable/git"
-        app:showAsAction="ifRoom"
+        android:orderInCategory="120"
+        app:showAsAction="always"
         app:iconTint="@color/git_icon">
+
         <menu>
             <item
                 android:id="@+id/git_init"
                 android:title="@string/git_init"
-                android:orderInCategory="10"
-            />
-             <item
+                android:icon="@drawable/folder_plus"
+                android:orderInCategory="10" />
+                
+            <item
+                android:id="@+id/git_remote"
+                android:title="@string/git_remote"
+                android:icon="@drawable/cloud_config"
+                android:orderInCategory="20" />
+                
+            <item
+                android:id="@+id/git_auth"
+                android:title="@string/git_auth"
+                android:icon="@drawable/key"
+                android:orderInCategory="30" />
+
+            <item
                 android:id="@+id/git_add"
                 android:title="@string/git_add"
-                android:orderInCategory="20"
                 android:icon="@drawable/plus"
-            />
+                android:orderInCategory="40" />
+                
             <item
                 android:id="@+id/git_commit"
                 android:title="@string/git_commit"
-                android:orderInCategory="20"
-            />
+                android:icon="@drawable/save"
+                android:orderInCategory="50" />
+
             <item
                 android:id="@+id/git_push"
                 android:title="@string/git_push"
-                android:orderInCategory="30"
                 android:icon="@drawable/send"
-            />
+                android:orderInCategory="60" />
+                
             <item
                 android:id="@+id/git_pull"
                 android:title="@string/git_pull"
-                android:orderInCategory="40"
                 android:icon="@drawable/download"
-            />
+                android:orderInCategory="70" />
+            
             <item
                 android:id="@+id/git_status"
                 android:title="@string/git_status"
-                android:orderInCategory="60"
                 android:icon="@drawable/status"
-            />
-              <item
-                android:id="@+id/git_auth"
-                android:title="@string/git_auth"
-                android:orderInCategory="70"
-            />
-             <item
-                android:id="@+id/git_remote"
-                android:title="@string/git_remote"
-                android:orderInCategory="80"
-            />
+                android:orderInCategory="80" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:icon="@drawable/settings"
+        android:orderInCategory="130"
+        app:showAsAction="ifRoom" />
+
 </menu>

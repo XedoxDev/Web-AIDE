@@ -13,7 +13,6 @@ drawable folder_open
 drawable html
 drawable javascript
 drawable more
-drawable ripple
 id icon
 id isOpen
 id name

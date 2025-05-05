@@ -14,7 +14,7 @@ public class EditorAdapter extends FragmentStateAdapter {
     private List<EditorFragment> fragments = new ArrayList<>();
     private FragmentActivity activity;
     private OnChangeListener onChangeListener;
-
+    
     public EditorAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
         this.activity = fragmentActivity;

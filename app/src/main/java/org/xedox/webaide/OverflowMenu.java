@@ -10,17 +10,27 @@ public class OverflowMenu {
 
     public static void show(Context context, View view, int menuId, OnItemClickListener oicl) {
         PopupMenu menu = new PopupMenu(context, view);
-        MenuInflater inflater = new MenuInflater(context);
+        MenuInflater inflater = menu.getMenuInflater();
         inflater.inflate(menuId, menu.getMenu());
 
-        menu.setOnMenuItemClickListener(
-                item -> {
-                    if (oicl != null) {
-                        oicl.onItemClick(item);
-                        return true;
-                    }
-                    return false;
-                });
+        menu.setOnMenuItemClickListener(item -> {
+            if (oicl != null) {
+                oicl.onItemClick(item);
+                return true;
+            }
+            return false;
+        });
+
+        try {
+            java.lang.reflect.Field field = menu.getClass().getDeclaredField("mPopup");
+            field.setAccessible(true);
+            Object menuPopupHelper = field.get(menu);
+            menuPopupHelper.getClass()
+                .getDeclaredMethod("setForceShowIcon", boolean.class)
+                .invoke(menuPopupHelper, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         menu.show();
     }

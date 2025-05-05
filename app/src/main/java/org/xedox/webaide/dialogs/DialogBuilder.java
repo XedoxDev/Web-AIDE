@@ -1,14 +1,15 @@
 package org.xedox.webaide.dialogs;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class DialogBuilder {
-    private final MaterialAlertDialogBuilder builder;
-    private AlertDialog dialog;
+    public final MaterialAlertDialogBuilder builder;
+    public AlertDialog dialog;
     private OnButtonClickListener positiveListener;
     private OnButtonClickListener negativeListener;
     private OnButtonClickListener neutralListener;
@@ -84,21 +85,24 @@ public class DialogBuilder {
 
     private void setupButton(int whichButton, OnButtonClickListener listener) {
         if (listener != null && dialog != null) {
-            dialog.getButton(whichButton).setOnClickListener(view -> {
-                if (listener.onClick(dialog, whichButton) == EXIT) {
-                    dialog.dismiss();
-                }
-            });
+            dialog.getButton(whichButton)
+                    .setOnClickListener(
+                            view -> {
+                                if (listener.onClick(dialog, whichButton) == EXIT) {
+                                    dialog.dismiss();
+                                }
+                            });
         }
     }
 
     public AlertDialog create() {
         dialog = builder.create();
-        dialog.setOnShowListener(dialogInterface -> {
-            setupButton(AlertDialog.BUTTON_POSITIVE, positiveListener);
-            setupButton(AlertDialog.BUTTON_NEGATIVE, negativeListener);
-            setupButton(AlertDialog.BUTTON_NEUTRAL, neutralListener);
-        });
+        dialog.setOnShowListener(
+                dialogInterface -> {
+                    setupButton(AlertDialog.BUTTON_POSITIVE, positiveListener);
+                    setupButton(AlertDialog.BUTTON_NEGATIVE, negativeListener);
+                    setupButton(AlertDialog.BUTTON_NEUTRAL, neutralListener);
+                });
         return dialog;
     }
 
@@ -117,5 +121,10 @@ public class DialogBuilder {
 
     public interface OnButtonClickListener {
         boolean onClick(AlertDialog dialog, int which);
+    }
+
+    public DialogBuilder setItems(CharSequence[] items, DialogInterface.OnClickListener listener) {
+        builder.setItems(items, listener);
+        return this;
     }
 }

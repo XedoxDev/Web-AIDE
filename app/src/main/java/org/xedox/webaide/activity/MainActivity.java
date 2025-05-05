@@ -15,12 +15,15 @@ import org.xedox.webaide.dialogs.NewProjectDialog;
 import org.xedox.webaide.adapters.ProjectsAdapter;
 import static org.xedox.webaide.IDE.*;
 import org.xedox.webaide.R;
+import org.xedox.webaide.dialogs.WhatsNewDialog;
 
 public class MainActivity extends BaseActivity {
 
     private RecyclerView projects;
     private FloatingActionButton newProject;
     private FloatingActionButton cloneRepo;
+    private FloatingActionButton settings;
+    private FloatingActionButton news;
     private TextView aboutApp;
 
     public ProjectsAdapter projectsAdapter;
@@ -33,6 +36,8 @@ public class MainActivity extends BaseActivity {
         newProject = findViewById(R.id.new_project);
         aboutApp = findViewById(R.id.about_app);
         cloneRepo = findViewById(R.id.clone_repo);
+        settings = findViewById(R.id.settings);
+        news = findViewById(R.id.news);
         loadToolbar();
 
         projectsAdapter = new ProjectsAdapter(this);
@@ -43,7 +48,12 @@ public class MainActivity extends BaseActivity {
 
         newProject.setOnClickListener(v -> NewProjectDialog.show(this));
         cloneRepo.setOnClickListener(v -> CloneRepositoryDialog.showStatic(this, projectsAdapter));
-
+        news.setOnClickListener(v -> WhatsNewDialog.show(this));
+        settings.setOnClickListener(
+                (v) -> {
+                    startActivity(new Intent(this, SettingsActivity.class));
+                    finish();
+                });
         projectsAdapter.setOnProjectClickListener(
                 (project) -> {
                     Intent i = new Intent(this, EditorActivity.class);
@@ -53,10 +63,10 @@ public class MainActivity extends BaseActivity {
                 });
         HighlightText.clickable(
                 aboutApp,
-                "telegram",
+                "Telegram",
                 R.color.link,
                 () -> {
-                    IDE.openLinkInBrowser(this, "https://t.me/XedoxSL");
+                    IDE.openLinkInBrowser(this, "https://t.me/xedox_studio");
                 });
         HighlightText.clickable(
                 aboutApp,

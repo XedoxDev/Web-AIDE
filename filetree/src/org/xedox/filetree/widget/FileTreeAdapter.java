@@ -1,6 +1,8 @@
 package org.xedox.filetree.widget;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.xedox.filetree.utils.Node;
 import org.xedox.filetree.R;
 
@@ -32,6 +37,9 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
 
     private OnFileClickListener onFileClickListener;
     private OnFileLongClickListener onFileLongClickListener;
+
+    private ExecutorService exexutor = Executors.newSingleThreadExecutor();
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public FileTreeAdapter(Context context) {
         this.context = context;
@@ -110,26 +118,25 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
 
     private void initFile(VH vh, Node node) {
         vh.isOpen.setImageResource(0);
-        vh.isOpen.setEnabled(false);
-        
+
         if (node.name.startsWith(".")) {
             vh.icon.setImageResource(defaultHiddenFileIcon);
             return;
         }
-        
+
         for (Map.Entry<String, Integer> entry : fileIconMappings.entrySet()) {
             if (node.name.endsWith(entry.getKey()) || node.name.equals(entry.getKey())) {
                 vh.icon.setImageResource(entry.getValue());
                 return;
             }
         }
-        
+
         vh.icon.setImageResource(defaultFileIcon);
     }
 
     private void initFolder(VH vh, Node node) {
         vh.isOpen.setImageResource(R.drawable.arrow_up);
-        vh.isOpen.setRotation(node.isOpen ? 180 : 0);
+        vh.isOpen.setRotation(0);
         
         if (node.name.startsWith(".")) {
             vh.icon.setImageResource(defaultHiddenFolderIcon);
@@ -139,27 +146,26 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
     }
 
     private void setupClickListeners(VH vh, Node node) {
-        vh.parent.setOnClickListener(v -> {
-            if (node.isFile) {
-                if (onFileClickListener != null) {
-                    onFileClickListener.onClick(node, new File(node.fullPath), v);
-                }
-            } else {
-                toggleFolder(node);
-            }
-        });
+        vh.parent.setOnClickListener(
+                v -> {
+                    if (node.isFile) {
+                        if (onFileClickListener != null) {
+                            onFileClickListener.onClick(node, new File(node.fullPath), v);
+                        }
+                    } else {
+                        toggleFolder(node);
+                        vh.isOpen.animate().rotation(node.isOpen ? 180 : 0).start();
+                    }
+                });
 
-        vh.parent.setOnLongClickListener(v -> {
-            if (onFileLongClickListener != null) {
-                onFileLongClickListener.onClick(node, new File(node.fullPath), v);
-                return true;
-            }
-            return false;
-        });
-
-        if (!node.isFile) {
-            vh.isOpen.setOnClickListener(v -> toggleFolder(node));
-        }
+        vh.parent.setOnLongClickListener(
+                v -> {
+                    if (onFileLongClickListener != null) {
+                        onFileLongClickListener.onClick(node, new File(node.fullPath), v);
+                        return true;
+                    }
+                    return false;
+                });
     }
 
     private void toggleFolder(Node node) {
@@ -170,7 +176,6 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
         } else {
             closeFolder(node);
         }
-        notifyItemChanged(nodes.indexOf(node));
     }
 
     @Override
@@ -217,31 +222,41 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
     }
 
     public void openFolder(Node node) {
-        int index = nodes.indexOf(node);
-        if (index == -1) return;
-        node.updateChildren();
-        count = 0;
-        addChildren(node);
-        notifyItemRangeInserted(index + 1, count);
+        exexutor.execute(
+                () -> {
+                    int index = nodes.indexOf(node);
+                    if (index == -1) return;
+                    node.updateChildren();
+                    count = 0;
+                    addChildren(node);
+
+                    handler.post(() -> notifyItemRangeInserted(index + 1, count));
+                });
     }
 
     public void closeFolder(Node node) {
-        int parentIndex = nodes.indexOf(node);
-        int removeCount = 0;
-        int i = parentIndex + 1;
-        while (i < nodes.size() && nodes.get(i).level > node.level) {
-            removeCount++;
-            i++;
-        }
+        exexutor.execute(
+                () -> {
+                    int parentIndex = nodes.indexOf(node);
+                    int removeCount = 0;
+                    int i = parentIndex + 1;
+                    while (i < nodes.size() && nodes.get(i).level > node.level) {
+                        removeCount++;
+                        i++;
+                    }
 
-        if (removeCount > 0) {
-            List<Node> removed = new ArrayList<>(nodes.subList(parentIndex + 1, parentIndex + 1 + removeCount));
-            nodes.removeAll(removed);
-            notifyItemRangeRemoved(parentIndex + 1, removeCount);
-        }
+                    if (removeCount > 0) {
+                        List<Node> removed =
+                                new ArrayList<>(
+                                        nodes.subList(
+                                                parentIndex + 1, parentIndex + 1 + removeCount));
+                        nodes.removeAll(removed);
+                        final int count = removeCount;
+                        handler.post(() -> notifyItemRangeRemoved(parentIndex + 1, count));
+                    }
 
-        node.isOpen = false;
-        notifyItemChanged(parentIndex);
+                    node.isOpen = false;
+                });
     }
 
     public void renameNode(Node node, String name) {
@@ -303,5 +318,9 @@ public class FileTreeAdapter extends Adapter<FileTreeAdapter.VH> {
 
     public Node getRoot() {
         return this.root;
+    }
+
+    public void shutdown() {
+        exexutor.shutdown();
     }
 }

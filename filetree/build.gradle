@@ -10,17 +10,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 1
-        versionName "0.0.1a"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-        }
+        versionName "0.0.2"
     }
 
     compileOptions {
@@ -38,6 +28,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.13.0-alpha13")
+    implementation("androidx.appcompat:appcompat:$app_compat")
+    implementation("com.google.android.material:material:$material")
 }

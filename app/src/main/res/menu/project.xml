@@ -3,9 +3,11 @@
 
     <item
         android:id="@+id/rename"
-        android:title="@string/rename" />
+        android:title="@string/rename"
+        android:icon="@drawable/rename" />
     <item
         android:id="@+id/remove"
-        android:title="@string/remove" />
+        android:title="@string/remove"
+        android:icon="@drawable/delete_empty" />
 
 </menu>

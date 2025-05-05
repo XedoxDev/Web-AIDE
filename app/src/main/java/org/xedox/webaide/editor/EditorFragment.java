@@ -1,6 +1,9 @@
 package org.xedox.webaide.editor;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,35 +18,41 @@ import io.github.rosemoe.sora.event.SubscriptionReceipt;
 import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
-import org.xedox.webaide.R;
-import org.xedox.webaide.io.FileX;
-import org.xedox.webaide.io.IFile;
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import org.xedox.webaide.R;
+import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.io.IFile;
 
 public class EditorFragment extends Fragment {
     private static final String ARG_FILE_PATH = "file_path";
-    private static final Map<String, String> LANGUAGE_SCOPE_MAP;
+    private static final Map<String, String> LANGUAGE_SCOPE_MAP = createLanguageScopeMap();
+    
+    private final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    
+    private IFile file;
+    private boolean isSaved = true;
+    private String title;
+    private WeakReference<TabLayout.Tab> tabRef;
+    private SubscriptionReceipt<ContentChangeEvent> contentChangeSubscriber;
+    public SoraEditor editorView;
 
-    static {
+    private static Map<String, String> createLanguageScopeMap() {
         Map<String, String> map = new HashMap<>();
         map.put(".txt", "source.txt");
         map.put(".html", "source.html");
         map.put(".js", "source.js");
         map.put(".css", "source.css");
         map.put(".md", "source.md");
-        LANGUAGE_SCOPE_MAP = Collections.unmodifiableMap(map);
+        return Collections.unmodifiableMap(map);
     }
 
-    private IFile file;
-    private boolean isSaved = true;
-    private String title;
-    private TabLayout.Tab tab;
-    private SubscriptionReceipt<ContentChangeEvent> contentChangeSubscriber;
-    
-    public IEditor editorView;
-    
     public static EditorFragment newInstance(IFile file) {
         EditorFragment fragment = new EditorFragment();
         Bundle args = new Bundle();
@@ -56,67 +65,84 @@ public class EditorFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_FILE_PATH)) {
-            file = new FileX(args.getString(ARG_FILE_PATH));
-            updateTabState();
-        } else {
+        if (args == null || !args.containsKey(ARG_FILE_PATH)) {
             throw new IllegalArgumentException("File path must be provided");
         }
+        file = new FileX(args.getString(ARG_FILE_PATH));
+        updateTabState();
     }
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sora_editor_fragment, container, false);
         editorView = view.findViewById(R.id.editor);
-        setupEditor();
-
-        if (file != null) {
-            String content = file.read();
-            if (content != null) {
-                editorView.setCode(content);
+        
+        backgroundExecutor.execute(() -> {
+            try {
+                setupEditor();
+                loadFileContent();
+            } catch (Exception e) {
+                Log.e("EditorFragment", "Background setup failed", e);
             }
-        }
-
+        });
+        
         return view;
     }
 
     private void setupEditor() {
-        if (editorView instanceof SoraEditor) {
-            SoraEditor soraEditor = (SoraEditor) editorView;
+        if (editorView == null) return;
+        
+        editorView.setLayoutParams(createLayoutParams());
+        
+        contentChangeSubscriber = editorView.subscribeEvent(
+            ContentChangeEvent.class,
+            (event, unsubscribe) -> handleContentChange()
+        );
+        
+        configureEditorLanguage(editorView);
+        setupColorScheme(editorView);
+    }
 
-            RelativeLayout.LayoutParams params =
-                    new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.MATCH_PARENT,
-                            RelativeLayout.LayoutParams.MATCH_PARENT);
-            soraEditor.setLayoutParams(params);
+    private RelativeLayout.LayoutParams createLayoutParams() {
+        return new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.MATCH_PARENT
+        );
+    }
 
-            contentChangeSubscriber =
-                    soraEditor.subscribeEvent(
-                            ContentChangeEvent.class,
-                            (event, unsubscribe) -> handleContentChange());
-
-            configureEditorLanguage(soraEditor);
-
-            try {
-                soraEditor.setColorScheme(TextMateColorScheme.create(ThemeRegistry.getInstance()));
-            } catch (Exception e) {
-                Log.e("EditorFragment", "Error setting color scheme", e);
-            }
+    private void loadFileContent() {
+        if (file == null) return;
+        
+        String content = file.read();
+        if (content != null) {
+            mainHandler.post(() -> {
+                if (editorView != null) {
+                    setCode(content);
+                }
+            });
         }
     }
 
     private void configureEditorLanguage(SoraEditor editor) {
         if (file == null) return;
-
+        
         String extension = file.getExtension().toLowerCase();
         String scopeName = LANGUAGE_SCOPE_MAP.getOrDefault(extension, "source.txt");
-
+        
         try {
-            TextMateLanguage language = new TML(scopeName, getActivity());
-            editor.setEditorLanguage(language);
+            editor.setEditorLanguage(new TML(scopeName, getActivity()));
         } catch (Throwable e) {
             Log.e("EditorFragment", "Error setting language: " + scopeName, e);
+        }
+    }
+
+    private void setupColorScheme(SoraEditor editor) {
+        try {
+            editor.setColorScheme(TextMateColorScheme.create(ThemeRegistry.getInstance()));
+            editor.getColorScheme()
+                .setColor(EditorColorScheme.BLOCK_LINE, Color.parseColor("#505050"));
+        } catch (Exception e) {
+            Log.e("EditorFragment", "Error setting color scheme", e);
         }
     }
 
@@ -129,8 +155,8 @@ public class EditorFragment extends Fragment {
 
     public void save() {
         if (file == null || editorView == null) return;
-
-        String code = editorView.getCode();
+        
+        String code = getCode();
         if (code != null) {
             file.write(code);
             isSaved = true;
@@ -138,43 +164,66 @@ public class EditorFragment extends Fragment {
         }
     }
 
-    public void updateTabState() {
-        if (!isAdded() || getActivity() == null || getActivity().isFinishing()) return;
+    public String getCode() {
+        return editorView != null ? editorView.getText().toString() : null;
+    }
 
+    public void setCode(String code) {
+        if (editorView != null) {
+            editorView.setText(code);
+        }
+    }
+
+    public void updateTabState() {
+        if (isActivityInvalid()) return;
+        
         title = file.getName() + (isSaved ? "" : "*");
-        getActivity()
-                .runOnUiThread(
-                        () -> {
-                            if (tab != null && !getActivity().isDestroyed()) {
-                                tab.setText(title);
-                            }
-                        });
+        mainHandler.post(() -> {
+            try {
+                TabLayout.Tab tab = tabRef != null ? tabRef.get() : null;
+                if (tab != null && tab.view != null && !isActivityInvalid()) {
+                    tab.setText(title);
+                }
+            } catch (Exception e) {
+                Log.e("EditorFragment", "Error updating tab state", e);
+            }
+        });
+    }
+
+    private boolean isActivityInvalid() {
+        return getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed();
     }
 
     @Override
     public void onDestroyView() {
-        if (editorView instanceof SoraEditor) {
-            contentChangeSubscriber.unsubscribe();
-            ((SoraEditor) editorView).release();
+        if (editorView != null) {
+            if (contentChangeSubscriber != null) {
+                contentChangeSubscriber.unsubscribe();
+            }
+            editorView.release();
         }
         editorView = null;
         super.onDestroyView();
     }
 
-    public IFile getFile() {
-        return file;
+    @Override
+    public void onDestroy() {
+        backgroundExecutor.shutdownNow();
+        super.onDestroy();
     }
 
-    public boolean isSaved() {
-        return isSaved;
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        tabRef = null;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
+    public IFile getFile() { return file; }
+    public boolean isSaved() { return isSaved; }
+    public String getTitle() { return title; }
+    
     public void setTab(TabLayout.Tab tab) {
-        this.tab = tab;
+        this.tabRef = tab != null ? new WeakReference<>(tab) : null;
         updateTabState();
     }
 }

@@ -3,6 +3,19 @@ plugins {
     id "com.android.library"     version "8.2.0" apply false
 }
 
+allprojects {
+    ext {
+        // libs versions
+        app_compat = "1.7.0"
+        material = "1.13.0-alpha13"
+        sora_editor = "0.23.5"
+        desugar_jdk_libs = "2.1.5"
+        jgit = "7.2.0.202503040940-r"
+        gson = "2.13.1"
+        markwonVersion = "4.6.2"
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

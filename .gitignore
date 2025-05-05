@@ -6,3 +6,4 @@
 /filetree/build
 
 *.jks
+*.keystore

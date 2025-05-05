@@ -105,6 +105,10 @@ public class ConsoleLayout extends RelativeLayout {
     public void printError(int text) {
         console.printError(getContext().getString(text));
     }
+    
+    public void printError(Throwable err) {
+        console.printError(err.toString());
+    }
 
     public void printText(String text) {
         console.printText(text);

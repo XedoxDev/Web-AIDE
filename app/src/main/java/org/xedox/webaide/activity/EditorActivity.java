@@ -6,6 +6,8 @@ import android.os.*;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.*;
+import java.lang.reflect.Method;
 import org.xedox.webaide.*;
 import org.xedox.webaide.activity.editor.*;
 import org.xedox.webaide.editor.*;
@@ -48,19 +51,7 @@ public class EditorActivity extends BaseActivity {
         setContentView(R.layout.activity_editor);
 
         String projectName = getIntent().getStringExtra("project_name");
-        if (projectName == null || projectName.isEmpty()) {
-            showDialog("Project name is missing!");
-            finish();
-            return;
-        }
-        try {
-            project = new Project(projectName);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to initialize project", e);
-            showDialog("Failed to initialize project: " + e.getMessage());
-            finish();
-            return;
-        }
+        project = new Project(projectName);
 
         tabLayout = findViewById(R.id.tab_layout);
         editorPager = findViewById(R.id.editor_pager);
@@ -77,7 +68,7 @@ public class EditorActivity extends BaseActivity {
         editorPager.setUserInputEnabled(false);
         fileTreeManager =
                 new EditorFileTreeManager(
-                        this, findViewById(R.id.file_tree), project, editorAdapter, console);
+                        this, findViewById(R.id.file_tree), project, editorAdapter, console, git);
         loadToolbar();
         if (getSupportActionBar() != null) {
             getSupportActionBar()
@@ -154,6 +145,16 @@ public class EditorActivity extends BaseActivity {
 
         git = new GitManager(this, project);
         editorGitManager = new EditorGitManager(this, git, console);
+
+        getOnBackPressedDispatcher()
+                .addCallback(
+                        new OnBackPressedCallback(true) {
+
+                            @Override
+                            public void handleOnBackPressed() {
+                                finish(true);
+                            }
+                        });
     }
 
     @Override
@@ -209,10 +210,35 @@ public class EditorActivity extends BaseActivity {
             editorAdapter.saveAll();
             return true;
         } else if (id == android.R.id.home) {
-            onBackPressed();
+            finish();
+            return true;
+        } else if (id == R.id.settings) {
+            startActivity(
+                    new Intent(this, SettingsActivity.class)
+                            .putExtra("project_name", project.name));
+            saveAllFiles();
+            super.finish();
             return true;
         }
         return editorGitManager.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m =
+                            menu.getClass()
+                                    .getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                    Log.e("OverflowMenu", "Error forcing menu icons to show", e);
+                }
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public void finish(boolean checkSaved) {
@@ -229,7 +255,9 @@ public class EditorActivity extends BaseActivity {
 
     @Override
     public void finish() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(
+                new Intent(this, MainActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         super.finish();
     }
 

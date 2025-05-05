@@ -3,14 +3,28 @@
 
     <item
         android:id="@+id/remove"
-        android:title="@string/remove" />
+        android:title="@string/remove"
+        android:icon="@drawable/delete_empty" />
     <item
         android:id="@+id/rename"
-        android:title="@string/rename" />
+        android:title="@string/rename" 
+        android:icon="@drawable/rename"/>
     <item
         android:id="@+id/new_file"
-        android:title="@string/create_new_file" />
-      <item
+        android:title="@string/create_new_file"
+        android:icon="@drawable/file_plus" />
+    <item
         android:id="@+id/new_folder"
-        android:title="@string/create_new_folder" />
+        android:title="@string/create_new_folder"
+        android:icon="@drawable/folder_plus" />
+
+    <item
+        android:id="@+id/add_to_commit"
+        android:title="@string/add_to_commit"
+        android:icon="@drawable/git" />
+    
+     <item
+        android:id="@+id/add_file_from_external_storage"
+        android:title="@string/add_file_from_external_storage"
+        android:icon="@drawable/file" />
 </menu>

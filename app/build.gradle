@@ -10,38 +10,29 @@ android {
         applicationId "org.xedox.webaide"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "0.0.1a"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        versionCode 2
+        versionName "0.0.2a"
+        multiDexEnabled true
     }
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-    
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.13.0-alpha13")
-    implementation(project(":filetree"))
-    
-    implementation(platform("io.github.Rosemoe.sora-editor:bom:0.23.5"))
-    implementation("io.github.Rosemoe.sora-editor:editor")
-    implementation("io.github.Rosemoe.sora-editor:language-textmate")
-    // implementation("io.github.Rosemoe.sora-editor:language-treesitter") now no using...
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    
-    implementation("org.eclipse.jgit:org.eclipse.jgit:7.2.0.202503040940-r")
-    
-    implementation("com.google.code.gson:gson:2.13.1")
+    implementation "androidx.appcompat:appcompat:$app_compat"
+    implementation "androidx.preference:preference:1.2.1"
+    implementation "com.google.android.material:material:$material"
+    implementation project(":filetree")
+    implementation platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
+    implementation "io.github.Rosemoe.sora-editor:editor"
+    implementation "io.github.Rosemoe.sora-editor:language-textmate"
+    implementation "org.eclipse.jgit:org.eclipse.jgit:$jgit"
+    implementation "com.google.code.gson:gson:$gson"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
+    implementation "io.noties.markwon:core:${markwonVersion}"
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

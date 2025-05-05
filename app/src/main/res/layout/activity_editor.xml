@@ -20,7 +20,8 @@
             android:id="@+id/nav_view"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start">
+            android:layout_gravity="start"
+            android:background="@drawable/drawer">
             <include
                 layout="@layout/editor_drawer_content" />
         </com.google.android.material.navigation.NavigationView>

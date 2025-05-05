@@ -32,7 +32,7 @@ public class Project {
             for (File file : directory.listFiles()) {
                 if (file.isDirectory()) {
                     findIndexHtml(file);
-                } else if ("index.html".equals(file.getName())) {
+                } else if ("index.html".equals(file.getName()) || "index.php".equals(file.getName())) {
                     indexHtml = new FileX(file);
                     return;
                 }
