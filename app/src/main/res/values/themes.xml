@@ -15,8 +15,8 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:textColor">@color/tint</item>
         <item name="android:textColorSecondary">@color/tint</item>
-        <item name="tint">@color/tint</item>
-        <item name="iconTint">@color/tint</item>
+        <item name="tint">@drawable/icon_tint</item>
+        <item name="iconTint">@drawable/icon_tint</item>
     </style>
 
 </resources>

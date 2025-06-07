@@ -47,6 +47,6 @@ fileTree.adapter.setOnFileLongClickListener((node, file, view) -> {...});
 ```
 
 ## Requirements
-- Android minSDK - 26, target/compile SDK - 35
+- Android minSDK - 26, target/compile SDK - 36
 - AndroidX - 1.7.0
 - Material - 1.13.0-alpha13
