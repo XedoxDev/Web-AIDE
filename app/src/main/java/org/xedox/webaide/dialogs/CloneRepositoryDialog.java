@@ -34,7 +34,7 @@ public class CloneRepositoryDialog {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.git_clone);
         builder.setView(R.layout.clone_repository_dialog);
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(R.string.clone, (dialog, which) -> handleClone(builder));
         builder.show();
     }
@@ -43,16 +43,15 @@ public class CloneRepositoryDialog {
         new CloneRepositoryDialog(context, adapter).show();
     }
 
-    private boolean handleClone(DialogBuilder builder) {
+    private void handleClone(DialogBuilder builder) {
         TextInputEditText urlEditText = builder.findViewById(R.id.name);
         String url = urlEditText.getText().toString().trim();
 
         if (url.isEmpty()) {
             showError(builder, R.string.git_clone_url_empty);
-            return RETURN;
         }
         cloneRepository(url);
-        return EXIT;
+        builder.dialog.dismiss();
     }
 
     private void cloneRepository(String repoUrl) {

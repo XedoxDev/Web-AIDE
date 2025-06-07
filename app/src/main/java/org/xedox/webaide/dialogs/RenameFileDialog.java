@@ -28,7 +28,7 @@ public class RenameFileDialog {
         nameInput.requestFocus();
         nameInput.post(() -> nameInput.selectAll());
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.rename,
                 (dialog, which) -> {
@@ -37,13 +37,13 @@ public class RenameFileDialog {
                     if (fileName.trim().isEmpty()) {
                         errorTextView.setText(R.string.project_name_empty);
                         errorTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     if (new File(node.path, fileName).exists()) {
                         errorTextView.setText(R.string.project_exists);
                         errorTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     File oldFile = new File(node.fullPath);
@@ -52,11 +52,11 @@ public class RenameFileDialog {
                     if (oldFile.renameTo(newFile)) {
                         node.name = fileName;
                         adapter.renameNode(node, fileName);
-                        return EXIT;
+                        dialog.dismiss();
                     } else {
                         errorTextView.setText(R.string.rename_failed);
                         errorTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
                 });
 

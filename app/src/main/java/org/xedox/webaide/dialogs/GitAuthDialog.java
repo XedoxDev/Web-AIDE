@@ -41,7 +41,7 @@ public class GitAuthDialog {
         passwordF.setText(GitManager.getSavedToken(context));
         loginF.setSelection(0, loginF.getText().length());
         
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.login,
                 (dialog, which) -> {
@@ -51,7 +51,7 @@ public class GitAuthDialog {
                     if (login.isBlank() || password.isBlank()) {
                         errorTextView.setText(R.string.login_or_password_cannot_be_empty);
                         errorTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
                     git.setCredentials(login, password);
                     if (context instanceof EditorActivity) {
@@ -59,7 +59,7 @@ public class GitAuthDialog {
                                 ((EditorActivity) context).findViewById(R.id.console_layout);
                         console.printText(R.string.git_auth_successful);
                     }
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

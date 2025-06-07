@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.xedox.colorpicker.test.colorpicker-mergeDebugAndroidTestResources-29:/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "/data/user/0/com.itsaky.androidide/files/home/.gradle/caches/8.14/transforms/ab4278864309a8a9ceb2c67d0c19786d/transformed/material-1.13.0-alpha13/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,170,226,293,358,413,478,547",
+                        "endColumns": "58,55,55,66,64,54,64,68,68",
+                        "endOffsets": "109,165,221,288,353,408,473,542,611"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -136,9 +136,9 @@ public class EditorFileTreeManager {
                         R.string.yes,
                         (d, w) -> {
                             executor.execute(() -> writeFileWithFeedback(file, content));
-                            return DialogBuilder.EXIT;
+                            d.dismiss();
                         })
-                .setNegativeButton(R.string.no, (d, w) -> DialogBuilder.EXIT)
+                .setNegativeButton(R.string.no, (d, w) -> d.dismiss())
                 .show();
     }
 
@@ -160,12 +160,17 @@ public class EditorFileTreeManager {
         new DialogBuilder(context)
                 .setTitle(R.string.confirm_delete_title)
                 .setMessage(context.getString(R.string.delete_confirmation, node.name))
-                .setPositiveButton(R.string.delete, (d, w) -> deleteFile(node))
-                .setNegativeButton(R.string.cancel, (d, w) -> DialogBuilder.EXIT)
+                .setPositiveButton(
+                        R.string.delete,
+                        (d, w) -> {
+                            deleteFile(node);
+                            d.dismiss();
+                        })
+                .setNegativeButton(R.string.cancel, (d, w) -> d.dismiss())
                 .show();
     }
 
-    private boolean deleteFile(Node node) {
+    private void deleteFile(Node node) {
         try {
             boolean deleted = new File(node.fullPath).delete();
             if (deleted) {
@@ -178,7 +183,6 @@ public class EditorFileTreeManager {
         } catch (SecurityException e) {
             showErrorOnUiThread(R.string.file_delete_permission_denied, e);
         }
-        return DialogBuilder.EXIT;
     }
 
     private void addToGitCommit(Node node) {
@@ -200,7 +204,6 @@ public class EditorFileTreeManager {
 
     public void openFile(IFile file) {
         if (executor.isShutdown()) return;
-
         int existingPosition = editorAdapter.findFilePosition(file);
         if (existingPosition >= 0) {
             context.getEditorPager().setCurrentItem(existingPosition, true);
@@ -208,7 +211,9 @@ public class EditorFileTreeManager {
             editorAdapter.addFile(file);
             context.getEditorPager().setCurrentItem(editorAdapter.getItemCount() - 1, true);
         }
+        context.updateMenu();
     }
+    
 
     private void showErrorOnUiThread(int messageRes, Exception e) {
         context.runOnUiThread(
@@ -233,4 +238,8 @@ public class EditorFileTreeManager {
             Thread.currentThread().interrupt();
         }
     }
+
+public FileTreeView getFileTreeView() {
+    return fileTree;
+}
 }

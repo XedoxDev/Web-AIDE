@@ -32,7 +32,7 @@ public class RenameProjectDialog {
         projectNameEditText.requestFocus();
         projectNameEditText.post(() -> projectNameEditText.selectAll());
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.rename,
                 (dialog, which) -> {
@@ -40,16 +40,16 @@ public class RenameProjectDialog {
 
                     if (newProjectName.isEmpty()) {
                         showError(errorMessageTextView, R.string.project_name_empty);
-                        return RETURN;
+                        return;
                     }
 
                     if (isProjectNameExists(newProjectName)) {
                         showError(errorMessageTextView, R.string.project_exists);
-                        return RETURN;
+                        return;
                     }
 
                     ProjectManager.renameProject(oldProjectName, newProjectName);
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

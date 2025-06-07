@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "WebDroid"
 
-include(":app", ":filetree")
+include(":app", ":filetree", ":colorpicker")

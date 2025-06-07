@@ -7,4 +7,9 @@
         android:title="@string/remove" 
         android:icon="@drawable/delete_empty"/>
 
+<item
+        android:id="@+id/remove_all"
+        android:title="@string/remove_all" 
+        android:icon="@drawable/delete_empty"/>
+
 </menu>

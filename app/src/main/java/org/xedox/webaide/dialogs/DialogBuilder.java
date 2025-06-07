@@ -6,17 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import org.xedox.webaide.R;
 
 public class DialogBuilder {
     public final MaterialAlertDialogBuilder builder;
-    public AlertDialog dialog;
     private OnButtonClickListener positiveListener;
     private OnButtonClickListener negativeListener;
     private OnButtonClickListener neutralListener;
     private View customView;
-
-    public static final boolean EXIT = true;
-    public static final boolean RETURN = false;
+    
+    public AlertDialog dialog;
 
     public DialogBuilder(Context context) {
         this.builder = new MaterialAlertDialogBuilder(context);
@@ -88,9 +87,7 @@ public class DialogBuilder {
             dialog.getButton(whichButton)
                     .setOnClickListener(
                             view -> {
-                                if (listener.onClick(dialog, whichButton) == EXIT) {
-                                    dialog.dismiss();
-                                }
+                                listener.onClick(dialog, whichButton);
                             });
         }
     }
@@ -120,7 +117,7 @@ public class DialogBuilder {
     }
 
     public interface OnButtonClickListener {
-        boolean onClick(AlertDialog dialog, int which);
+        void onClick(AlertDialog dialog, int which);
     }
 
     public DialogBuilder setItems(CharSequence[] items, DialogInterface.OnClickListener listener) {

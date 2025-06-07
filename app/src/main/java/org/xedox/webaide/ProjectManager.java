@@ -21,19 +21,9 @@ public class ProjectManager {
 
     public static Project createProject(String name, BaseActivity activity) {
         IFile file = new FileX(PROJECTS_PATH, name);
-        if (file.exists()) activity.showSnackbar(R.string.project_exists);
-        file.mkdirs();
-
-        IFile index = new FileX(file, "index.html");
-        IFile styles = new FileX(file, "styles.css");
-        IFile script = new FileX(file, "script.js");
-        index.mkfile();
-        styles.mkfile();
-        script.mkfile();
         try {
-            index.write(Assets.from(activity).asset("base_index.html").read());
-            styles.write(Assets.from(activity).asset("base_styles.css").read());
-            script.write(Assets.from(activity).asset("base_script.js").read());
+
+            IFile.unzip(activity.getAssets().open("project_example.zip"), file.getFullPath());
         } catch (Exception err) {
             err.printStackTrace();
         }

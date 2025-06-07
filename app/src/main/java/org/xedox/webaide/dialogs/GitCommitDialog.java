@@ -36,7 +36,7 @@ public class GitCommitDialog {
         TextView errorTextView = builder.findViewById(R.id.error_message);
         nameF.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.git_commit,
                 (dialog, which) -> {
@@ -44,7 +44,7 @@ public class GitCommitDialog {
                     if (name.isBlank()) {
                         errorTextView.setText(R.string.git_commit_name_cannot_be_empty);
                         errorTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     } else {
                         errorTextView.setVisibility(View.GONE);
                     }
@@ -59,7 +59,7 @@ public class GitCommitDialog {
                         err.printStackTrace();
                         console.printError(R.string.git_commit_failed);
                     }
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

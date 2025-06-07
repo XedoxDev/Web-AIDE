@@ -32,7 +32,7 @@ public class NewProjectDialog {
 
         projectNameEditText.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.create,
                 (dialog, which) -> {
@@ -41,13 +41,13 @@ public class NewProjectDialog {
                     if (projectName.isEmpty()) {
                         errorMessageTextView.setText(R.string.project_name_empty);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     if (isProjectNameExists(projectName)) {
                         errorMessageTextView.setText(R.string.project_exists);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     Project project = ProjectManager.createProject(projectName, context);
@@ -58,7 +58,7 @@ public class NewProjectDialog {
                         activity.showSnackbar(R.string.project_created_successful);
                     }
 
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

@@ -44,7 +44,7 @@ public class NewFileDialog {
 
         projectNameEditText.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.create,
                 (dialog, which) -> {
@@ -52,13 +52,13 @@ public class NewFileDialog {
                     if (fileName.isEmpty()) {
                         errorMessageTextView.setText(R.string.git_clone_url_empty);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
                     IFile file = new FileX(parent.fullPath, fileName);
                     file.mkfile();
                     if (parent.isOpen) adapter.addNode(parent, new Node(file.getFullPath()));
 
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

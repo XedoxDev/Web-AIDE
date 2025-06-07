@@ -25,7 +25,9 @@
     <color name="console_error">@color/error</color>
     <color name="console_warn">#FFB74D</color>
 
-    <color name="tint">#FFFFFF</color>
+    <color name="tint">@drawable/icon_tint</color>
+     <color name="tint_enable_off">#484551</color>
+      <color name="tint_enable_on">#FFFFFF</color>
     <color name="run_icon">#25AA25</color>
     <color name="git_icon">#F05033</color>
 </resources>

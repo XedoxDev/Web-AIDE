@@ -6,7 +6,7 @@ RecyclerView-based file tree component for Android.
 
 1. Add to layout:
 ```xml
-<org.xedox.filetree.widget.FileTree
+<org.xedox.filetree.widget.FileTreeView
     android:id="@+id/filetree"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
@@ -14,7 +14,7 @@ RecyclerView-based file tree component for Android.
 
 2. Load directory example:
 ```java
-FileTree fileTree = findViewById(R.id.filetree);
+FileTreeView fileTree = findViewById(R.id.filetree);
 fileTree.loadPath(Environment.getExternalStorageDirectory());
 ```
 

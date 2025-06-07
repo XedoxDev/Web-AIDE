@@ -40,6 +40,23 @@
       "name": "markdown",
       "scopeName": "source.md",
       "languageConfiguration": "textmate/markdown/md-config.json"
-    }           
+    },
+    {
+      "grammar": "textmate/log/log-tmLanguage.json",
+      "name": "log",
+      "scopeName": "source.log"
+    },
+    {
+      "grammar": "textmate/lua/lua-tmLanguage.json",
+      "languageConfiguration": "textmate/lua/lua-config.json",
+      "name": "lua",
+      "scopeName": "source.lua"
+    },
+    {
+      "grammar": "textmate/txt/txt-tmLanguage.json",
+      "languageConfiguration": "textmate/txt/txt-config.json",
+      "name": "txt",
+      "scopeName": "source.txt"
+    }
   ]
 }

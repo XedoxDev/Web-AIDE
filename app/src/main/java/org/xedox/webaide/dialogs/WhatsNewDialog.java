@@ -3,10 +3,13 @@ package org.xedox.webaide.dialogs;
 import android.content.Context;
 import android.text.Spanned;
 import android.util.Log;
-
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import io.noties.markwon.Markwon;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -25,45 +28,73 @@ public class WhatsNewDialog {
     private static final Pattern CONTENT_PATTERN = 
         Pattern.compile("^([A-Z]{2}):(.*?)END$", Pattern.MULTILINE | Pattern.DOTALL);
 
-    public static void show(Context context) {
-        DialogBuilder builder = new DialogBuilder(context);
-        String content = getLocalizedWhatsNewText(context);
-        
-        TextView text = new TextView(context);
-        int padd = 40;
-        text.setPadding(padd, padd, padd, padd);
-        builder.setView(text);
-        
-        Markwon markwon = Markwon.create(context);
-        final Spanned markdown = markwon.toMarkdown(content);
-        text.setText(markdown);
-        
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+    private Context context;
+    private List<String> contentItems = new ArrayList<>();
+    private int currentIndex = 0;
+    private Markwon markwon;
+    private TextView textView;
+    private ImageButton upButton;
+    private ImageButton downButton;
 
+    public WhatsNewDialog(Context context) {
+        this.context = context;
+        this.markwon = Markwon.create(context);
+    }
+    
+    public static void show(Context context) {
+    	new WhatsNewDialog(context).show();
+    }
+
+    public void show() {
+        DialogBuilder builder = new DialogBuilder(context);
+        builder.setView(R.layout.whats_new_dialog);
+        
+        loadContentItems();
+        
+        textView = builder.findViewById(R.id.update_text);
+        upButton = builder.findViewById(R.id.update_up);
+        downButton = builder.findViewById(R.id.update_down);
+        
+        updateContent();
+        
+        upButton.setOnClickListener(v -> {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateContent();
+            }
+        });
+        
+        downButton.setOnClickListener(v -> {
+            if (currentIndex < contentItems.size() - 1) {
+                currentIndex++;
+                updateContent();
+            }
+        });
+        
+        updateNavigationButtons();
+        
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.show();
     }
     
-    private static String getLocalizedWhatsNewText(Context context) {
+    private void loadContentItems() {
         String langCode = Locale.getDefault().getLanguage().toUpperCase();
-        String fullText = loadWhatsNewFile(context);
+        String fullText = loadWhatsNewFile();
         
-        if (fullText.isEmpty()) {
-            return "";
+        if (!fullText.isEmpty()) {
+            // Добавляем контент для текущего языка
+            List<String> items = extractAllContentForLanguage(fullText, langCode);
+            contentItems.addAll(items);
+            
+            // Если нет контента для текущего языка, добавляем контент по умолчанию
+            if (contentItems.isEmpty() && !langCode.equals(DEFAULT_LANGUAGE)) {
+                items = extractAllContentForLanguage(fullText, DEFAULT_LANGUAGE);
+                contentItems.addAll(items);
+            }
         }
-
-        String content = extractContentForLanguage(fullText, langCode);
-        if (!content.isEmpty()) {
-            return content;
-        }
-
-        if (!langCode.equals(DEFAULT_LANGUAGE)) {
-            content = extractContentForLanguage(fullText, DEFAULT_LANGUAGE);
-        }
-
-        return content;
     }
-
-    private static String loadWhatsNewFile(Context context) {
+    
+    private String loadWhatsNewFile() {
         try {
             return Assets.from(context).asset(CONTENT_FILE).read();
         } catch(Exception err) {
@@ -71,16 +102,30 @@ public class WhatsNewDialog {
             return "";
         }
     }
-
-    private static String extractContentForLanguage(String fullText, String languageCode) {
+    
+    private List<String> extractAllContentForLanguage(String fullText, String languageCode) {
+        List<String> items = new ArrayList<>();
         Matcher matcher = CONTENT_PATTERN.matcher(fullText);
         
         while (matcher.find()) {
             if (matcher.group(1).equals(languageCode)) {
-                return matcher.group(2).trim();
+                items.add(matcher.group(2).trim());
             }
         }
         
-        return "";
+        return items;
+    }
+    
+    private void updateContent() {
+        if (!contentItems.isEmpty() && currentIndex >= 0 && currentIndex < contentItems.size()) {
+            final Spanned markdown = markwon.toMarkdown(contentItems.get(currentIndex));
+            textView.setText(markdown);
+            updateNavigationButtons();
+        }
+    }
+    
+    private void updateNavigationButtons() {
+        upButton.setEnabled(currentIndex > 0);
+        downButton.setEnabled(currentIndex < contentItems.size() - 1);
     }
 }

@@ -47,7 +47,8 @@ public class ConsoleLayout extends RelativeLayout {
                 () -> {
                     headerY = getHeight() - header.getHeight();
                     header.setY(headerY);
-                    updateContentHeight();
+                    updateContent();
+                    printInfo("Editor stared successful");
                 });
 
         header.setOnTouchListener(this::handleHeaderMove);
@@ -66,8 +67,8 @@ public class ConsoleLayout extends RelativeLayout {
 
                 newY = Math.max(0, newY);
                 newY = Math.min(getHeight() - header.getHeight(), newY);
-                updateContentHeight();
                 view.setY(newY);
+                updateContent();
                 return true;
 
             case MotionEvent.ACTION_UP:
@@ -78,10 +79,10 @@ public class ConsoleLayout extends RelativeLayout {
         return false;
     }
 
-    private void updateContentHeight() {
+    private void updateContent() {
         if (content != null && header != null) {
-            int newHeight = (int) (getHeight() - header.getY() - header.getHeight());
-            content.getLayoutParams().height = Math.max(0, newHeight);
+            float headerBottom = header.getY() + header.getHeight();
+            content.setY(headerBottom);
             content.requestLayout();
         }
     }
@@ -113,6 +114,10 @@ public class ConsoleLayout extends RelativeLayout {
     public void printText(String text) {
         console.printText(text);
     }
+    
+    public void printInfo(String text) {
+        console.printText(text);
+    }
 
     public void printWarn(String text) {
         console.printWarn(text);
@@ -120,10 +125,10 @@ public class ConsoleLayout extends RelativeLayout {
 
     public void moveTo(float y) {
         ObjectAnimator anim =
-                ObjectAnimator.ofFloat(header, "translationY", header.getTranslationY(), getHeight()/ 1.6f);
+                ObjectAnimator.ofFloat(header, "y", header.getTranslationY(), y);
         anim.addUpdateListener(
                 (valueAnimator) -> {
-                    updateContentHeight();
+                    updateContent();
                 });
         
         anim.start();

@@ -1,0 +1,6 @@
+R_DEF: Internal format may change without notice
+local
+id color_line
+id color_square
+id selected_color
+layout color_picker_layout

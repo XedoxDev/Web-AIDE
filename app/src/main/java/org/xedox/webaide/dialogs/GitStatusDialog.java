@@ -43,7 +43,7 @@ public class GitStatusDialog {
             if (console != null) console.printError(err.toString());
         }
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.show();
     }
 }

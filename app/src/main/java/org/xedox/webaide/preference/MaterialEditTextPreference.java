@@ -1,8 +1,12 @@
 package org.xedox.webaide.preference;
 
-import android.widget.EditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import androidx.preference.EditTextPreference;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import org.xedox.webaide.dialogs.DialogBuilder;
+import android.widget.LinearLayout;
+import android.util.TypedValue;
 
 public class MaterialEditTextPreference extends EditTextPreference {
 
@@ -24,19 +28,29 @@ public class MaterialEditTextPreference extends EditTextPreference {
 
     @Override
     protected void onClick() {
-        EditText editText = new EditText(getContext());
+        int padding = (int) TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 
+            16, 
+            getContext().getResources().getDisplayMetrics()
+        );
+        
+        TextInputLayout textInputLayout = new TextInputLayout(getContext());
+        TextInputEditText editText = new TextInputEditText(textInputLayout.getContext());
         editText.setText(getText());
-
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext());
+        textInputLayout.addView(editText);
+        textInputLayout.setPadding(padding, 0, padding, 0);
+        
+        DialogBuilder dialogBuilder = new DialogBuilder(getContext());
         dialogBuilder.setTitle(getTitle());
-        dialogBuilder.setView(editText);
+        dialogBuilder.setView(textInputLayout); 
         dialogBuilder.setPositiveButton(getPositiveButtonText(), (dialog, which) -> {
             String value = editText.getText().toString();
             if (callChangeListener(value)) {
                 setText(value);
             }
+            dialog.dismiss();
         });
-        dialogBuilder.setNegativeButton(getNegativeButtonText(), null);
+        dialogBuilder.setNegativeButton(getNegativeButtonText(), (d, w) -> d.dismiss());
         dialogBuilder.show();
     }
 }

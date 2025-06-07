@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.google.android.material.tabs.*;
 import java.lang.reflect.Method;
 import org.xedox.webaide.*;
 import org.xedox.webaide.activity.editor.*;
+import org.xedox.webaide.dialogs.ColorPickerDialog;
 import org.xedox.webaide.editor.*;
 import org.xedox.webaide.console.ConsoleLayout;
 import org.xedox.webaide.dialogs.FileNotSavedDialog;
@@ -28,6 +30,7 @@ import org.xedox.webaide.io.*;
 import java.util.*;
 
 public class EditorActivity extends BaseActivity {
+
     private static final String TAG = "EditorActivity", KEY_OPEN_FILES = "open_files";
     private TabLayout tabLayout;
     private ViewPager2 editorPager;
@@ -73,7 +76,6 @@ public class EditorActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar()
                     .setSubtitle(project != null ? project.name : getString(R.string.app_name));
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         editorPager.setAdapter(editorAdapter);
         new TabLayoutMediator(
@@ -107,7 +109,7 @@ public class EditorActivity extends BaseActivity {
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
-                        setToolbarTitle(getString(R.string.app_name));
+                        setToolbarTitle(project.name);
                     }
                 });
 
@@ -132,6 +134,7 @@ public class EditorActivity extends BaseActivity {
                     tabLayout.setVisibility(hasItems ? View.VISIBLE : View.GONE);
                     undoButton.setVisibility(hasItems ? View.VISIBLE : View.GONE);
                     redoButton.setVisibility(hasItems ? View.VISIBLE : View.GONE);
+                    updateMenu(hasItems, hasItems);
                 });
         editorAdapter.change();
 
@@ -183,14 +186,42 @@ public class EditorActivity extends BaseActivity {
                         EditorFragment fragment = editorAdapter.getFragments().get(position);
                         if (fragment != null) fragment.save();
                         editorAdapter.removeFile(position);
+                        updateMenu();
+                    }
+                    if (item.getItemId() == R.id.remove_all) {
+                        editorAdapter.saveAll();
+                        editorAdapter.clear();
+                        updateMenu();
                     }
                 });
     }
 
+    private MenuItem format, save;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editor, menu);
+
+        format = menu.findItem(R.id.format);
+        save = menu.findItem(R.id.save);
+
+        updateMenu(false, false);
         return true;
+    }
+
+    public void updateMenu(boolean formatVisible, boolean saveVisible) {
+        if (format != null) {
+            format.setVisible(formatVisible);
+            if(formatVisible) format.setEnabled(getCurrentFragment().canFormat());
+        }
+        if (save != null) {
+            save.setVisible(saveVisible);
+            if(saveVisible) save.setEnabled(!getCurrentFragment().isSaved());
+        }
+    }
+    
+    public void updateMenu() {
+        updateMenu(format.isVisible(), save.isVisible());
     }
 
     @Override
@@ -208,11 +239,18 @@ public class EditorActivity extends BaseActivity {
             return true;
         } else if (id == R.id.save) {
             editorAdapter.saveAll();
+            updateMenu();
             return true;
         } else if (id == android.R.id.home) {
             finish();
             return true;
-        } else if (id == R.id.settings) {
+        } else if (id == R.id.color_picker) {
+            ColorPickerDialog.show(this);
+            return true;
+        } else if (id == R.id.format) {
+            getCurrentFragment().format();
+            return true;
+        }else if (id == R.id.settings) {
             startActivity(
                     new Intent(this, SettingsActivity.class)
                             .putExtra("project_name", project.name));

@@ -26,7 +26,12 @@ public class SoraEditor extends CodeEditor implements IEditor {
         init();
     }
 
-    private void init() {
+    public SoraEditor(Context context, AttributeSet attrs, int defstyle) {
+        super(context, attrs, defstyle);
+        init();
+    }
+
+    protected void init() {
         SharedPreferences m = PreferenceManager.getDefaultSharedPreferences(getContext());
         String fontS = m.getString("editor_typeface", "jetbrainsmono-bold");
 

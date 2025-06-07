@@ -36,7 +36,7 @@ public class GitAddDialog {
 
         nameF.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.git_add,
                 (dialog, which) -> {
@@ -55,7 +55,7 @@ public class GitAddDialog {
                             console.printError(R.string.git_add_failed, e);
                         }
                     }
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

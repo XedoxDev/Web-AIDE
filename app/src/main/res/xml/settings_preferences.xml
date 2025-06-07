@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen 
+<androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -20,14 +20,22 @@
             android:entryValues="@array/non_printable_values"
             android:defaultValue="@array/non_printable_default" />
 
+        <org.xedox.webaide.preference.MaterialEditTextPreference
+            android:key="editor_tab_size"
+            android:title="@string/tab_size"
+            android:summary="@string/tab_size"
+            android:inputType="number"
+            android:defaultValue="4" />
+
         <SwitchPreferenceCompat
             android:key="line_numbers"
-            android:title="@string/line_numbers" 
-            android:defaultValue="true"/>
+            android:title="@string/line_numbers"
+            android:defaultValue="true" />
+
         <SwitchPreferenceCompat
             android:key="block_line"
-            android:title="@string/block_line" 
-            android:defaultValue="false"/>
+            android:title="@string/block_line"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

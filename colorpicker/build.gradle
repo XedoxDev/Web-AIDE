@@ -1,0 +1,32 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'org.xedox.colorpicker'
+    compileSdk 36
+    
+    defaultConfig {
+        minSdk 21
+        targetSdk 36
+        versionCode 1
+        versionName "0.0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation("com.google.android.material:material:$material")
+    implementation("androidx.appcompat:appcompat:$app_compat")
+}

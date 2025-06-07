@@ -37,7 +37,7 @@ public class GitRemoteDialog {
         TextView errorMessage = builder.findViewById(R.id.error_message);
         urlF.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.git_remote,
                 (dialog, which) -> {
@@ -49,6 +49,7 @@ public class GitRemoteDialog {
                     if (isCorrectedLink(url)) {
                         errorMessage.setVisibility(View.VISIBLE);
                         errorMessage.setText(R.string.url_repo_not_corrected);
+                        return;
                     } else {
                         errorMessage.setVisibility(View.GONE);
                     }
@@ -59,7 +60,7 @@ public class GitRemoteDialog {
                         err.printStackTrace();
                         if(console!=null)console.printError(R.string.git_remote_failed, err);
                     }
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();

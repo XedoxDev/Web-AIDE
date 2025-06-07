@@ -12,7 +12,7 @@
     "prefix": "display",
     "description": "CSS Display Property",
     "body": [
-      "display: ${1|block,inline,inline-block,flex,grid,none|};"
+      "display: ${1|none,block,inline,inline-block,flex,grid,table,inline-flex,inline-grid,contents,flow-root|};"
     ]
   },
   {
@@ -26,121 +26,498 @@
     "prefix": "margin",
     "description": "CSS Margin Property",
     "body": [
-      "margin: ${1:value};"
+      "margin: ${1:0} ${2:0} ${3:0} ${4:0};"
     ]
   },
   {
     "prefix": "padding",
     "description": "CSS Padding Property",
     "body": [
-      "padding: ${1:value};"
+      "padding: ${1:0} ${2:0} ${3:0} ${4:0};"
     ]
   },
   {
     "prefix": "width",
     "description": "CSS Width Property",
     "body": [
-      "width: ${1:value};"
+      "width: ${1:100%};"
     ]
   },
   {
     "prefix": "height",
     "description": "CSS Height Property",
     "body": [
-      "height: ${1:value};"
+      "height: ${1:100%};"
+    ]
+  },
+  {
+    "prefix": "min-width",
+    "description": "CSS Min-Width Property",
+    "body": [
+      "min-width: ${1:0};"
+    ]
+  },
+  {
+    "prefix": "min-height",
+    "description": "CSS Min-Height Property",
+    "body": [
+      "min-height: ${1:0};"
+    ]
+  },
+  {
+    "prefix": "max-width",
+    "description": "CSS Max-Width Property",
+    "body": [
+      "max-width: ${1:100%};"
+    ]
+  },
+  {
+    "prefix": "max-height",
+    "description": "CSS Max-Height Property",
+    "body": [
+      "max-height: ${1:100%};"
     ]
   },
   {
     "prefix": "font-size",
     "description": "CSS Font Size Property",
     "body": [
-      "font-size: ${1:value};"
+      "font-size: ${1:16px};"
     ]
   },
   {
-    "prefix": "color",
-    "description": "CSS Color Property",
+    "prefix": "font-weight",
+    "description": "CSS Font Weight Property",
     "body": [
-      "color: ${1:color};"
+      "font-weight: ${1|normal,bold,bolder,lighter,100,200,300,400,500,600,700,800,900|};"
     ]
   },
   {
-    "prefix": "background",
-    "description": "CSS Background Property",
+    "prefix": "font-style",
+    "description": "CSS Font Style Property",
     "body": [
-      "background: ${1:color};"
-    ]
-  },
-  {
-    "prefix": "border",
-    "description": "CSS Border Property",
-    "body": [
-      "border: ${1:width} ${2|solid,dashed,dotted|} ${3:color};"
-    ]
-  },
-  {
-    "prefix": "text-align",
-    "description": "CSS Text Align Property",
-    "body": [
-      "text-align: ${1|left,center,right,justify|};"
-    ]
-  },
-  {
-    "prefix": "float",
-    "description": "CSS Float Property",
-    "body": [
-      "float: ${1|left,right,none|};"
-    ]
-  },
-  {
-    "prefix": "clear",
-    "description": "CSS Clear Property",
-    "body": [
-      "clear: ${1|both,left,right,none|};"
+      "font-style: ${1|normal,italic,oblique|};"
     ]
   },
   {
     "prefix": "font-family",
     "description": "CSS Font Family Property",
     "body": [
-      "font-family: ${1:font_name}, ${2:fallback_font};"
+      "font-family: ${1|Arial, Helvetica, sans-serif|'Courier New', monospace|Georgia, serif|'Times New Roman', Times, serif|Verdana, Geneva, sans-serif}, ${2:sans-serif};"
     ]
   },
   {
-    "prefix": "transition",
-    "description": "CSS Transition Property",
+    "prefix": "color",
+    "description": "CSS Color Property",
     "body": [
-      "transition: ${1:property} ${2:duration} ${3:timing_function};"
+      "color: ${1:#000};"
     ]
   },
   {
-    "prefix": "animation",
-    "description": "CSS Animation Property",
+    "prefix": "background",
+    "description": "CSS Background Property",
     "body": [
-      "animation: ${1:name} ${2:duration} ${3:timing_function} ${4:iteration_count};"
+      "background: ${1:#fff};"
     ]
   },
   {
-    "prefix": "transform",
-    "description": "CSS Transform Property",
+    "prefix": "background-color",
+    "description": "CSS Background Color Property",
     "body": [
-      "transform: ${1:translate(x, y)};"
+      "background-color: ${1:#fff};"
+    ]
+  },
+  {
+    "prefix": "background-image",
+    "description": "CSS Background Image Property",
+    "body": [
+      "background-image: url('${1:path/to/image}');"
+    ]
+  },
+  {
+    "prefix": "background-repeat",
+    "description": "CSS Background Repeat Property",
+    "body": [
+      "background-repeat: ${1|no-repeat,repeat,repeat-x,repeat-y,space,round|};"
+    ]
+  },
+  {
+    "prefix": "background-position",
+    "description": "CSS Background Position Property",
+    "body": [
+      "background-position: ${1:center} ${2:top};"
+    ]
+  },
+  {
+    "prefix": "background-size",
+    "description": "CSS Background Size Property",
+    "body": [
+      "background-size: ${1|cover,contain,auto,50% 50%|};"
+    ]
+  },
+  {
+    "prefix": "border",
+    "description": "CSS Border Property",
+    "body": [
+      "border: ${1:1px} ${2|solid,dashed,dotted,double,groove,ridge,inset,outset,none|} ${3:#000};"
+    ]
+  },
+  {
+    "prefix": "border-radius",
+    "description": "CSS Border Radius Property",
+    "body": [
+      "border-radius: ${1:4px};"
     ]
   },
   {
     "prefix": "box-shadow",
     "description": "CSS Box Shadow Property",
     "body": [
-      "box-shadow: ${1:horizontal_offset} ${2:vertical_offset} ${3:blur_radius} ${4:color};"
+      "box-shadow: ${1:0} ${2:0} ${3:5px} ${4:rgba(0, 0, 0, 0.3)};"
+    ]
+  },
+  {
+    "prefix": "text-align",
+    "description": "CSS Text Align Property",
+    "body": [
+      "text-align: ${1|left,center,right,justify,start,end|};"
+    ]
+  },
+  {
+    "prefix": "text-decoration",
+    "description": "CSS Text Decoration Property",
+    "body": [
+      "text-decoration: ${1|none,underline,overline,line-through,blink|};"
+    ]
+  },
+  {
+    "prefix": "text-transform",
+    "description": "CSS Text Transform Property",
+    "body": [
+      "text-transform: ${1|none,capitalize,uppercase,lowercase,full-width|};"
+    ]
+  },
+  {
+    "prefix": "line-height",
+    "description": "CSS Line Height Property",
+    "body": [
+      "line-height: ${1:1.5};"
+    ]
+  },
+  {
+    "prefix": "letter-spacing",
+    "description": "CSS Letter Spacing Property",
+    "body": [
+      "letter-spacing: ${1:normal};"
+    ]
+  },
+  {
+    "prefix": "word-spacing",
+    "description": "CSS Word Spacing Property",
+    "body": [
+      "word-spacing: ${1:normal};"
+    ]
+  },
+  {
+    "prefix": "white-space",
+    "description": "CSS White Space Property",
+    "body": [
+      "white-space: ${1|normal,nowrap,pre,pre-wrap,pre-line,break-spaces|};"
+    ]
+  },
+  {
+    "prefix": "overflow",
+    "description": "CSS Overflow Property",
+    "body": [
+      "overflow: ${1|visible,hidden,scroll,auto,clip|};"
+    ]
+  },
+  {
+    "prefix": "overflow-x",
+    "description": "CSS Overflow X Property",
+    "body": [
+      "overflow-x: ${1|visible,hidden,scroll,auto,clip|};"
+    ]
+  },
+  {
+    "prefix": "overflow-y",
+    "description": "CSS Overflow Y Property",
+    "body": [
+      "overflow-y: ${1|visible,hidden,scroll,auto,clip|};"
+    ]
+  },
+  {
+    "prefix": "float",
+    "description": "CSS Float Property",
+    "body": [
+      "float: ${1|left,right,none,inline-start,inline-end|};"
+    ]
+  },
+  {
+    "prefix": "clear",
+    "description": "CSS Clear Property",
+    "body": [
+      "clear: ${1|none,left,right,both,inline-start,inline-end|};"
+    ]
+  },
+  {
+    "prefix": "visibility",
+    "description": "CSS Visibility Property",
+    "body": [
+      "visibility: ${1|visible,hidden,collapse|};"
+    ]
+  },
+  {
+    "prefix": "opacity",
+    "description": "CSS Opacity Property",
+    "body": [
+      "opacity: ${1:1};"
+    ]
+  },
+  {
+    "prefix": "cursor",
+    "description": "CSS Cursor Property",
+    "body": [
+      "cursor: ${1|auto,default,pointer,text,move,not-allowed,help,wait,crosshair,progress,grab,grabbing,zoom-in,zoom-out|};"
+    ]
+  },
+  {
+    "prefix": "z-index",
+    "description": "CSS Z-Index Property",
+    "body": [
+      "z-index: ${1:0};"
+    ]
+  },
+  {
+    "prefix": "transition",
+    "description": "CSS Transition Property",
+    "body": [
+      "transition: ${1:all} ${2:0.3s} ${3:ease};"
+    ]
+  },
+  {
+    "prefix": "animation",
+    "description": "CSS Animation Property",
+    "body": [
+      "animation: ${1:name} ${2:1s} ${3:ease} ${4:infinite} ${5|normal,reverse,alternate,alternate-reverse|} ${6|none,forwards,backwards,both|} ${7:0s};"
+    ]
+  },
+  {
+    "prefix": "transform",
+    "description": "CSS Transform Property",
+    "body": [
+      "transform: ${1|translateX(0),translateY(0),translateZ(0),rotate(0deg),scale(1),skew(0deg),matrix(1, 0, 0, 1, 0, 0)|};"
+    ]
+  },
+  {
+    "prefix": "flex",
+    "description": "CSS Flex Property",
+    "body": [
+      "flex: ${1:1} ${2:1} ${3:auto};"
+    ]
+  },
+  {
+    "prefix": "flex-direction",
+    "description": "CSS Flex Direction Property",
+    "body": [
+      "flex-direction: ${1|row,row-reverse,column,column-reverse|};"
+    ]
+  },
+  {
+    "prefix": "flex-wrap",
+    "description": "CSS Flex Wrap Property",
+    "body": [
+      "flex-wrap: ${1|nowrap,wrap,wrap-reverse|};"
+    ]
+  },
+  {
+    "prefix": "justify-content",
+    "description": "CSS Justify Content Property",
+    "body": [
+      "justify-content: ${1|flex-start,flex-end,center,space-between,space-around,space-evenly|};"
+    ]
+  },
+  {
+    "prefix": "align-items",
+    "description": "CSS Align Items Property",
+    "body": [
+      "align-items: ${1|flex-start,flex-end,center,baseline,stretch|};"
+    ]
+  },
+  {
+    "prefix": "align-content",
+    "description": "CSS Align Content Property",
+    "body": [
+      "align-content: ${1|flex-start,flex-end,center,space-between,space-around,stretch|};"
+    ]
+  },
+  {
+    "prefix": "grid",
+    "description": "CSS Grid Property",
+    "body": [
+      "display: grid;",
+      "grid-template-columns: ${1:1fr} ${2:1fr};",
+      "grid-template-rows: ${3:auto} ${4:auto};",
+      "gap: ${5:10px};"
+    ]
+  },
+  {
+    "prefix": "grid-template-columns",
+    "description": "CSS Grid Template Columns Property",
+    "body": [
+      "grid-template-columns: ${1:repeat(3, 1fr)};"
+    ]
+  },
+  {
+    "prefix": "grid-template-rows",
+    "description": "CSS Grid Template Rows Property",
+    "body": [
+      "grid-template-rows: ${1:repeat(3, auto)};"
+    ]
+  },
+  {
+    "prefix": "gap",
+    "description": "CSS Gap Property",
+    "body": [
+      "gap: ${1:10px};"
+    ]
+  },
+  {
+    "prefix": "object-fit",
+    "description": "CSS Object Fit Property",
+    "body": [
+      "object-fit: ${1|fill,contain,cover,none,scale-down|};"
+    ]
+  },
+  {
+    "prefix": "object-position",
+    "description": "CSS Object Position Property",
+    "body": [
+      "object-position: ${1:50%} ${2:50%};"
+    ]
+  },
+  {
+    "prefix": "resize",
+    "description": "CSS Resize Property",
+    "body": [
+      "resize: ${1|none,both,horizontal,vertical,block,inline|};"
+    ]
+  },
+  {
+    "prefix": "user-select",
+    "description": "CSS User Select Property",
+    "body": [
+      "user-select: ${1|auto,none,text,all|};"
+    ]
+  },
+  {
+    "prefix": "pointer-events",
+    "description": "CSS Pointer Events Property",
+    "body": [
+      "pointer-events: ${1|auto,none|};"
+    ]
+  },
+  {
+    "prefix": "scroll-behavior",
+    "description": "CSS Scroll Behavior Property",
+    "body": [
+      "scroll-behavior: ${1|auto,smooth|};"
+    ]
+  },
+  {
+    "prefix": "clip-path",
+    "description": "CSS Clip Path Property",
+    "body": [
+      "clip-path: ${1|circle(),ellipse(),polygon(...)|};"
+    ]
+  },
+  {
+    "prefix": "filter",
+    "description": "CSS Filter Property",
+    "body": [
+      "filter: ${1|blur(0),brightness(1),contrast(1),grayscale(0),hue-rotate(0),invert(0),opacity(1),saturate(1),sepia(0),drop-shadow(0 0 0 #000)|};"
+    ]
+  },
+  {
+    "prefix": "backdrop-filter",
+    "description": "CSS Backdrop Filter Property",
+    "body": [
+      "backdrop-filter: ${1|blur(0),brightness(1),contrast(1),grayscale(0),hue-rotate(0),invert(0),opacity(1),saturate(1),sepia(0)|};"
+    ]
+  },
+  {
+    "prefix": "mix-blend-mode",
+    "description": "CSS Mix Blend Mode Property",
+    "body": [
+      "mix-blend-mode: ${1|normal,multiply,screen,overlay,darken,lighten,color-dodge,color-burn,hard-light,soft-light,difference,exclusion,hue,saturation,color,luminosity|};"
+    ]
+  },
+  {
+    "prefix": "aspect-ratio",
+    "description": "CSS Aspect Ratio Property",
+    "body": [
+      "aspect-ratio: ${1:16/9};"
     ]
   },
   {
     "prefix": "media",
     "description": "CSS Media Query",
     "body": [
-      "@media (${1:screen and (max-width: 768px)}) {",
+      "@media (${1|screen,print,all|} and (${2|max-width,min-width,max-height,min-height,orientation,aspect-ratio|}: ${3:value})) {",
       "\t${0}",
       "}"
+    ]
+  },
+  {
+    "prefix": "keyframes",
+    "description": "CSS Keyframes Animation",
+    "body": [
+      "@keyframes ${1:name} {",
+      "\t0% { ${2} }",
+      "\t100% { ${3} }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "var",
+    "description": "CSS Custom Property (Variable)",
+    "body": [
+      "--${1:name}: ${2:value};"
+    ]
+  },
+  {
+    "prefix": "calc",
+    "description": "CSS Calc Function",
+    "body": [
+      "calc(${1:100%} - ${2:20px})"
+    ]
+  },
+  {
+    "prefix": "attr",
+    "description": "CSS Attr Function",
+    "body": [
+      "attr(${1:attribute-name})"
+    ]
+  },
+  {
+    "prefix": "linear-gradient",
+    "description": "CSS Linear Gradient",
+    "body": [
+      "background: linear-gradient(${1|to right,to left,to bottom,to top,45deg,-45deg|}, ${2:#000}, ${3:#fff});"
+    ]
+  },
+  {
+    "prefix": "radial-gradient",
+    "description": "CSS Radial Gradient",
+    "body": [
+      "background: radial-gradient(${1:circle}, ${2:#000}, ${3:#fff});"
+    ]
+  },
+  {
+    "prefix": "conic-gradient",
+    "description": "CSS Conic Gradient",
+    "body": [
+      "background: conic-gradient(${1:from 0deg}, ${2:#000}, ${3:#fff});"
     ]
   }
 ]

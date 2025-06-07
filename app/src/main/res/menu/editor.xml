@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/run"
         android:title="@string/run"
         android:icon="@drawable/run"
         android:orderInCategory="100"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:iconTint="@color/run_icon" />
 
     <item
@@ -15,8 +16,8 @@
         android:title="@string/save"
         android:icon="@drawable/save"
         android:orderInCategory="110"
-        app:showAsAction="always" />
-    
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/git"
         android:title="@string/git"
@@ -31,13 +32,13 @@
                 android:title="@string/git_init"
                 android:icon="@drawable/folder_plus"
                 android:orderInCategory="10" />
-                
+
             <item
                 android:id="@+id/git_remote"
                 android:title="@string/git_remote"
                 android:icon="@drawable/cloud_config"
                 android:orderInCategory="20" />
-                
+
             <item
                 android:id="@+id/git_auth"
                 android:title="@string/git_auth"
@@ -49,7 +50,7 @@
                 android:title="@string/git_add"
                 android:icon="@drawable/plus"
                 android:orderInCategory="40" />
-                
+
             <item
                 android:id="@+id/git_commit"
                 android:title="@string/git_commit"
@@ -61,13 +62,13 @@
                 android:title="@string/git_push"
                 android:icon="@drawable/send"
                 android:orderInCategory="60" />
-                
+
             <item
                 android:id="@+id/git_pull"
                 android:title="@string/git_pull"
                 android:icon="@drawable/download"
                 android:orderInCategory="70" />
-            
+
             <item
                 android:id="@+id/git_status"
                 android:title="@string/git_status"
@@ -81,6 +82,19 @@
         android:title="@string/settings"
         android:icon="@drawable/settings"
         android:orderInCategory="130"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/format"
+        android:title="@string/format"
+        android:icon="@drawable/format_text"
+        android:orderInCategory="140"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/color_picker"
+        android:title="@string/color_picker"
+        android:orderInCategory="150"
         app:showAsAction="ifRoom" />
 
 </menu>

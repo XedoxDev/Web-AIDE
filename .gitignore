@@ -4,6 +4,7 @@
 
 /app/build
 /filetree/build
+/colorpicker/build
 
 *.jks
 *.keystore

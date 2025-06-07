@@ -470,6 +470,47 @@
             "settings": {
                 "foreground": "#FFC66D"
             }
+        },
+        // my colors next:
+        {
+            "name": "log.err",
+            "scope": "log.err",
+            "settings": {
+                "background": "#F44336",
+                "foreground": "#F44336"
+            }
+        },
+        {
+            "name": "log.info",
+            "scope": "log.info",
+            "settings": {
+                "foreground": "#4CAF50",
+                "background": "#4CAF50"
+            }
+        },
+        {
+            "name": "log.warn",
+            "scope": "log.warn",
+            "settings": {
+                "background": "#FFCA28",
+                "foreground": "#FFCA28"
+            }
+        },
+        {
+            "name": "log.debug",
+            "scope": "log.debug",
+            "settings": {
+                "background": "#FFCA28",
+                "foreground": "#FFCA28"
+            }
+        },
+        {
+            "name": "log.time",
+            "scope": "log.time",
+            "settings": {
+                "background": "#5050BB",
+                "foreground": "#5050BB"
+            }
         }
     ]
 }

@@ -29,7 +29,7 @@ public class NewFolderDialog {
 
         folderNameEditText.requestFocus();
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.create,
                 (dialog, which) -> {
@@ -39,23 +39,23 @@ public class NewFolderDialog {
                     if (folderName.isEmpty()) {
                         errorMessageTextView.setText(R.string.folder_name_empty);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     if (folder.exists()) {
                         errorMessageTextView.setText(R.string.folder_exists);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
 
                     if (folder.mkdirs()) {
                         Node newNode = new Node(folder.getAbsolutePath());
                         if (parent.isOpen) adapter.addNode(parent, newNode);
-                        return EXIT;
+                        dialog.dismiss();
                     } else {
                         errorMessageTextView.setText(R.string.folder_creation_failed);
                         errorMessageTextView.setVisibility(View.VISIBLE);
-                        return RETURN;
+                        return;
                     }
                 });
 

@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import androidx.multidex.MultiDexApplication;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
@@ -18,12 +21,15 @@ import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import java.io.File;
 import org.xedox.webaide.activity.BaseActivity;
 import static org.xedox.webaide.ProjectManager.*;
+import org.xedox.webaide.format.IFormatter;
 
 public class IDE extends MultiDexApplication {
 
     public static File HOME;
     public static File PROJECTS_PATH;
     public static Context context;
+
+    public static int TAB_SIZE = 4;
 
     @Override
     public void onCreate() {
@@ -34,6 +40,10 @@ public class IDE extends MultiDexApplication {
     private static boolean isInit = false;
 
     public static void init(BaseActivity activity) {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(activity);
+        String tabSizeStr = pref.getString("editor_tab_size", "4");
+        TAB_SIZE = Integer.parseInt(tabSizeStr);
         if (isInit) return;
         Context context = activity.getApplicationContext();
         HOME = context.getFilesDir();

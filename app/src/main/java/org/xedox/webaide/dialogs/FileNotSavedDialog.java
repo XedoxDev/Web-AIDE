@@ -34,7 +34,7 @@ public class FileNotSavedDialog {
         builder.setTitle(R.string.exit);
         builder.setMessage(R.string.files_not_saved);
 
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> EXIT);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(
                 R.string.ok,
                 (dialog, which) -> {
@@ -43,7 +43,7 @@ public class FileNotSavedDialog {
                         activity.saveAllFiles();
                         activity.finish(false);
                     }
-                    return EXIT;
+                    dialog.dismiss();
                 });
 
         builder.show();
