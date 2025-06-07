@@ -24,7 +24,7 @@ public class WhatsNewDialog {
 
     private static final String TAG = "WhatsNewDialog";
     private static final String DEFAULT_LANGUAGE = "EN";
-    private static final String CONTENT_FILE = "whats_new.txt";
+    private static final String CONTENT_FILE = "whats_new.md";
     private static final Pattern CONTENT_PATTERN = 
         Pattern.compile("^([A-Z]{2}):(.*?)END$", Pattern.MULTILINE | Pattern.DOTALL);
 
