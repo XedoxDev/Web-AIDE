@@ -1,26 +1,23 @@
 package org.xedox.colorpicker;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 
 public class ColorSquareView extends View {
-
-    private Paint paint, selector;
-    private float[] hsv = new float[] {0f, 1f, 1f};
+    
+    private Paint gradientPaint = new Paint();
+    private Paint selectorPaint = new Paint();
     private int baseColor = Color.RED;
-    private Bitmap bitmap;
-    private int selectedColor;
-    private float touchX = 0, touchY = 0;
-    private OnColorSelectedListener colorSelectedListener;
+    private int currentColor;
+    private float selectorX, selectorY;
+    private OnColorChangeListener listener;
+    private Bitmap colorMap;
+    private float[] hsv = new float[3];
 
-    public interface OnColorSelectedListener {
-        void onColorSelected(int color);
+    public interface OnColorChangeListener {
+        void onColorChanged(int color);
     }
 
     public ColorSquareView(Context context) {
@@ -33,94 +30,87 @@ public class ColorSquareView extends View {
         init();
     }
 
-    public ColorSquareView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
     private void init() {
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.FILL);
-
-        selector = new Paint(Paint.ANTI_ALIAS_FLAG);
-        selector.setStyle(Paint.Style.STROKE);
-        selector.setStrokeWidth(4f);
-        selector.setColor(Color.WHITE);
+        gradientPaint.setAntiAlias(true);
+        selectorPaint.setStyle(Paint.Style.STROKE);
+        selectorPaint.setStrokeWidth(4f);
+        selectorPaint.setColor(Color.WHITE);
+        updateColor(baseColor);
     }
 
-    public void setBaseColor(int color) {
-        this.baseColor = color;
+    public void updateColor(int color) {
+        baseColor = color;
         Color.colorToHSV(baseColor, hsv);
-        if (getWidth() > 0 && getHeight() > 0) {
-            createBitmap();
-        }
+        createColorMap();
+        updateCurrentColor();
         invalidate();
     }
 
-    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
-        this.colorSelectedListener = listener;
-    }
-
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (w > 0 && h > 0) {
-            createBitmap();
-            touchX = w / 2f;
-            touchY = h / 2f;
-        }
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
+        selectorX = w / 2f;
+        selectorY = h / 2f;
+        createColorMap();
+        updateCurrentColor();
     }
 
-    private void createBitmap() {
-        bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawColorSquare(canvas, getWidth(), getHeight());
-        updateSelectedColor();
+    private void createColorMap() {
+        int w = getWidth();
+        int h = getHeight();
+        if (w <= 0 || h <= 0) return;
+
+        colorMap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(colorMap);
+        
+        LinearGradient satGradient = new LinearGradient(
+                0, 0, w, 0,
+                Color.HSVToColor(new float[]{hsv[0], 0, 1}),
+                Color.HSVToColor(new float[]{hsv[0], 1, 1}),
+                Shader.TileMode.CLAMP);
+        Paint satPaint = new Paint();
+        satPaint.setShader(satGradient);
+        canvas.drawRect(0, 0, w, h, satPaint);
+
+        LinearGradient valGradient = new LinearGradient(
+                0, 0, 0, h,
+                0x00000000,
+                0xFF000000,
+                Shader.TileMode.CLAMP);
+        Paint valPaint = new Paint();
+        valPaint.setShader(valGradient);
+        canvas.drawRect(0, 0, w, h, valPaint);
     }
 
-    private void drawColorSquare(Canvas canvas, int width, int height) {
-        final int STEP = 4;
-        for (int x = 0; x < width; x += STEP) {
-            for (int y = 0; y < height; y += STEP) {
-                float saturation = (float) x / width;
-                float value = 1f - (float) y / height;
-                int color = Color.HSVToColor(new float[] {hsv[0], saturation, value});
-                paint.setColor(color);
-                canvas.drawRect(x, y, x + STEP, y + STEP, paint);
-            }
-        }
-    }
-
-    private void updateSelectedColor() {
-        if (bitmap != null && touchX >= 0 && touchY >= 0 
-                && touchX < getWidth() && touchY < getHeight()) {
-            selectedColor = bitmap.getPixel((int) touchX, (int) touchY);
-            if (colorSelectedListener != null) {
-                colorSelectedListener.onColorSelected(selectedColor);
-            }
+    private void updateCurrentColor() {
+        if (colorMap != null && selectorX >= 0 && selectorY >= 0) {
+            currentColor = colorMap.getPixel((int) selectorX, (int) selectorY);
+            if (listener != null) listener.onColorChanged(currentColor);
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (bitmap != null) {
-            canvas.drawBitmap(bitmap, 0, 0, paint);
-            canvas.drawCircle(touchX, touchY, 20, selector);
+        if (colorMap != null) {
+            canvas.drawBitmap(colorMap, 0, 0, gradientPaint);
+            canvas.drawCircle(selectorX, selectorY, 20, selectorPaint);
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                touchX = Math.max(0, Math.min(event.getX(), getWidth() - 1));
-                touchY = Math.max(0, Math.min(event.getY(), getHeight() - 1));
-                updateSelectedColor();
-                invalidate();
-                return true;
-        }
-        return super.onTouchEvent(event);
+        selectorX = Math.max(0, Math.min(event.getX(), getWidth() - 1));
+        selectorY = Math.max(0, Math.min(event.getY(), getHeight() - 1));
+        updateCurrentColor();
+        invalidate();
+        return true;
+    }
+
+    public void setOnColorSelectedListener(OnColorChangeListener l) {
+        listener = l;
+    }
+
+    public int getCurrentColor() {
+        return currentColor;
     }
 }

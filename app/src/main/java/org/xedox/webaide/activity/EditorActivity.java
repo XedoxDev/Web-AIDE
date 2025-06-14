@@ -109,7 +109,7 @@ public class EditorActivity extends BaseActivity {
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
-                        setToolbarTitle(project.name);
+                        setToolbarTitle(getString(R.string.app_name));
                     }
                 });
 

@@ -1,36 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
 
     <View
-        android:id="@+id/selected_color"
-        android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_width="match_parent"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/selected_color" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_width="match_parent"
         android:layout_marginBottom="16dp">
 
         <org.xedox.colorpicker.ColorSquareView
-            android:id="@+id/color_square"
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@id/color_line" />
+            android:layout_toStartOf="@id/color_line"
+            android:id="@+id/color_square" />
 
         <org.xedox.colorpicker.ColorLineView
-            android:id="@+id/color_line"
-            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true" />
+            android:layout_width="40dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/color_line" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            app:counterEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:prefixText="#"
+            app:counterMaxLength="7">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="16sp"
+                android:maxLength="7"
+                android:inputType="textCapCharacters"
+                android:id="@+id/hex_value" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginEnd="8dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_weight="1"
+                app:prefixText="R:">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:id="@+id/r_value" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginEnd="8dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_weight="1"
+                app:prefixText="G:">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:id="@+id/g_value" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_weight="1"
+                app:prefixText="B:">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:id="@+id/b_value" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,8 +1,7 @@
-/.androidide/
-/.gradle/
-/build/
-/app/build/
-/filetree/build/
-/colorpicker/build/
+/.androidide/editor
+/.gradle
+/.idea
+/build
 *.jks
 *.keystore
+local.properties

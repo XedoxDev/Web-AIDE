@@ -1,5 +1,9 @@
 org.xedox.colorpicker
+id b_value
 id color_line
 id color_square
+id g_value
+id hex_value
+id r_value
 id selected_color
 layout color_picker_layout

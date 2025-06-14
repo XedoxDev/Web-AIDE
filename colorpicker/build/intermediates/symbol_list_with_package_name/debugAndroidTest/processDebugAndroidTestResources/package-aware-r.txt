@@ -3709,6 +3709,7 @@ id autoCompleteToStart
 id autoHide
 id autoLimit
 id availableSpace
+id b_value
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -3823,6 +3824,7 @@ id forever
 id fragment_container_view_tag
 id frost
 id fullscreen_header
+id g_value
 id ghost_view
 id ghost_view_holder
 id gone
@@ -3832,6 +3834,7 @@ id group_divider
 id grouping
 id groups
 id header_title
+id hex_value
 id hidden
 id hide_ime_id
 id hideable
@@ -3982,6 +3985,7 @@ id postLayout
 id pressed
 id progress_circular
 id progress_horizontal
+id r_value
 id radio
 id ratio
 id rectangles

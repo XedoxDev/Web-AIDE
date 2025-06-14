@@ -61,7 +61,7 @@ public class RunActivity extends BaseActivity {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        settings.setDatabaseEnabled(true);
+        //settings.setDatabaseEnabled(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
