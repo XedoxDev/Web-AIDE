@@ -142,4 +142,5 @@
     <string name="tab_size">Tab size</string>
     <string name="remove_all">Remove all</string>
     <string name="color_picker">Color picker</string>
+    <string name="projects_empty_hint">You no have projects.</string>
 </resources>

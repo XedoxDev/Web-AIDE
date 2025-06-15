@@ -1,4 +1,4 @@
-package org.xedox.webaide.adapters;
+package org.xedox.webaide.project;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,13 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import org.xedox.webaide.R;
-import org.xedox.webaide.OverflowMenu;
-import org.xedox.webaide.Project;
+import org.xedox.webaide.util.OverflowMenu;
+import org.xedox.webaide.project.Project;
 import java.util.ArrayList;
 import java.util.List;
-import org.xedox.webaide.ProjectManager;
+import org.xedox.webaide.project.ProjectManager;
 import org.xedox.webaide.dialogs.RenameProjectDialog;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.util.io.IFile;
 
 public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> {
 
@@ -23,6 +23,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
     private final LayoutInflater inflater;
     private OnProjectClickListener clickListener;
     private final Context context;
+    private OnChangeListener onChangeListener;
 
     public ProjectsAdapter(@NonNull Context context) {
         this.inflater = LayoutInflater.from(context);
@@ -53,11 +54,18 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
     public int getItemCount() {
         return projects.size();
     }
+    
+    public void change() {
+        if (onChangeListener != null) {
+            onChangeListener.onChange();
+        }
+    }
 
     public void updateProjects(@NonNull List<Project> newProjects) {
         projects.clear();
         projects.addAll(newProjects);
         notifyDataSetChanged();
+        change();
     }
 
     public void appendProject(@NonNull Project project) {
@@ -70,6 +78,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
             projects.remove(position);
             notifyItemRemoved(position);
         }
+        change();
     }
 
     class ProjectViewHolder extends RecyclerView.ViewHolder {
@@ -121,6 +130,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
     public void add(Project project) {
         projects.add(project);
         notifyItemInserted(getItemCount() - 1);
+        change();
     }
 
     public void remove(Project project) {
@@ -132,10 +142,24 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
             f.removeDir();
         }
         projects.remove(project);
+        change();
     }
 
     public void rename(int pos, String name) {
         projects.get(pos).name = name;
         notifyItemChanged(pos);
+        change();
+    }
+
+    public OnChangeListener getOnChangeListener() {
+        return onChangeListener;
+    }
+
+    public void setOnChangeListener(OnChangeListener onChangeListener) {
+        this.onChangeListener = onChangeListener;
+    }
+
+    public interface OnChangeListener {
+        void onChange();
     }
 }

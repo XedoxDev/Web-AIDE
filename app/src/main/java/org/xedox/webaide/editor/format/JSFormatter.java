@@ -1,4 +1,4 @@
-package org.xedox.webaide.format;
+package org.xedox.webaide.editor.format;
 
 import com.google.javascript.jscomp.Compiler;
 import com.google.javascript.jscomp.CompilerOptions;

@@ -1,4 +1,4 @@
-package org.xedox.webaide.preference;
+package org.xedox.webaide.util.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;

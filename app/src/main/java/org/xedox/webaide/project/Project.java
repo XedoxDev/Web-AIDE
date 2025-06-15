@@ -1,8 +1,9 @@
-package org.xedox.webaide;
+package org.xedox.webaide.project;
 
 import java.io.File;
-import org.xedox.webaide.io.FileX;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.IDE;
+import org.xedox.webaide.util.io.FileX;
+import org.xedox.webaide.util.io.IFile;
 
 public class Project {
     public String name;

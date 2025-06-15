@@ -3,14 +3,12 @@ package org.xedox.webaide.dialogs;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.view.View;
-import android.widget.Toast;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.xedox.colorpicker.ColorPickerView;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.R;
 
 public class ColorPickerDialog {
+    
     private final BaseActivity context;
     private DialogBuilder builder;
 

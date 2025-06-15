@@ -1,27 +1,25 @@
 package org.xedox.webaide.activity.editor;
 
-import android.content.Context;
 import android.view.View;
 
 import org.xedox.filetree.utils.Node;
 import org.xedox.filetree.widget.FileTreeView;
-import org.xedox.webaide.Project;
+import org.xedox.webaide.project.Project;
 import org.xedox.webaide.R;
 import org.xedox.webaide.dialogs.DialogBuilder;
 import org.xedox.webaide.editor.EditorAdapter;
 import org.xedox.webaide.console.ConsoleLayout;
 import org.xedox.webaide.IDE;
-import org.xedox.webaide.OverflowMenu;
+import org.xedox.webaide.util.OverflowMenu;
 import org.xedox.webaide.activity.EditorActivity;
 import org.xedox.webaide.dialogs.NewFileDialog;
 import org.xedox.webaide.dialogs.NewFolderDialog;
 import org.xedox.webaide.dialogs.RenameFileDialog;
-import org.xedox.webaide.git.GitManager;
-import org.xedox.webaide.io.FileX;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.util.GitManager;
+import org.xedox.webaide.util.io.FileX;
+import org.xedox.webaide.util.io.IFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

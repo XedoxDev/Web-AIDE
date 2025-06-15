@@ -7,11 +7,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,8 +22,11 @@ import org.xedox.webaide.editor.*;
 import org.xedox.webaide.console.ConsoleLayout;
 import org.xedox.webaide.dialogs.FileNotSavedDialog;
 import org.xedox.webaide.editor.EditorFragment;
-import org.xedox.webaide.git.GitManager;
-import org.xedox.webaide.io.*;
+import org.xedox.webaide.project.Project;
+import org.xedox.webaide.util.HighlightText;
+import org.xedox.webaide.util.OverflowMenu;
+import org.xedox.webaide.util.GitManager;
+import org.xedox.webaide.util.io.*;
 import java.util.*;
 
 public class EditorActivity extends BaseActivity {

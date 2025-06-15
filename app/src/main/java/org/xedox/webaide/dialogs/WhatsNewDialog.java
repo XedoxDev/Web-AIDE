@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.activity.EditorActivity;
 import org.xedox.webaide.R;
-import org.xedox.webaide.io.Assets;
+import org.xedox.webaide.util.io.Assets;
 
 import static org.xedox.webaide.dialogs.DialogBuilder.*;
 

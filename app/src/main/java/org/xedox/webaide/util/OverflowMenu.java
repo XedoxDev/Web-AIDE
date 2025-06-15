@@ -1,4 +1,4 @@
-package org.xedox.webaide;
+package org.xedox.webaide.util;
 
 import android.content.Context;
 import android.view.MenuInflater;

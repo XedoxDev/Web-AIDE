@@ -1,7 +1,6 @@
 package org.xedox.webaide;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import androidx.multidex.MultiDexApplication;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
@@ -20,8 +18,7 @@ import org.eclipse.tm4e.core.registry.IThemeSource;
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import java.io.File;
 import org.xedox.webaide.activity.BaseActivity;
-import static org.xedox.webaide.ProjectManager.*;
-import org.xedox.webaide.format.IFormatter;
+import static org.xedox.webaide.project.ProjectManager.*;
 
 public class IDE extends MultiDexApplication {
 

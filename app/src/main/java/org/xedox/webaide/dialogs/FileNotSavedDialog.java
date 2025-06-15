@@ -21,7 +21,7 @@ import org.xedox.filetree.widget.FileTreeAdapter;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.activity.EditorActivity;
 import org.xedox.webaide.R;
-import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.util.io.FileX;
 
 import static org.xedox.webaide.dialogs.DialogBuilder.*;
 

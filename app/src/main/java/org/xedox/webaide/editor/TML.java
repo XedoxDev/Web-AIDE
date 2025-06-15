@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.xedox.webaide.io.Assets;
+import org.xedox.webaide.util.io.Assets;
 
 public class TML extends TextMateLanguage {
     private static final String SNIPPET_FILE_FORMAT = "textmate/%s/%s-snippets.json";

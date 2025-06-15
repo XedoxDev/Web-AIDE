@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import android.widget.EditText;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 import android.app.Dialog;
@@ -20,7 +19,7 @@ import android.content.res.TypedArray;
 import androidx.preference.PreferenceFragmentCompat;
 import org.xedox.webaide.R;
 import org.xedox.webaide.dialogs.DialogBuilder;
-import org.xedox.webaide.preference.SettingsFragment;
+import org.xedox.webaide.util.preference.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
 

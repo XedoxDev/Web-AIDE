@@ -1,4 +1,4 @@
-package org.xedox.webaide.git;
+package org.xedox.webaide.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.xedox.webaide.Project;
+import org.xedox.webaide.project.Project;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,11 +1,9 @@
-package org.xedox.webaide.preference;
+package org.xedox.webaide.util.preference;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.preference.EditTextPreference;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.xedox.webaide.dialogs.DialogBuilder;
-import android.widget.LinearLayout;
 import android.util.TypedValue;
 
 public class MaterialEditTextPreference extends EditTextPreference {

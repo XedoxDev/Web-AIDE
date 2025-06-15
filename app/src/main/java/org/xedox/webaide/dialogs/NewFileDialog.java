@@ -23,13 +23,13 @@ import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.IDE;
 import org.xedox.webaide.activity.MainActivity;
 import org.xedox.webaide.R;
-import org.xedox.webaide.Project;
-import org.xedox.webaide.ProjectManager;
-import org.xedox.webaide.adapters.ProjectsAdapter;
-import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.project.Project;
+import org.xedox.webaide.project.ProjectManager;
+import org.xedox.webaide.project.ProjectsAdapter;
+import org.xedox.webaide.util.io.FileX;
 
 import static org.xedox.webaide.dialogs.DialogBuilder.*;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.util.io.IFile;
 
 public class NewFileDialog {
 

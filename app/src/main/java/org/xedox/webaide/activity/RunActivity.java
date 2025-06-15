@@ -12,13 +12,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import org.xedox.webaide.R;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import org.xedox.webaide.dialogs.DialogBuilder;
 
 public class RunActivity extends BaseActivity {
 
@@ -107,10 +105,10 @@ public class RunActivity extends BaseActivity {
     }
 
     private void showInDialog(String title, String content) {
-        new MaterialAlertDialogBuilder(this)
+        new DialogBuilder(this)
                 .setTitle(title)
                 .setMessage(content)
-                .setPositiveButton(R.string.ok, null)
+                .setPositiveButton(R.string.ok, (d, w) -> d.dismiss())
                 .show();
     }
 

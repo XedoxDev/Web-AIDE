@@ -4,7 +4,7 @@ import org.xedox.webaide.R;
 import org.xedox.webaide.activity.EditorActivity;
 import org.xedox.webaide.console.ConsoleLayout;
 import org.xedox.webaide.dialogs.*;
-import org.xedox.webaide.git.GitManager;
+import org.xedox.webaide.util.GitManager;
 import android.view.MenuItem;
 
 public class EditorGitManager {

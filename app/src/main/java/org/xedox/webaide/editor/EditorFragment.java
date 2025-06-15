@@ -28,9 +28,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.xedox.webaide.R;
 import org.xedox.webaide.activity.EditorActivity;
-import org.xedox.webaide.format.*;
-import org.xedox.webaide.io.FileX;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.editor.format.*;
+import org.xedox.webaide.util.io.FileX;
+import org.xedox.webaide.util.io.IFile;
 
 public class EditorFragment extends Fragment {
     private static final String ARG_FILE_PATH = "file_path";

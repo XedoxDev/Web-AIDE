@@ -1,4 +1,4 @@
-package org.xedox.webaide.io;
+package org.xedox.webaide.util.io;
 
 import java.io.File;
 import java.io.IOException;

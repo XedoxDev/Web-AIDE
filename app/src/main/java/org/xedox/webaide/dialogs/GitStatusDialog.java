@@ -22,8 +22,8 @@ import org.xedox.webaide.R;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.activity.EditorActivity;
 import org.xedox.webaide.console.ConsoleLayout;
-import org.xedox.webaide.git.GitManager;
-import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.util.GitManager;
+import org.xedox.webaide.util.io.FileX;
 
 import static org.xedox.webaide.dialogs.DialogBuilder.*;
 

@@ -1,8 +1,7 @@
-package org.xedox.webaide.format;
+package org.xedox.webaide.editor.format;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.xedox.webaide.IDE;
 
 public class HTMLFormatter implements IFormatter {
 

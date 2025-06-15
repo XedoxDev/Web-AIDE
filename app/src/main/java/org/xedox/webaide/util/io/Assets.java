@@ -1,4 +1,4 @@
-package org.xedox.webaide.io;
+package org.xedox.webaide.util.io;
 
 import android.content.Context;
 import java.io.BufferedInputStream;

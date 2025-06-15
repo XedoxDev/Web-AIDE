@@ -1,13 +1,13 @@
-package org.xedox.webaide;
+package org.xedox.webaide.project;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.xedox.webaide.activity.BaseActivity;
-import org.xedox.webaide.io.Assets;
-import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.util.io.FileX;
 import static org.xedox.webaide.IDE.*;
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.util.io.IFile;
+import org.xedox.webaide.R;
 
 public class ProjectManager {
 

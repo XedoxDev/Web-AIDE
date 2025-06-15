@@ -5,12 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import org.xedox.webaide.io.IFile;
+import org.xedox.webaide.util.io.IFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditorAdapter extends FragmentStateAdapter {
+    
     private List<EditorFragment> fragments = new ArrayList<>();
     private FragmentActivity activity;
     private OnChangeListener onChangeListener;
@@ -40,7 +41,6 @@ public class EditorAdapter extends FragmentStateAdapter {
     }
 
     public void change() {
-        notifyDataSetChanged();
         if (onChangeListener != null) {
             onChangeListener.onChange();
         }

@@ -1,7 +1,8 @@
 package org.xedox.webaide;
 
 import org.xedox.webaide.activity.BaseActivity;
-import org.xedox.webaide.adapters.ProjectsAdapter;
+import org.xedox.webaide.project.Project;
+import org.xedox.webaide.project.ProjectsAdapter;
 import java.util.concurrent.ExecutorService;
 import android.os.Handler;
 import org.xedox.webaide.dialogs.DialogBuilder;
@@ -12,10 +13,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.ProgressBar;
-import org.xedox.webaide.git.GitManager;
+import org.xedox.webaide.util.GitManager;
 import android.util.Log;
 import org.xedox.webaide.R;
-import org.xedox.webaide.io.FileX;
+import org.xedox.webaide.util.io.FileX;
 
 import static org.xedox.webaide.dialogs.DialogBuilder.*;
 

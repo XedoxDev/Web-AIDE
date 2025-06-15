@@ -8,7 +8,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.xedox.webaide.IDE;
 import org.xedox.webaide.R;
-import org.xedox.webaide.ProjectManager;
+import org.xedox.webaide.project.ProjectManager;
 
 import java.io.File;
 import java.util.Arrays;

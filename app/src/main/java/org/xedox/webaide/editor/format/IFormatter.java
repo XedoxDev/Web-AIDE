@@ -1,4 +1,5 @@
-package org.xedox.webaide.format;
+package org.xedox.webaide.editor.format;
+
 import org.xedox.webaide.IDE;
 
 public interface IFormatter {
