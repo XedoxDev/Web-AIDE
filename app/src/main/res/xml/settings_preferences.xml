@@ -4,15 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/code_editor">
-        <org.xedox.webaide.preference.MaterialListPreference
+        <org.xedox.webaide.util.preference.MaterialListPreference
             android:key="editor_typeface"
             android:title="@string/editor_typeface"
             android:entries="@array/typeface_entries"
             android:entryValues="@array/typeface_values"
             android:summary="@string/editor_typeface_summary"
-            android:defaultValue="jetbrainsmono-bold" />
+            android:defaultValue="jetbrainsmono-bold"
+            android:icon="@drawable/format_font" />
 
-        <org.xedox.webaide.preference.MaterialMultiSelectListPreference
+        <org.xedox.webaide.util.preference.MaterialMultiSelectListPreference
             android:key="non_printable_flags"
             android:title="@string/non_printable_title"
             android:summary="@string/non_printable_summary"
@@ -20,12 +21,13 @@
             android:entryValues="@array/non_printable_values"
             android:defaultValue="@array/non_printable_default" />
 
-        <org.xedox.webaide.preference.MaterialEditTextPreference
+        <org.xedox.webaide.util.preference.MaterialEditTextPreference
             android:key="editor_tab_size"
             android:title="@string/tab_size"
             android:summary="@string/tab_size"
             android:inputType="number"
-            android:defaultValue="4" />
+            android:defaultValue="4"
+            android:icon="@drawable/keyboard_tab" />
 
         <SwitchPreferenceCompat
             android:key="line_numbers"

@@ -43,7 +43,7 @@ public class IDE extends MultiDexApplication {
         TAB_SIZE = Integer.parseInt(tabSizeStr);
         if (isInit) return;
         Context context = activity.getApplicationContext();
-        HOME = context.getFilesDir();
+        HOME = context.getExternalFilesDir(null);
         HOME.mkdirs();
         PROJECTS_PATH = new File(HOME, "Projects");
         if (!PROJECTS_PATH.exists()) PROJECTS_PATH.mkdirs();

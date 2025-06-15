@@ -96,9 +96,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
         void bind(@NonNull Project project) {
             nameView.setText(project.name);
             pathView.setText(
-                    project.path
-                            .getFullPath()
-                            .replaceAll("/data/user/0/org.xedox.webaide/", "/data/"));
+                    project.path.toFile()
+                            .getAbsolutePath());
 
             more.setOnClickListener(
                     (v) -> {
@@ -119,7 +118,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
                     });
             itemView.setOnClickListener(
                     v -> {
-                        int position = getAdapterPosition();
+                        int position = getAbsoluteAdapterPosition();
                         if (position != RecyclerView.NO_POSITION && clickListener != null) {
                             clickListener.onProjectClick(project);
                         }

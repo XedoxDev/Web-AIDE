@@ -1,5 +1,15 @@
 EN:
 # What's New?  
+**WebDroid Update v0.0.4 (Build 4)**  
+
+### Improvements  
+- Optimize color picker
+END
+
+==== Previous updates ====
+
+EN:
+# What's New?  
 **WebDroid Update v0.0.3 (Build 3)**  
 
 ### New Features  
@@ -21,8 +31,6 @@ EN:
 - Update snippets
 - Update WhatsNew dialog
 END
-
-==== Previous updates ====
 
 EN:# What's New?  
 **WebDroid Update v0.0.2 (Build 2)**  

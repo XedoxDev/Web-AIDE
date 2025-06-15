@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.xedox.webaide.CloneRepositoryDialog;
+import org.xedox.webaide.dialogs.DialogBuilder;
 import org.xedox.webaide.util.HighlightText;
 import org.xedox.webaide.IDE;
 import org.xedox.webaide.project.ProjectManager;
@@ -91,5 +92,9 @@ public class MainActivity extends BaseActivity {
                     }
                 });
         projectsAdapter.change();
+        View toolbarTitle =toolbar.getChildAt(0);
+        toolbarTitle.setOnClickListener(v->{
+            new DialogBuilder(this).setTitle("You touch MY TITLE").setMessage("BRO, WHY YOU DO IT????").show();
+        });
     }
 }

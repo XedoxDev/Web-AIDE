@@ -22,9 +22,9 @@ public class ConsoleView extends SoraEditor {
     public static final String TYPE_DEBUG = "D";
     public static final String TYPE_INFO = "I";
 
-    private static final int TAG_MAX_LENGTH = 11;
+    private static final int TAG_MAX_LENGTH = 7;
     private static final String DEFAULT_PRINT_PATTERN = "[%s] %s %s %s\n";
-    private static final String DEFAULT_TAG = "Solar2Droid";
+    private static final String DEFAULT_TAG = "WebAIDE";
 
     private Content content;
     private final SimpleDateFormat timeFormat =
@@ -54,10 +54,8 @@ public class ConsoleView extends SoraEditor {
         } catch (Exception err) {
             err.printStackTrace();
         }
-
         setTextSizePx(30);
-        setContextClickable(true);
-        setClickable(false);
+        setSoftKeyboardEnabled(false);
     }
 
     public void printError(String text) {
@@ -95,7 +93,8 @@ public class ConsoleView extends SoraEditor {
             printStackTrace(cause);
         }
     }
-
+    
+    // its so naming, because earlier i use EditText ._."
     private void printColoredText(String text, String type) {
         if (text == null || type == null) return;
 
