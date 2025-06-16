@@ -3,6 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/application">
+        <org.xedox.webaide.util.preference.MaterialListPreference
+            android:key="dialog_type"
+            android:title="@string/dialog_type"
+            android:entries="@array/dialog_type_entries"
+            android:entryValues="@array/dialog_type_values"
+            android:defaultValue="Material3" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/code_editor">
         <org.xedox.webaide.util.preference.MaterialListPreference
             android:key="editor_typeface"

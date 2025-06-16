@@ -9,16 +9,23 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.xedox.webaide.R;
 
 public class DialogBuilder {
-    public final MaterialAlertDialogBuilder builder;
+    public static Class<? extends AlertDialog.Builder> builderType =
+            MaterialAlertDialogBuilder.class;
+
+    public AlertDialog.Builder builder;
     private OnButtonClickListener positiveListener;
     private OnButtonClickListener negativeListener;
     private OnButtonClickListener neutralListener;
     private View customView;
-    
+
     public AlertDialog dialog;
 
     public DialogBuilder(Context context) {
-        this.builder = new MaterialAlertDialogBuilder(context);
+        try {
+            this.builder = builderType.getConstructor(Context.class).newInstance(context);
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
     }
 
     public DialogBuilder setTitle(CharSequence title) {
@@ -122,6 +129,69 @@ public class DialogBuilder {
 
     public DialogBuilder setItems(CharSequence[] items, DialogInterface.OnClickListener listener) {
         builder.setItems(items, listener);
+        return this;
+    }
+
+    public DialogBuilder setCancelable(boolean cancelable) {
+        builder.setCancelable(cancelable);
+        return this;
+    }
+
+    public DialogBuilder setIcon(int iconResId) {
+        builder.setIcon(iconResId);
+        return this;
+    }
+
+    public DialogBuilder setIconAttribute(int attrId) {
+        builder.setIconAttribute(attrId);
+        return this;
+    }
+
+    public DialogBuilder setOnCancelListener(DialogInterface.OnCancelListener listener) {
+        builder.setOnCancelListener(listener);
+        return this;
+    }
+
+    public DialogBuilder setOnDismissListener(DialogInterface.OnDismissListener listener) {
+        builder.setOnDismissListener(listener);
+        return this;
+    }
+
+    public DialogBuilder setOnKeyListener(DialogInterface.OnKeyListener listener) {
+        builder.setOnKeyListener(listener);
+        return this;
+    }
+
+    public DialogBuilder setSingleChoiceItems(
+            CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener) {
+        builder.setSingleChoiceItems(items, checkedItem, listener);
+        return this;
+    }
+
+    public DialogBuilder setSingleChoiceItems(
+            int itemsId, int checkedItem, DialogInterface.OnClickListener listener) {
+        builder.setSingleChoiceItems(itemsId, checkedItem, listener);
+        return this;
+    }
+
+    public DialogBuilder setMultiChoiceItems(
+            CharSequence[] items,
+            boolean[] checkedItems,
+            DialogInterface.OnMultiChoiceClickListener listener) {
+        builder.setMultiChoiceItems(items, checkedItems, listener);
+        return this;
+    }
+
+    public DialogBuilder setMultiChoiceItems(
+            int itemsId,
+            boolean[] checkedItems,
+            DialogInterface.OnMultiChoiceClickListener listener) {
+        builder.setMultiChoiceItems(itemsId, checkedItems, listener);
+        return this;
+    }
+
+    public DialogBuilder setCustomTitle(View customTitleView) {
+        builder.setCustomTitle(customTitleView);
         return this;
     }
 }

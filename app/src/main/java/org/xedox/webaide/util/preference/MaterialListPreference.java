@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import androidx.preference.ListPreference;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import org.xedox.webaide.dialogs.DialogBuilder;
 
 public class MaterialListPreference extends ListPreference {
 
@@ -27,7 +28,7 @@ public class MaterialListPreference extends ListPreference {
     protected void onClick() {
         int selectedIndex = findIndexOfValue(getValue());
         
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        DialogBuilder builder = new DialogBuilder(getContext());
         builder.setTitle(getTitle());
         builder.setSingleChoiceItems(getEntries(), selectedIndex, (dialog, which) -> {
             if (which >= 0 && getEntryValues() != null) {

@@ -6,6 +6,7 @@ import androidx.preference.MultiSelectListPreference;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Set;
 import java.util.HashSet;
+import org.xedox.webaide.dialogs.DialogBuilder;
 
 public class MaterialMultiSelectListPreference extends MultiSelectListPreference {
 
@@ -34,7 +35,7 @@ public class MaterialMultiSelectListPreference extends MultiSelectListPreference
             checkedItems[i] = selectedValues.contains(getEntryValues()[i].toString());
         }
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        DialogBuilder builder = new DialogBuilder(getContext());
         builder.setTitle(getTitle());
         builder.setMultiChoiceItems(getEntries(), checkedItems, (dialog, which, isChecked) -> {
             checkedItems[which] = isChecked;
