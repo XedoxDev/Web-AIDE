@@ -52,6 +52,7 @@ public class EditorFileTreeManager {
     }
 
     private void initialize() {
+        fileTree.adapter.addIcon(".md", R.drawable.markdown);
         fileTree.adapter.setOnFileClickListener((node, file, view) -> openFile(new FileX(file)));
         fileTree.adapter.setOnFileLongClickListener(this::onFileLongClick);
         fileTree.loadPath(new FileX(IDE.PROJECTS_PATH, project.name).getFullPath());
@@ -211,7 +212,6 @@ public class EditorFileTreeManager {
         }
         context.updateMenu();
     }
-    
 
     private void showErrorOnUiThread(int messageRes, Exception e) {
         context.runOnUiThread(
@@ -237,7 +237,7 @@ public class EditorFileTreeManager {
         }
     }
 
-public FileTreeView getFileTreeView() {
-    return fileTree;
-}
+    public FileTreeView getFileTreeView() {
+        return fileTree;
+    }
 }

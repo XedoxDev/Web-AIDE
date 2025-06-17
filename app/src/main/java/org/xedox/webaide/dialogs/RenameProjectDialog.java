@@ -23,9 +23,9 @@ public class RenameProjectDialog {
 
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.rename_project);
-        builder.setView(R.layout.rename_project_dialog);
+        builder.setView(R.layout.dialog_input);
 
-        TextInputEditText projectNameEditText = builder.findViewById(R.id.name);
+        TextInputEditText projectNameEditText = builder.findViewById(R.id.input);
         TextView errorMessageTextView = builder.findViewById(R.id.error_message);
 
         projectNameEditText.setText(oldProjectName);

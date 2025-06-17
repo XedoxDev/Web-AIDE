@@ -36,10 +36,10 @@
     },
         
     {
-      "grammar": "textmate/markdown/md-tmLanguage.json",
+      "grammar": "textmate/md/md-tmLanguage.json",
       "name": "markdown",
       "scopeName": "source.md",
-      "languageConfiguration": "textmate/markdown/md-config.json"
+      "languageConfiguration": "textmate/md/md-config.json"
     },
     {
       "grammar": "textmate/log/log-tmLanguage.json",

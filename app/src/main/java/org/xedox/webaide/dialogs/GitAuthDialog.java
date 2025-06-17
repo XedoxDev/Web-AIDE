@@ -31,7 +31,7 @@ public class GitAuthDialog {
     public static void show(BaseActivity context, GitManager git) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.git_auth);
-        builder.setView(R.layout.git_auth_dialog);
+        builder.setView(R.layout.dialog_git_auth);
         TextInputEditText loginF = builder.findViewById(R.id.login);
         TextInputEditText passwordF = builder.findViewById(R.id.password);
         TextView errorTextView = builder.findViewById(R.id.error_message);

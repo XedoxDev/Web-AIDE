@@ -11,6 +11,13 @@ import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
+import java.io.InputStream;
+import org.eclipse.tm4e.core.registry.IThemeSource;
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import java.io.File;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.dialogs.DialogBuilder;
@@ -39,7 +46,12 @@ public class IDE extends MultiDexApplication {
         if (!PROJECTS_PATH.exists()) {
             PROJECTS_PATH.mkdirs();
         }
-
+        try {
+            initSchemes(activity);
+        } catch (Exception err) {
+            err.printStackTrace();
+            activity.showSnackbar(err.getMessage());
+        }
         isInit = true;
     }
 
@@ -100,6 +112,29 @@ public class IDE extends MultiDexApplication {
                 context.startActivity(intent);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void initSchemes(Context context) {
+        FileProviderRegistry.getInstance()
+                .addFileProvider(new AssetsFileResolver(context.getAssets()));
+                
+        FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
+        String theme = "darcula";
+        String themePath = String.format("textmate/schemes/%s.json", theme);
+        
+        InputStream is = fileProviderRegistry.tryGetInputStream(themePath);
+        IThemeSource source = IThemeSource.fromInputStream(is, themePath, null);
+        ThemeModel model = new ThemeModel(source, theme);
+
+        model.setDark(true);
+
+        try {
+            ThemeRegistry.getInstance().loadTheme(model);
+            ThemeRegistry.getInstance().setTheme(theme);
+            GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }

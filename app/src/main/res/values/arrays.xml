@@ -27,11 +27,11 @@
     </string-array>
 
     <string-array name="non_printable_entries">
-        <item>Leading whitespace</item>
-        <item>Trailing whitespace</item>
-        <item>Whitespace in selection</item>
-        <item>Line separator</item>
-        <item>Tab character</item>
+        <item>@string/non_printable_leading</item>
+        <item>@string/non_printable_trailing</item>
+        <item>@string/non_printable_selection</item>
+        <item>@string/non_printable_line_sep</item>
+        <item>@string/non_printable_tabs</item>
     </string-array>
 
     <string-array name="non_printable_values">

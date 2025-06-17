@@ -20,9 +20,9 @@
             android:background="#00000000"
             app:tabBackground="@drawable/tab"
             app:tabIndicatorColor="@color/hint"
-            app:tabSelectedTextColor="@color/onPrimary" 
+            app:tabSelectedTextColor="@color/onPrimary"
             app:tabIndicatorHeight="0dp"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_height="match_parent"
@@ -43,7 +43,7 @@
                 android:id="@+id/undo"
                 android:src="@drawable/undo"
                 android:contentDescription="@string/undo"
-                 android:visibility="visible"/>
+                android:visibility="visible" />
 
             <ImageButton
                 android:layout_height="match_parent"
@@ -56,11 +56,11 @@
         </LinearLayout>
 
     </RelativeLayout>
-    
+
     <include
         android:layout_below="@id/toolbar"
-        layout="@layout/empty_editor_layout"/>
-    
+        layout="@layout/empty_editor_layout" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/editor_pager"
         android:layout_height="match_parent"

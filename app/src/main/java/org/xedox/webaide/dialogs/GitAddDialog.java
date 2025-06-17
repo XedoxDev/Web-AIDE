@@ -31,8 +31,8 @@ public class GitAddDialog {
     public static void show(BaseActivity context, GitManager git) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.git_add);
-        builder.setView(R.layout.git_add_dialog);
-        TextInputEditText nameF = builder.findViewById(R.id.pattern);
+        builder.setView(R.layout.dialog_input);
+        TextInputEditText nameF = builder.findViewById(R.id.input);
 
         nameF.requestFocus();
 

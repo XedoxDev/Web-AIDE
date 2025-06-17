@@ -20,9 +20,9 @@ public class RenameFileDialog {
     public static void show(BaseActivity context, FileTreeAdapter adapter, Node node) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.rename_file);
-        builder.setView(R.layout.rename_file_dialog);
+        builder.setView(R.layout.dialog_input);
 
-        TextInputEditText nameInput = builder.findViewById(R.id.name);
+        TextInputEditText nameInput = builder.findViewById(R.id.input);
         TextView errorTextView = builder.findViewById(R.id.error_message);
 
         nameInput.requestFocus();

@@ -2,9 +2,25 @@ EN:
 # What's New?  
 **WebDroid Update v0.0.4 (Build 4)**  
 
+### New Features  
+- Add setting for chhange dialogs type (Material3, AndroidX)
+- Add markdown preview
+  
 ### Improvements  
 - Optimize color picker
+- Update color picker functional
+- Update whats new
 END
+
+
+
+
+
+
+
+
+
+
 
 ==== Previous updates ====
 
@@ -44,4 +60,5 @@ EN:# What's New?
 - Updated file tree  
 
 ### Bug Fixes  
-- Fixed issues in git managerEND
+- Fixed issues in git manager
+END

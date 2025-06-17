@@ -23,14 +23,11 @@ import org.xedox.webaide.console.ConsoleLayout;
 import org.xedox.webaide.dialogs.FileNotSavedDialog;
 import org.xedox.webaide.editor.EditorFragment;
 import org.xedox.webaide.project.Project;
-import org.xedox.webaide.util.HighlightText;
-import org.xedox.webaide.util.OverflowMenu;
-import org.xedox.webaide.util.GitManager;
+import org.xedox.webaide.util.*;
 import org.xedox.webaide.util.io.*;
 import java.util.*;
 
 public class EditorActivity extends BaseActivity {
-
     private static final String TAG = "EditorActivity", KEY_OPEN_FILES = "open_files";
     private TabLayout tabLayout;
     private ViewPager2 editorPager;
@@ -41,7 +38,6 @@ public class EditorActivity extends BaseActivity {
     private View emptyEditor, tabs;
     private TextView emptyEditorHint;
     private ConsoleLayout console;
-
     private EditorAdapter editorAdapter;
     private Project project;
     private GitManager git;
@@ -52,10 +48,7 @@ public class EditorActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
-        String projectName = getIntent().getStringExtra("project_name");
-        project = new Project(projectName);
-
+        project = new Project(getIntent().getStringExtra("project_name"));
         tabLayout = findViewById(R.id.tab_layout);
         editorPager = findViewById(R.id.editor_pager);
         undoButton = findViewById(R.id.undo);
@@ -66,17 +59,15 @@ public class EditorActivity extends BaseActivity {
         navView = findViewById(R.id.nav_view);
         emptyEditor = findViewById(R.id.empty_editor);
         emptyEditorHint = findViewById(R.id.empty_editor_hint);
-
         editorAdapter = new EditorAdapter(this);
         editorPager.setUserInputEnabled(false);
         fileTreeManager =
                 new EditorFileTreeManager(
                         this, findViewById(R.id.file_tree), project, editorAdapter, console, git);
         loadToolbar();
-        if (getSupportActionBar() != null) {
+        if (getSupportActionBar() != null)
             getSupportActionBar()
                     .setSubtitle(project != null ? project.name : getString(R.string.app_name));
-        }
         editorPager.setAdapter(editorAdapter);
         new TabLayoutMediator(
                         tabLayout,
@@ -84,9 +75,9 @@ public class EditorActivity extends BaseActivity {
                         (tab, position) -> {
                             Fragment fragment = editorAdapter.createFragment(position);
                             if (fragment instanceof EditorFragment) {
-                                EditorFragment editorFragment = (EditorFragment) fragment;
-                                editorFragment.setTab(tab);
-                                editorFragment.updateTabState();
+                                EditorFragment ef = (EditorFragment) fragment;
+                                ef.setTab(tab);
+                                ef.updateTabState();
                             }
                             tab.view.setOnClickListener(
                                     v -> {
@@ -95,7 +86,6 @@ public class EditorActivity extends BaseActivity {
                                     });
                         })
                 .attach();
-
         drawerToggle =
                 new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, R.drawable.file_tree);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -103,16 +93,15 @@ public class EditorActivity extends BaseActivity {
         drawerLayout.addDrawerListener(
                 new DrawerLayout.SimpleDrawerListener() {
                     @Override
-                    public void onDrawerOpened(View drawerView) {
+                    public void onDrawerOpened(View d) {
                         setToolbarTitle(getString(R.string.file_tree));
                     }
 
                     @Override
-                    public void onDrawerClosed(View drawerView) {
+                    public void onDrawerClosed(View d) {
                         setToolbarTitle(getString(R.string.app_name));
                     }
                 });
-
         undoButton.setOnClickListener(v -> getCurrentFragment().editorView.undo());
         redoButton.setOnClickListener(v -> getCurrentFragment().editorView.redo());
         HighlightText.clickable(
@@ -125,7 +114,6 @@ public class EditorActivity extends BaseActivity {
                 getString(R.string.editor_empty_hint_see_logs),
                 R.color.link,
                 () -> console.moveTo(getResources().getDisplayMetrics().heightPixels / 2));
-
         editorAdapter.setOnChangeListener(
                 () -> {
                     boolean hasItems = editorAdapter.getItemCount() > 0;
@@ -137,7 +125,6 @@ public class EditorActivity extends BaseActivity {
                     updateMenu(hasItems, hasItems);
                 });
         editorAdapter.change();
-
         if (savedInstanceState != null) {
             ArrayList<String> paths = savedInstanceState.getStringArrayList(KEY_OPEN_FILES);
             if (paths != null) {
@@ -145,14 +132,11 @@ public class EditorActivity extends BaseActivity {
                 for (String path : paths) editorAdapter.addFile(new FileX(path));
             }
         }
-
         git = new GitManager(this, project);
         editorGitManager = new EditorGitManager(this, git, console);
-
         getOnBackPressedDispatcher()
                 .addCallback(
                         new OnBackPressedCallback(true) {
-
                             @Override
                             public void handleOnBackPressed() {
                                 finish(true);
@@ -183,8 +167,8 @@ public class EditorActivity extends BaseActivity {
                 R.menu.tab,
                 item -> {
                     if (item.getItemId() == R.id.remove) {
-                        EditorFragment fragment = editorAdapter.getFragments().get(position);
-                        if (fragment != null) fragment.save();
+                        EditorFragment f = editorAdapter.getFragments().get(position);
+                        if (f != null) f.save();
                         editorAdapter.removeFile(position);
                         updateMenu();
                     }
@@ -196,30 +180,39 @@ public class EditorActivity extends BaseActivity {
                 });
     }
 
-    private MenuItem format, save;
+    private MenuItem format, save, mdPreview;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editor, menu);
-
         format = menu.findItem(R.id.format);
         save = menu.findItem(R.id.save);
-
+        mdPreview = menu.findItem(R.id.markdown_preview);
         updateMenu(false, false);
         return true;
     }
 
-    public void updateMenu(boolean formatVisible, boolean saveVisible) {
+    public void updateMenu(boolean fv, boolean sv) {
         if (format != null) {
-            format.setVisible(formatVisible);
-            if(formatVisible) format.setEnabled(getCurrentFragment().canFormat());
+            format.setVisible(fv);
+            if (fv) format.setEnabled(getCurrentFragment().canFormat());
         }
         if (save != null) {
-            save.setVisible(saveVisible);
-            if(saveVisible) save.setEnabled(!getCurrentFragment().isSaved());
+            save.setVisible(sv);
+            if (sv) save.setEnabled(!getCurrentFragment().isSaved());
+        }
+        if (mdPreview != null) {
+            EditorFragment f = getCurrentFragment();
+            boolean md =
+                    f != null
+                            && f.file != null
+                            && f.file.getName() != null
+                            && f.file.getName().endsWith(".md");
+            mdPreview.setVisible(md);
+            if (md) mdPreview.setEnabled(true);
         }
     }
-    
+
     public void updateMenu() {
         updateMenu(format.isVisible(), save.isVisible());
     }
@@ -244,13 +237,19 @@ public class EditorActivity extends BaseActivity {
         } else if (id == android.R.id.home) {
             finish();
             return true;
+        } else if (id == R.id.markdown_preview) {
+            startActivity(
+                    new Intent(this, MarkdownPreviewActivity.class)
+                            .putExtra(
+                                    "text", getCurrentFragment().editorView.getText().toString()));
+            return true;
         } else if (id == R.id.color_picker) {
             ColorPickerDialog.show(this);
             return true;
         } else if (id == R.id.format) {
             getCurrentFragment().format();
             return true;
-        }else if (id == R.id.settings) {
+        } else if (id == R.id.settings) {
             startActivity(
                     new Intent(this, SettingsActivity.class)
                             .putExtra("project_name", project.name));
@@ -263,17 +262,14 @@ public class EditorActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (menu != null) {
-            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
-                try {
-                    Method m =
-                            menu.getClass()
-                                    .getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch (Exception e) {
-                    Log.e("OverflowMenu", "Error forcing menu icons to show", e);
-                }
+        if (menu != null && menu.getClass().getSimpleName().equals("MenuBuilder")) {
+            try {
+                Method m =
+                        menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            } catch (Exception e) {
+                Log.e("OverflowMenu", "Error forcing menu icons to show", e);
             }
         }
         return super.onPrepareOptionsMenu(menu);
@@ -281,8 +277,8 @@ public class EditorActivity extends BaseActivity {
 
     public void finish(boolean checkSaved) {
         if (checkSaved) {
-            for (EditorFragment fragment : editorAdapter.getFragments()) {
-                if (!fragment.isSaved()) {
+            for (EditorFragment f : editorAdapter.getFragments()) {
+                if (!f.isSaved()) {
                     FileNotSavedDialog.show(this);
                     return;
                 }
@@ -300,9 +296,9 @@ public class EditorActivity extends BaseActivity {
     }
 
     private EditorFragment getCurrentFragment() {
-        int position = tabLayout.getSelectedTabPosition();
-        return (position >= 0 && position < editorAdapter.getFragments().size())
-                ? editorAdapter.getFragments().get(position)
+        int p = tabLayout.getSelectedTabPosition();
+        return (p >= 0 && p < editorAdapter.getFragments().size())
+                ? editorAdapter.getFragments().get(p)
                 : null;
     }
 

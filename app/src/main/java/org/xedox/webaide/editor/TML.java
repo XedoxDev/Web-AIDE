@@ -34,7 +34,7 @@ public class TML extends TextMateLanguage {
         SCOPE_MAPPING.put("source.html", "html");
         SCOPE_MAPPING.put("source.css", "css");
         SCOPE_MAPPING.put("source.js", "js");
-        SCOPE_MAPPING.put("source.md", "markdown");
+        SCOPE_MAPPING.put("source.md", "md");
         SCOPE_MAPPING.put("source.py", "python");
         SCOPE_MAPPING.put("source.php", "php");
         SCOPE_MAPPING.put("source.js", "javascript");

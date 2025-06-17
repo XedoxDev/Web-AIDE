@@ -25,9 +25,9 @@ public class NewProjectDialog {
     public static void show(BaseActivity context) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.create_new_project);
-        builder.setView(R.layout.new_project_dialog);
+        builder.setView(R.layout.dialog_input);
         
-        TextInputEditText projectNameEditText = builder.findViewById(R.id.name);
+        TextInputEditText projectNameEditText = builder.findViewById(R.id.input);
         TextView errorMessageTextView = builder.findViewById(R.id.error_message);
 
         projectNameEditText.requestFocus();

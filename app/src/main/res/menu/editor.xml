@@ -12,6 +12,14 @@
         app:iconTint="@color/run_icon" />
 
     <item
+        android:id="@+id/markdown_preview"
+        android:title="@string/markdown_preview"
+        android:icon="@drawable/markdown"
+        android:orderInCategory="105"
+        app:showAsAction="ifRoom"
+        app:iconTint="@color/markdown_preview_icon" />
+
+    <item
         android:id="@+id/save"
         android:title="@string/save"
         android:icon="@drawable/save"

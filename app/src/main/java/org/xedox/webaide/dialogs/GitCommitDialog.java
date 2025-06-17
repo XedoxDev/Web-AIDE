@@ -31,8 +31,8 @@ public class GitCommitDialog {
     public static void show(BaseActivity context, GitManager git) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.git_commit);
-        builder.setView(R.layout.git_commit_dialog);
-        TextInputEditText nameF = builder.findViewById(R.id.name);
+        builder.setView(R.layout.dialog_input);
+        TextInputEditText nameF = builder.findViewById(R.id.input);
         TextView errorTextView = builder.findViewById(R.id.error_message);
         nameF.requestFocus();
 
@@ -40,7 +40,7 @@ public class GitCommitDialog {
         builder.setPositiveButton(
                 R.string.git_commit,
                 (dialog, which) -> {
-                    String name = nameF.getText().toString();
+                    String name = nameF.getText().toString().trim();
                     if (name.isBlank()) {
                         errorTextView.setText(R.string.git_commit_name_cannot_be_empty);
                         errorTextView.setVisibility(View.VISIBLE);

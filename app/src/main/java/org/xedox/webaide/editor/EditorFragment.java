@@ -39,7 +39,7 @@ public class EditorFragment extends Fragment {
     private final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    private IFile file;
+    public IFile file;
     private boolean isSaved = true;
     private String title;
     private WeakReference<TabLayout.Tab> tabRef;

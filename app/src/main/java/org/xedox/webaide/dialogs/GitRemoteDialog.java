@@ -32,8 +32,8 @@ public class GitRemoteDialog {
     public static void show(BaseActivity context, GitManager git) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.git_clone_url);
-        builder.setView(R.layout.git_remote_dialog);
-        TextInputEditText urlF = builder.findViewById(R.id.url);
+        builder.setView(R.layout.dialog_input);
+        TextInputEditText urlF = builder.findViewById(R.id.input);
         TextView errorMessage = builder.findViewById(R.id.error_message);
         urlF.requestFocus();
 

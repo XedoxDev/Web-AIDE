@@ -45,7 +45,10 @@
             android:name=".activity.SettingsActivity"
             android:exported="false"
             android:label="@string/settings" />
-
+        <activity
+            android:name=".activity.MarkdownPreviewActivity"
+            android:exported="false" 
+            android:label="@string/markdown_preview"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

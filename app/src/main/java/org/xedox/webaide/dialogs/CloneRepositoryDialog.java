@@ -1,109 +1,116 @@
 package org.xedox.webaide;
 
-import org.xedox.webaide.activity.BaseActivity;
-import org.xedox.webaide.project.Project;
-import org.xedox.webaide.project.ProjectsAdapter;
-import java.util.concurrent.ExecutorService;
 import android.os.Handler;
-import org.xedox.webaide.dialogs.DialogBuilder;
-import org.xedox.webaide.console.ConsoleLayout;
-import java.util.concurrent.Executors;
 import android.os.Looper;
-import com.google.android.material.textfield.TextInputEditText;
-import android.widget.TextView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import com.google.android.material.textfield.TextInputEditText;
+import org.xedox.webaide.activity.BaseActivity;
+import org.xedox.webaide.dialogs.DialogBuilder;
+import org.xedox.webaide.project.Project;
+import org.xedox.webaide.project.ProjectsAdapter;
 import org.xedox.webaide.util.GitManager;
-import android.util.Log;
-import org.xedox.webaide.R;
 import org.xedox.webaide.util.io.FileX;
-
-import static org.xedox.webaide.dialogs.DialogBuilder.*;
+import org.xedox.webaide.util.io.IFile;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CloneRepositoryDialog {
+
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private static final Handler mainHandler = new Handler(Looper.getMainLooper());
+
     private final BaseActivity context;
     private final ProjectsAdapter adapter;
-    private final ExecutorService service = Executors.newSingleThreadExecutor();
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final DialogBuilder dialogBuilder;
+    private final TextView errorMessage;
+    private final ProgressBar progressBar;
 
     public CloneRepositoryDialog(BaseActivity context, ProjectsAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
+
+        this.dialogBuilder =
+                new DialogBuilder(context)
+                        .setTitle(R.string.git_clone)
+                        .setView(R.layout.dialog_input)
+                        .setNegativeButton(R.string.cancel, (d, which) -> d.dismiss())
+                        .setPositiveButton(R.string.clone, (d, which) -> processClone());
+
+        this.errorMessage = dialogBuilder.findViewById(R.id.error_message);
+        this.progressBar = context.findViewById(R.id.progress);
     }
 
     public void show() {
-        DialogBuilder builder = new DialogBuilder(context);
-        builder.setTitle(R.string.git_clone);
-        builder.setView(R.layout.clone_repository_dialog);
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.setPositiveButton(R.string.clone, (dialog, which) -> handleClone(builder));
-        builder.show();
+        dialogBuilder.show();
     }
 
-    public static void showStatic(BaseActivity context, ProjectsAdapter adapter) {
-        new CloneRepositoryDialog(context, adapter).show();
-    }
-
-    private void handleClone(DialogBuilder builder) {
-        TextInputEditText urlEditText = builder.findViewById(R.id.name);
-        String url = urlEditText.getText().toString().trim();
+    private void processClone() {
+        TextInputEditText urlInput = dialogBuilder.findViewById(R.id.input);
+        String url = urlInput.getText().toString().trim();
 
         if (url.isEmpty()) {
-            showError(builder, R.string.git_clone_url_empty);
+            showError(R.string.git_clone_url_empty);
+            return;
         }
+
         cloneRepository(url);
-        builder.dialog.dismiss();
     }
 
     private void cloneRepository(String repoUrl) {
-        ProgressBar progressBar = context.findViewById(R.id.progress);
-        ConsoleLayout consoleLayout = context.findViewById(R.id.console_layout);
+        showProgress(true);
 
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        service.execute(
+        executor.execute(
                 () -> {
                     try {
                         GitManager.clone(context, repoUrl, IDE.PROJECTS_PATH.getAbsolutePath());
-                        context.showSnackbar(R.string.git_clone_successful);
-                        handler.post(
-                                () -> {
-                                    adapter.add(
-                                            new Project(
-                                                    new FileX(
-                                                                    IDE.PROJECTS_PATH,
-                                                                    GitManager.extractRepoNameFromUrl(repoUrl))
-                                                            .getAbsolutePath()));
-                                });
-                    } catch (Exception err) {
-                        context.showSnackbar(context.getString(R.string.git_clone_failed, repoUrl));
-                        printError(consoleLayout, R.string.git_clone_failed, err);
+                        handleCloneSuccess(repoUrl);
+                    } catch (Exception e) {
+                        handleCloneFailure(repoUrl);
                     } finally {
-                        handler.post(
-                                () -> {
-                                    if (progressBar != null) {
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-                                });
+                        showProgress(false);
                     }
                 });
     }
 
-    private void printError(ConsoleLayout console, int errorResId, Throwable e) {
-        if (console != null) {
-            handler.post(() -> console.printError(errorResId, e));
-        }
+    private void handleCloneSuccess(String repoUrl) {
+        mainHandler.post(
+                () -> {
+                    context.showSnackbar(R.string.git_clone_successful);
+
+                    String repoName = GitManager.extractRepoNameFromUrl(repoUrl);
+                    adapter.add(new Project(repoName));
+                });
     }
 
-    private void showError(DialogBuilder builder, int errorResId) {
-        TextView error = builder.findViewById(R.id.error_message);
-        error.setText(errorResId);
-        error.setVisibility(View.VISIBLE);
+    private void handleCloneFailure(String repoUrl) {
+        mainHandler.post(
+                () -> context.showSnackbar(context.getString(R.string.git_clone_failed, repoUrl)));
     }
 
-    public void shutdown() {
-        service.shutdown();
+    private void showProgress(boolean show) {
+        mainHandler.post(
+                () -> {
+                    if (progressBar != null) {
+                        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                    }
+                });
+    }
+
+    private void showError(int errorResId) {
+        mainHandler.post(
+                () -> {
+                    errorMessage.setText(errorResId);
+                    errorMessage.setVisibility(View.VISIBLE);
+                });
+    }
+
+    public static void shutdown() {
+        executor.shutdown();
+    }
+
+    public static void show(BaseActivity context, ProjectsAdapter adapter) {
+        new CloneRepositoryDialog(context, adapter);
     }
 }

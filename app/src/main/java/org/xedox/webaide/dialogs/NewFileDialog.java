@@ -38,8 +38,8 @@ public class NewFileDialog {
     public static void show(BaseActivity context, FileTreeAdapter adapter, Node parent) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.create_new_file);
-        builder.setView(R.layout.new_file_dialog);
-        TextInputEditText projectNameEditText = builder.findViewById(R.id.name);
+        builder.setView(R.layout.dialog_input);
+        TextInputEditText projectNameEditText = builder.findViewById(R.id.input);
         TextView errorMessageTextView = builder.findViewById(R.id.error_message);
 
         projectNameEditText.requestFocus();

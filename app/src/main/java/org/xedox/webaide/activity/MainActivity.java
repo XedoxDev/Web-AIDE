@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
         projects.setAdapter(projectsAdapter);
 
         newProject.setOnClickListener(v -> NewProjectDialog.show(this));
-        cloneRepo.setOnClickListener(v -> CloneRepositoryDialog.showStatic(this, projectsAdapter));
+        cloneRepo.setOnClickListener(v -> CloneRepositoryDialog.show(this, projectsAdapter));
         news.setOnClickListener(v -> WhatsNewDialog.show(this));
         settings.setOnClickListener(
                 (v) -> {

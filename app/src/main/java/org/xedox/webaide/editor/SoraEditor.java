@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.preference.PreferenceManager;
+import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import java.util.Set;
@@ -108,5 +109,15 @@ public class SoraEditor extends CodeEditor implements IEditor {
     @Override
     public View getView() {
         return this;
+    }
+
+    public void moveLeft() {
+        CharPosition cp = getSelectingTarget();
+        cp.index--;
+    }
+
+    public void moveRight() {
+        CharPosition cp = getSelectingTarget();
+        cp.index++;
     }
 }

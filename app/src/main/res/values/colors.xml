@@ -28,5 +28,6 @@
     <color name="tint_enable_off">#484551</color>
     <color name="tint_enable_on">#FFFFFF</color>
     <color name="run_icon">#25AA25</color>
+    <color name="markdown_preview_icon">#2525AA</color>
     <color name="git_icon">#F05033</color>
 </resources>

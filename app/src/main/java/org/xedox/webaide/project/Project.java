@@ -6,6 +6,7 @@ import org.xedox.webaide.util.io.FileX;
 import org.xedox.webaide.util.io.IFile;
 
 public class Project {
+    
     public String name;
     public IFile path;
     public IFile indexHtml = null;
@@ -15,7 +16,7 @@ public class Project {
         this.name = this.path.getName();
         findIndexHtml(this.path.toFile());
     }
-
+    
     public String getName() {
         return name;
     }

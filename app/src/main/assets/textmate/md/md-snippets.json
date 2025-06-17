@@ -1,0 +1,104 @@
+[
+  {
+    "prefix": "heading",
+    "description": "Markdown Heading",
+    "body": [
+      "${1:#} ${2:Heading Text}"
+    ]
+  },
+  {
+    "prefix": "subheading",
+    "description": "Markdown Subheading",
+    "body": [
+      "${1:##} ${2:Subheading Text}"
+    ]
+  },
+  {
+    "prefix": "bold",
+    "description": "Markdown Bold Text",
+    "body": [
+      "**${1:Bold Text}**"
+    ]
+  },
+  {
+    "prefix": "italic",
+    "description": "Markdown Italic Text",
+    "body": [
+      "*${1:Italic Text}*"
+    ]
+  },
+  {
+    "prefix": "bold-italic",
+    "description": "Markdown Bold and Italic Text",
+    "body": [
+      "***${1:Bold and Italic Text}***"
+    ]
+  },
+  {
+    "prefix": "link",
+    "description": "Markdown Link",
+    "body": [
+      "[${1:Link Text}](${2:URL})"
+    ]
+  },
+  {
+    "prefix": "list-ul",
+    "description": "Markdown Unordered List",
+    "body": [
+      "* ${1:List Item}"
+    ]
+  },
+  {
+    "prefix": "list-ol",
+    "description": "Markdown Ordered List",
+    "body": [
+      "1. ${1:List Item}"
+    ]
+  },
+  {
+    "prefix": "code-inline",
+    "description": "Markdown Inline Code",
+    "body": [
+      "`${1:Code}`"
+    ]
+  },
+  {
+    "prefix": "code-block",
+    "description": "Markdown Code Block",
+    "body": [
+      "```${1:language}",
+      "${0}",
+      "```"
+    ]
+  },
+  {
+    "prefix": "blockquote",
+    "description": "Markdown Blockquote",
+    "body": [
+      "> ${1:Quoted Text}"
+    ]
+  },
+  {
+    "prefix": "hr",
+    "description": "Markdown Horizontal Rule",
+    "body": [
+      "---"
+    ]
+  },
+  {
+    "prefix": "table",
+    "description": "Markdown Table",
+    "body": [
+      "| ${1:Header 1} | ${2:Header 2} |",
+      "|---|---|",
+      "| ${3:Cell 1} | ${4:Cell 2} |"
+    ]
+  },
+  {
+    "prefix": "tasklist",
+    "description": "Markdown Task List",
+    "body": [
+      "- [ ] ${1:Task item}"
+    ]
+  }
+]

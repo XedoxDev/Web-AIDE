@@ -22,9 +22,9 @@ public class NewFolderDialog {
     public static void show(BaseActivity context, FileTreeAdapter adapter, Node parent) {
         DialogBuilder builder = new DialogBuilder(context);
         builder.setTitle(R.string.create_new_folder);
-        builder.setView(R.layout.new_folder_dialog);
+        builder.setView(R.layout.dialog_input);
 
-        TextInputEditText folderNameEditText = builder.findViewById(R.id.name);
+        TextInputEditText folderNameEditText = builder.findViewById(R.id.input);
         TextView errorMessageTextView = builder.findViewById(R.id.error_message);
 
         folderNameEditText.requestFocus();
