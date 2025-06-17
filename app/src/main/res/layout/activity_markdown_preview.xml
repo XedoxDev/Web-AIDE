@@ -16,14 +16,13 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:scrollbars="none"
-        android:layout_below="@+id/toolbar">
-
-        <TextView
-            android:id="@+id/markdown"
-            android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true">
+        <FrameLayout
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="20.5sp" />
-
+            android:id="@+id/content">
+    </FrameLayout>
     </ScrollView>
 
 </RelativeLayout>

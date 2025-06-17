@@ -109,7 +109,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
                                     int id = item.getItemId();
                                     if (id == R.id.rename) {
                                         RenameProjectDialog.show(
-                                                context, project.name, getAdapterPosition());
+                                                context, project.name, getAbsoluteAdapterPosition());
                                     } else if (id == R.id.remove) {
                                         ProjectManager.removeProject(project.name);
                                         remove(project);

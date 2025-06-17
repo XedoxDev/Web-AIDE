@@ -4,17 +4,27 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import io.noties.markwon.Markwon;
 import org.xedox.webaide.R;
 import org.xedox.webaide.util.io.Assets;
+
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -31,6 +41,7 @@ public class WhatsNewDialog {
     private final Markwon markwon;
     private final List<String> contentItems = new ArrayList<>();
     private int currentIndex = 0;
+    private boolean useFlexmark;
 
     public static void show(@NonNull Context context) {
         new WhatsNewDialog(context).showDialog();
@@ -39,6 +50,11 @@ public class WhatsNewDialog {
     private WhatsNewDialog(@NonNull Context context) {
         this.context = context;
         this.markwon = Markwon.create(context);
+        
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String markdownRenderer = prefs.getString("markdown_display_type", "Markwon");
+        this.useFlexmark = "Flexmark".equals(markdownRenderer);
+        
         loadContent();
     }
 
@@ -163,8 +179,27 @@ public class WhatsNewDialog {
         }
 
         if (currentIndex >= 0 && currentIndex < contentItems.size()) {
-            markwon.setMarkdown(textView, contentItems.get(currentIndex));
+            if (useFlexmark) {
+                textView.setText(flexmarkToSpannable(contentItems.get(currentIndex)));
+            } else {
+                markwon.setMarkdown(textView, contentItems.get(currentIndex));
+            }
         }
+    }
+
+    private SpannableString flexmarkToSpannable(String markdown) {
+        MutableDataSet options = new MutableDataSet();
+        options.set(Parser.EXTENSIONS, Arrays.asList(
+                TablesExtension.create(),
+                StrikethroughExtension.create()
+        ));
+
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+        Node document = parser.parse(markdown);
+        String html = renderer.render(document);
+
+        return new SpannableString(android.text.Html.fromHtml(html, android.text.Html.FROM_HTML_MODE_LEGACY));
     }
 
     private interface AnimatorListener extends ValueAnimator.AnimatorListener {

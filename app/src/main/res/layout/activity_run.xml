@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white"/>
+        app:titleTextColor="@android:color/white" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -19,12 +19,12 @@
         android:layout_below="@id/toolbar"
         android:visibility="gone"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/progress"/>
+        android:progressDrawable="@drawable/progress" />
 
-    <android.webkit.WebView
+    <org.xedox.webaide.util.WebViewX
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/progress"
-        android:layout_above="@+id/dev_tools_bar"/>
+    />
 </RelativeLayout>

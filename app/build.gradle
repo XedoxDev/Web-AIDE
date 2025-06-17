@@ -48,4 +48,9 @@ dependencies {
     implementation platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
+    
+    implementation 'com.vladsch.flexmark:flexmark:0.64.8' 
+    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.64.8' 
+    implementation 'com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:0.64.8' 
+   
 }

@@ -17,13 +17,14 @@ import org.xedox.webaide.R;
 import java.io.File;
 import java.lang.reflect.Method;
 import org.xedox.webaide.dialogs.DialogBuilder;
+import org.xedox.webaide.util.WebViewX;
 
 public class RunActivity extends BaseActivity {
 
     private static final String TAG = "RunActivity";
     private static final String DEFAULT_DEVICE = "mobile";
 
-    private WebView webView;
+    private WebViewX webView;
     private ProgressBar progressBar;
     private String currentUrl;
     private String currentDevice = DEFAULT_DEVICE;
@@ -49,22 +50,6 @@ public class RunActivity extends BaseActivity {
     }
 
     private void configureWebView() {
-        WebSettings settings = webView.getSettings();
-        settings.setSupportZoom(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setDisplayZoomControls(false);
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setAllowFileAccess(true);
-        settings.setAllowContentAccess(true);
-        //settings.setDatabaseEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-
         webView.setWebViewClient(new WebViewClient());
 
         webView.setWebChromeClient(new WebChromeClient() {

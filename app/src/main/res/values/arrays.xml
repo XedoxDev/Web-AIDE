@@ -59,4 +59,14 @@
         <item>en</item>
         <item>system</item>
     </string-array>
+    
+    <string-array name="markdown_display_type_entries">
+        <item>@string/markdown_flexmark</item>
+        <item>@string/markdown_markwon</item>
+    </string-array>
+
+    <string-array name="markdown_display_type_values">
+        <item>Flexmark</item>
+        <item>Markwon</item>
+    </string-array>
 </resources>

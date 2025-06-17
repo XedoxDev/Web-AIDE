@@ -3,13 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/application">
+    <PreferenceCategory android:title="@string/general">
         <org.xedox.webaide.util.preference.MaterialListPreference
             android:key="dialog_type"
             android:title="@string/dialog_type"
             android:entries="@array/dialog_type_entries"
             android:entryValues="@array/dialog_type_values"
             android:defaultValue="Material3" />
+        <org.xedox.webaide.util.preference.MaterialListPreference
+            android:key="markdown_display_type"
+            android:title="@string/markdown_display_type"
+            android:entries="@array/markdown_display_type_entries"
+            android:entryValues="@array/markdown_display_type_values"
+            android:defaultValue="Markwon" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/code_editor">

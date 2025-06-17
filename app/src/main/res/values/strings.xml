@@ -163,4 +163,9 @@
     <string name="dialog_type">Dialog type</string>
     <string name="language">Language</string>
     <string name="system">System</string>
+    <string name="general">General</string>
+
+    <string name="markdown_display_type">Markdown display type</string>
+    <string name="markdown_flexmark">Flexmark</string>
+    <string name="markdown_markwon">Markdown</string>
 </resources>
