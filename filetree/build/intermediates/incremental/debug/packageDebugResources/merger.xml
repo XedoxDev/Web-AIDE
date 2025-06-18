@@ -4,9 +4,11 @@
         <attr format="dimension" name="indent"/>
         <attr format="color" name="lineColor"/>
         <attr format="dimension" name="lineWidth"/>
+        <attr format="string" name="path"/>
     </declare-styleable></file><file path="/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/res/values/strings.xml" qualifiers=""><string name="FileTreeLibraryName">FileTree by XedoxSL</string></file></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/storage/emulated/0/AndroidIDEProjects/Web-AIDE/filetree/build/generated/res/resValues/debug"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="FileTreeView">
         <attr format="reference" name="androidx.recyclerview.recyclerViewStyle"/>
         <attr format="dimension" name="indent"/>
         <attr format="color" name="lineColor"/>
         <attr format="dimension" name="lineWidth"/>
+        <attr format="string" name="path"/>
     </declare-styleable></configuration></mergedItems></merger>

@@ -136,15 +136,23 @@ public class FileTreeView extends RecyclerView {
     }
 
     private void initAttributes(AttributeSet attrs) {
-        if(attrs == null) return;
+        if (attrs == null) return;
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FileTreeView);
-        int indentA = (int) a.getDimension(R.styleable.FileTreeView_indent, adapter.getIndent());
-        int lineColorA = a.getColor(R.styleable.FileTreeView_lineColor, this.lineColor);
-        int lineWidthA = (int) a.getDimension(R.styleable.FileTreeView_lineWidth, this.lineWidth);
-        String path = a.getString(R.styleable.FileTreeView_path);
-        adapter.setIndent(indentA);
-        lineColor = lineColorA;
-        lineWidth = lineWidthA;
-        if(path != null || !path.isBlank()) loadPath(path);
+        try {
+            int indentA =
+                    (int) a.getDimension(R.styleable.FileTreeView_indent, adapter.getIndent());
+            int lineColorA = a.getColor(R.styleable.FileTreeView_lineColor, this.lineColor);
+            int lineWidthA =
+                    (int) a.getDimension(R.styleable.FileTreeView_lineWidth, this.lineWidth);
+            String path = a.getString(R.styleable.FileTreeView_path);
+            adapter.setIndent(indentA);
+            lineColor = lineColorA;
+            lineWidth = lineWidthA;
+            if (path != null && !path.isBlank()) loadPath(path);
+        } catch (Exception err) {
+            err.printStackTrace();
+        } finally {
+            a.recycle();
+        }
     }
 }
