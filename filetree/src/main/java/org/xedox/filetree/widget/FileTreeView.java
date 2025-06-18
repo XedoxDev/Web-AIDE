@@ -1,50 +1,79 @@
 package org.xedox.filetree.widget;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.view.LayoutInflater;
+import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import org.xedox.filetree.R;
 import org.xedox.filetree.utils.Node;
+import java.util.List;
 
-public class FileTreeView extends RelativeLayout {
+public class FileTreeView extends RecyclerView {
 
     public FileTreeAdapter adapter;
-    public RecyclerView recyclerView;
+    private int fileItemLayoutHeight;
+    private Paint linePaint;
+    private int lineColor = 0xFF888888;
+    private int lineWidth = 2;
 
     public FileTreeView(Context context) {
-        super(context, null);
-        initialize();
+        super(context);
+        initialize(context);
     }
 
     public FileTreeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize();
+        initialize(context);
     }
 
-    public void initialize() {
-        inflate(getContext(), R.layout.file_tree_layout, this);
-        adapter = new FileTreeAdapter(getContext());
-        recyclerView = findViewById(R.id.recycler_view);
+    public FileTreeView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        initialize(context);
+    }
 
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(getContext()) {
+    private void initialize(Context context) {
+        setWillNotDraw(false);
+
+        adapter = new FileTreeAdapter(context);
+        setLayoutManager(new GridLayoutManager(context, 2));
+
+        setAdapter(adapter);
+        setHasFixedSize(false);
+
+        addOnScrollListener(
+                new OnScrollListener() {
                     @Override
-                    public boolean canScrollHorizontally() {
-                        return true;
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        invalidate();
                     }
                 });
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.file_item, this, false);
+        itemView.measure(
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        fileItemLayoutHeight = itemView.getMeasuredHeight();
+
+        linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        linePaint.setColor(lineColor);
+        linePaint.setStrokeWidth(lineWidth);
+        linePaint.setStyle(Paint.Style.STROKE);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (fileItemLayoutHeight == 0) {
+            View itemView =
+                    LayoutInflater.from(getContext()).inflate(R.layout.file_item, this, false);
+            itemView.measure(widthMeasureSpec, heightMeasureSpec);
+            fileItemLayoutHeight = itemView.getMeasuredHeight();
+        }
     }
 
     public void loadPath(String path) {
@@ -52,17 +81,55 @@ public class FileTreeView extends RelativeLayout {
         adapter.setRoot(root);
     }
 
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawConnectingLines(canvas);
+    }
+
+    private void drawConnectingLines(Canvas canvas) {
+        List<Node> nodes = adapter.getNodes();
+        if (nodes == null || nodes.isEmpty() || fileItemLayoutHeight == 0) return;
+        int scrollY = computeVerticalScrollOffset();
+        int scrollX = computeHorizontalScrollOffset() - scrollY;
+
+        for (int i = 0; i < nodes.size(); i++) {
+            Node node = nodes.get(i);
+            if (node.isFile || !node.isOpen || node.children.isEmpty()) continue;
+
+            int indent = adapter.getIndent();
+            float startX = node.level * indent + indent / 2f - scrollX;
+            float startY = i * fileItemLayoutHeight + fileItemLayoutHeight - scrollY;
+            float endY = startY + getVisibleChildrenCount(node) * fileItemLayoutHeight;
+
+            canvas.drawLine(startX, startY, startX, endY, linePaint);
+        }
+    }
+
+    private int getVisibleChildrenCount(Node node) {
+        if (!node.isOpen) return 0;
+        int count = node.children.size();
+        for (Node child : node.children) {
+            if (!child.isFile && child.isOpen) {
+                count += getVisibleChildrenCount(child);
+            }
+        }
+        return count;
+    }
+
+    public void setLineColor(int color) {
+        this.lineColor = color;
+        linePaint.setColor(color);
+        invalidate();
+    }
+
+    public void setLineWidth(int width) {
+        this.lineWidth = width;
+        linePaint.setStrokeWidth(width);
+        invalidate();
+    }
+
     public void shutdown() {
         adapter.shutdown();
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        shutdown();
-    }
-
-    public Node getRoot() {
-        return adapter.getRoot();
     }
 }

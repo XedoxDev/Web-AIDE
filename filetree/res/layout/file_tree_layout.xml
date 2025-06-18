@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
+    <!-- <HorizontalScrollView android:layout_height="match_parent" android:layout_width="match_parent" android:scrollbars="none" android:fillViewport="true" android:id="@+id/scroll"> -->
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="horizontal">
+        android:layout_width="wrap_content"
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical|horizontal" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+    <!-- </HorizontalScrollView> -->
 
-    </HorizontalScrollView>
 </RelativeLayout>

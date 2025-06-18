@@ -23,36 +23,133 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
 
     private List<Node> nodes = new ArrayList<>();
     private Node root;
-    private final Context context;
-    private final int fileItemLayout = R.layout.file_item;
-    private final int indent;
-    private final Map<String, Integer> fileIconMappings = new HashMap<>();
-    private int defaultFileIcon = R.drawable.file;
-    private int defaultFolderIcon = R.drawable.folder;
-    private int defaultFolderOpenIcon = R.drawable.folder_open;
-    private int defaultHiddenFileIcon = R.drawable.file_hidden;
-    private int defaultHiddenFolderIcon = R.drawable.folder_hidden;
+    private Context context;
+    private int fileItemLayout = R.layout.file_item;
+    private int indent;
+    private Map<String, Integer> fileIconMappings = new HashMap<>();
     private OnFileClickListener onFileClickListener;
     private OnFileLongClickListener onFileLongClickListener;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+        notifyDataSetChanged();
+    }
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public void setRoot(Node root) {
+        this.root = root;
+        if (root != null) {
+            root.isOpen = false;
+            root.level = 0;
+            nodes.clear();
+            nodes.add(root);
+            notifyDataSetChanged();
+        }
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public int getFileItemLayout() {
+        return fileItemLayout;
+    }
+
+    public void setFileItemLayout(int fileItemLayout) {
+        this.fileItemLayout = fileItemLayout;
+        notifyDataSetChanged();
+    }
+
+    public int getIndent() {
+        return indent;
+    }
+
+    public void setIndent(int indent) {
+        this.indent = indent;
+        notifyDataSetChanged();
+    }
+
+    public Map<String, Integer> getFileIconMappings() {
+        return fileIconMappings;
+    }
+
+    public void setFileIconMappings(Map<String, Integer> fileIconMappings) {
+        this.fileIconMappings = fileIconMappings;
+    }
+
+    public OnFileClickListener getOnFileClickListener() {
+        return onFileClickListener;
+    }
+
+    public void setOnFileClickListener(OnFileClickListener onFileClickListener) {
+        this.onFileClickListener = onFileClickListener;
+    }
+
+    public OnFileLongClickListener getOnFileLongClickListener() {
+        return onFileLongClickListener;
+    }
+
+    public void setOnFileLongClickListener(OnFileLongClickListener onFileLongClickListener) {
+        this.onFileLongClickListener = onFileLongClickListener;
+    }
+
+    public ExecutorService getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
 
     public FileTreeAdapter(Context context) {
         this.context = context;
         this.indent = (int) (40 * context.getResources().getDisplayMetrics().density);
-        fileIconMappings.put(".png", R.drawable.file_png);
-        fileIconMappings.put(".jpg", R.drawable.file_jpg);
-        fileIconMappings.put(".js", R.drawable.javascript);
-        fileIconMappings.put(".css", R.drawable.css);
-        fileIconMappings.put(".html", R.drawable.html);
-        fileIconMappings.put(".zip", R.drawable.zip);
-        fileIconMappings.put(".gz", R.drawable.zip);
-        fileIconMappings.put(".7z", R.drawable.zip);
-        fileIconMappings.put(".apk", R.drawable.apk_install);
-        fileIconMappings.put(".aab", R.drawable.apk_install);
+        initDefaultIcons();
     }
 
-    public void addIcon(String pattern, int drawableResId) {
+    private void initDefaultIcons() {
+        setIcon(".png", R.drawable.file_png);
+        setIcon(".jpg", R.drawable.file_jpg);
+        setIcon(".jpeg", R.drawable.file_jpg);
+        setIcon(".js", R.drawable.javascript);
+        setIcon(".css", R.drawable.css);
+        setIcon(".html", R.drawable.html);
+        setIcon(".htm", R.drawable.html);
+        setIcon(".zip", R.drawable.zip);
+        setIcon(".gz", R.drawable.zip);
+        setIcon(".7z", R.drawable.zip);
+        setIcon(".rar", R.drawable.zip);
+        setIcon(".apk", R.drawable.apk_install);
+        setIcon(".aab", R.drawable.apk_install);
+        setIcon("folder", R.drawable.folder);
+        setIcon("folder_open", R.drawable.folder_open);
+        setIcon("folder_hidden", R.drawable.folder_hidden);
+        setIcon("file_hidden", R.drawable.file_hidden);
+        setIcon("file", R.drawable.file);
+    }
+
+    public void setIcon(String pattern, int drawableResId) {
         fileIconMappings.put(pattern, drawableResId);
     }
 
@@ -60,24 +157,8 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         fileIconMappings.remove(pattern);
     }
 
-    public void setDefaultFileIcon(int drawableResId) {
-        defaultFileIcon = drawableResId;
-    }
-
-    public void setDefaultFolderIcon(int drawableResId) {
-        defaultFolderIcon = drawableResId;
-    }
-
-    public void setDefaultFolderOpenIcon(int drawableResId) {
-        defaultFolderOpenIcon = drawableResId;
-    }
-
-    public void setDefaultHiddenFileIcon(int drawableResId) {
-        defaultHiddenFileIcon = drawableResId;
-    }
-
-    public void setDefaultHiddenFolderIcon(int drawableResId) {
-        defaultHiddenFolderIcon = drawableResId;
+    public void clearIcons() {
+        fileIconMappings.clear();
     }
 
     @Override
@@ -89,76 +170,72 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
     @Override
     public void onBindViewHolder(VH holder, int position) {
         Node node = nodes.get(position);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.parent.getLayoutParams();
+        ViewGroup.MarginLayoutParams params =
+                (ViewGroup.MarginLayoutParams) holder.parent.getLayoutParams();
         params.leftMargin = indent * node.level;
         holder.parent.setLayoutParams(params);
         holder.name.setText(node.name);
 
         if (node.isFile) {
             setupFileIcon(holder, node);
-            holder.isOpen.setImageResource(0);
         } else {
             setupFolderIcon(holder, node);
-            holder.isOpen.setImageResource(R.drawable.arrow_up);
-            holder.isOpen.setRotation(node.isOpen ? 180 : 0);
         }
 
-        holder.parent.setOnClickListener(v -> {
-            if (node.isFile) {
-                if (onFileClickListener != null) {
-                    onFileClickListener.onClick(node, new File(node.fullPath), v);
-                }
-            } else {
-                toggleFolder(node);
-                holder.isOpen.animate().rotation(node.isOpen ? 180 : 0).start();
-            }
-        });
+        holder.parent.setOnClickListener(
+                v -> {
+                    if (node.isFile) {
+                        if (onFileClickListener != null) {
+                            onFileClickListener.onClick(node, new File(node.fullPath), v);
+                        }
+                    } else {
+                        toggleFolder(node);
+                    }
+                });
 
-        holder.parent.setOnLongClickListener(v -> {
-            if (onFileLongClickListener != null) {
-                onFileLongClickListener.onClick(node, new File(node.fullPath), v);
-                return true;
-            }
-            return false;
-        });
+        holder.parent.setOnLongClickListener(
+                v -> {
+                    if (onFileLongClickListener != null) {
+                        onFileLongClickListener.onClick(node, new File(node.fullPath), v);
+                        return true;
+                    }
+                    return false;
+                });
     }
 
     private void setupFileIcon(VH holder, Node node) {
         if (node.name.startsWith(".")) {
-            holder.icon.setImageResource(defaultHiddenFileIcon);
+            Integer icon = fileIconMappings.get("file_hidden");
+            holder.icon.setImageResource(icon != null ? icon : 0);
             return;
         }
+
         for (Map.Entry<String, Integer> entry : fileIconMappings.entrySet()) {
             if (node.name.endsWith(entry.getKey())) {
                 holder.icon.setImageResource(entry.getValue());
                 return;
             }
         }
-        holder.icon.setImageResource(defaultFileIcon);
+
+        Integer defaultIcon = fileIconMappings.get("file");
+        holder.icon.setImageResource(defaultIcon != null ? defaultIcon : 0);
     }
 
     private void setupFolderIcon(VH holder, Node node) {
         if (node.name.startsWith(".")) {
-            holder.icon.setImageResource(defaultHiddenFolderIcon);
-        } else {
-            holder.icon.setImageResource(node.isOpen ? defaultFolderOpenIcon : defaultFolderIcon);
+            Integer icon = fileIconMappings.get("folder_hidden");
+            holder.icon.setImageResource(icon != null ? icon : 0);
+            return;
         }
+
+        String key = node.isOpen ? "folder_open" : "folder";
+        Integer icon = fileIconMappings.get(key);
+        holder.icon.setImageResource(icon != null ? icon : 0);
     }
 
     @Override
     public int getItemCount() {
         return nodes.size();
-    }
-
-    public void setRoot(Node newRoot) {
-        this.root = newRoot;
-        if (root != null) {
-            root.isOpen = false;
-            root.level = 0;
-            nodes.clear();
-            nodes.add(root);
-            notifyDataSetChanged();
-        }
     }
 
     public void toggleFolder(Node node) {
@@ -183,33 +260,38 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
     }
 
     public void openFolder(Node node) {
-        executor.execute(() -> {
-            int index = nodes.indexOf(node);
-            if (index == -1) return;
-            node.updateChildren();
-            count = 0;
-            addChildren(node);
-            handler.post(() -> notifyItemRangeInserted(index + 1, count));
-        });
+        executor.execute(
+                () -> {
+                    int index = nodes.indexOf(node);
+                    if (index == -1) return;
+                    node.updateChildren();
+                    count = 0;
+                    addChildren(node);
+                    handler.post(() -> notifyItemRangeInserted(index + 1, count));
+                });
     }
 
     public void closeFolder(Node node) {
-        executor.execute(() -> {
-            int parentIndex = nodes.indexOf(node);
-            int removeCount = 0;
-            int i = parentIndex + 1;
-            while (i < nodes.size() && nodes.get(i).level > node.level) {
-                removeCount++;
-                i++;
-            }
-            if (removeCount > 0) {
-                List<Node> removed = new ArrayList<>(nodes.subList(parentIndex + 1, parentIndex + 1 + removeCount));
-                nodes.removeAll(removed);
-                final int count = removeCount;
-                handler.post(() -> notifyItemRangeRemoved(parentIndex + 1, count));
-            }
-            node.isOpen = false;
-        });
+        executor.execute(
+                () -> {
+                    int parentIndex = nodes.indexOf(node);
+                    int removeCount = 0;
+                    int i = parentIndex + 1;
+                    while (i < nodes.size() && nodes.get(i).level > node.level) {
+                        removeCount++;
+                        i++;
+                    }
+                    if (removeCount > 0) {
+                        List<Node> removed =
+                                new ArrayList<>(
+                                        nodes.subList(
+                                                parentIndex + 1, parentIndex + 1 + removeCount));
+                        nodes.removeAll(removed);
+                        final int count = removeCount;
+                        handler.post(() -> notifyItemRangeRemoved(parentIndex + 1, count));
+                    }
+                    node.isOpen = false;
+                });
     }
 
     public void renameNode(Node node, String name) {
@@ -255,43 +337,20 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         }
     }
 
-    public List<Node> getNodes() {
-        return this.nodes;
-    }
-
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
-        notifyDataSetChanged();
-    }
-
-    public Node getRoot() {
-        return this.root;
-    }
-
     public void shutdown() {
         executor.shutdown();
-    }
-
-    public void setOnFileClickListener(OnFileClickListener listener) {
-        this.onFileClickListener = listener;
-    }
-
-    public void setOnFileLongClickListener(OnFileLongClickListener listener) {
-        this.onFileLongClickListener = listener;
     }
 
     static class VH extends RecyclerView.ViewHolder {
         final View parent;
         final ImageView icon;
         final TextView name;
-        final ImageView isOpen;
 
         public VH(View itemView) {
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
             icon = itemView.findViewById(R.id.icon);
             name = itemView.findViewById(R.id.name);
-            isOpen = itemView.findViewById(R.id.isOpen);
         }
     }
 
