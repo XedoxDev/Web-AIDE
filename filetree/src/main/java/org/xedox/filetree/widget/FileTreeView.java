@@ -40,7 +40,7 @@ public class FileTreeView extends RecyclerView {
         setWillNotDraw(false);
 
         adapter = new FileTreeAdapter(context);
-        setLayoutManager(new GridLayoutManager(context, 2));
+        setLayoutManager(new LinearLayoutManager(context));
 
         setAdapter(adapter);
         setHasFixedSize(false);
