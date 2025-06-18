@@ -1,6 +1,7 @@
 package org.xedox.filetree.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -23,20 +24,20 @@ public class FileTreeView extends RecyclerView {
 
     public FileTreeView(Context context) {
         super(context);
-        initialize(context);
+        initialize(context, null);
     }
 
     public FileTreeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context);
+        initialize(context, attrs);
     }
 
     public FileTreeView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initialize(context);
+        initialize(context, attrs);
     }
 
-    private void initialize(Context context) {
+    private void initialize(Context context, AttributeSet attrs) {
         setWillNotDraw(false);
 
         adapter = new FileTreeAdapter(context);
@@ -63,6 +64,7 @@ public class FileTreeView extends RecyclerView {
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineWidth);
         linePaint.setStyle(Paint.Style.STROKE);
+        initAttributes(attrs);
     }
 
     @Override
@@ -131,5 +133,18 @@ public class FileTreeView extends RecyclerView {
 
     public void shutdown() {
         adapter.shutdown();
+    }
+
+    private void initAttributes(AttributeSet attrs) {
+        if(attrs == null) return;
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FileTreeView);
+        int indentA = (int) a.getDimension(R.styleable.FileTreeView_indent, adapter.getIndent());
+        int lineColorA = a.getColor(R.styleable.FileTreeView_lineColor, this.lineColor);
+        int lineWidthA = (int) a.getDimension(R.styleable.FileTreeView_lineWidth, this.lineWidth);
+        String path = a.getString(R.styleable.FileTreeView_path);
+        adapter.setIndent(indentA);
+        lineColor = lineColorA;
+        lineWidth = lineWidthA;
+        if(path != null || !path.isBlank()) loadPath(path);
     }
 }

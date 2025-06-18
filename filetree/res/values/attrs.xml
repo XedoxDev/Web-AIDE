@@ -2,5 +2,9 @@
 <resources>
     <declare-styleable name="FileTreeView">
         <attr name="androidx.recyclerview.recyclerViewStyle" format="reference" />
+        <attr name="indent" format="dimension" />
+        <attr name="lineColor" format="color" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="base_path" format="string" />
     </declare-styleable>
 </resources>

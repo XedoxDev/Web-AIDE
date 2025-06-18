@@ -21,8 +21,23 @@ fileTree.loadPath(Environment.getExternalStorageDirectory());
 ## Basic Customization
 
 ### Attributes
-> While file tree no supported attributes...
+- **androidx.recyclerview.recyclerViewStyle** - Base RecyclerView style reference
+- **indent** (dimension) - Indentation width for tree levels (default: adapter's indent)
+- **lineColor** (color) - Color of connecting lines between nodes (default: #888888)
+- **lineWidth** (dimension) - Width of connecting lines (default: 2px)
+- **base_path** (string) - Initial directory path to load (can be set programmatically via `loadPath()`)
 
+#### XML Example:
+```xml
+<org.xedox.filetree.widget.FileTreeView
+    android:id="@+id/filetree"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:indent="24dp"
+    app:lineColor="@color/teal_200"
+    app:lineWidth="1dp"
+    app:base_path="/sdcard/Documents"/>
+    
 ### Icons
 You can add custom icons to files, and set default icons with drawable.
 

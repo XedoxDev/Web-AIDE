@@ -5,7 +5,9 @@ EN:
 ### New Features  
 - Add setting for chhange dialogs type (Material3, AndroidX)
 - Add markdown preview
-  - Add markdown disolay type (setting)
+  - Add markdown display type (setting)
+    - Markwon
+    - Flexmark
   
 ### Improvements  
 - Optimize color picker
