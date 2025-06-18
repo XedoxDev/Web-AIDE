@@ -9,21 +9,23 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontal_filetree_scroll"
-        android:layout_width="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:nestedScrollingEnabled="false"
-        android:scrollbars="horizontal|vertical">
+        android:layout_width="match_parent">
 
-        <org.xedox.filetree.widget.FileTreeView
-            android:id="@+id/file_tree"
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
             android:layout_height="match_parent"
-            android:scrollbars="horizontal|vertical"
-            android:nestedScrollingEnabled="false"
-        />
-    </HorizontalScrollView>
+            android:layout_width="wrap_content"
+            android:id="@+id/horizontal_filetree_scroll">
+
+            <org.xedox.filetree.widget.FileTreeView
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:id="@+id/file_tree" />
+
+        </HorizontalScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

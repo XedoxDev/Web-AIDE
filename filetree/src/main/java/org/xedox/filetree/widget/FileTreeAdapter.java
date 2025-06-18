@@ -267,7 +267,11 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
                     node.updateChildren();
                     count = 0;
                     addChildren(node);
-                    handler.post(() -> notifyItemRangeInserted(index + 1, count));
+                    handler.post(
+                            () -> {
+                                notifyItemRangeInserted(index + 1, count);
+                                notifyItemChanged(nodes.indexOf(node));
+                            });
                 });
     }
 
@@ -288,7 +292,11 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
                                                 parentIndex + 1, parentIndex + 1 + removeCount));
                         nodes.removeAll(removed);
                         final int count = removeCount;
-                        handler.post(() -> notifyItemRangeRemoved(parentIndex + 1, count));
+                        handler.post(
+                                () -> {
+                                    notifyItemRangeRemoved(parentIndex + 1, count);
+                                    notifyItemChanged(nodes.indexOf(node));
+                                });
                     }
                     node.isOpen = false;
                 });

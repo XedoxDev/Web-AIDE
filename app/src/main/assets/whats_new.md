@@ -5,11 +5,15 @@ EN:
 ### New Features  
 - Add setting for chhange dialogs type (Material3, AndroidX)
 - Add markdown preview
+  - Add markdown disolay type (setting)
   
 ### Improvements  
 - Optimize color picker
 - Update color picker functional
 - Update whats new
+- Big update file tree
+- Fix markdown editor snippets
+- Add project copying
 END
 
 

@@ -2,6 +2,7 @@ package org.xedox.webaide.activity.editor;
 
 import android.view.View;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.xedox.filetree.utils.Node;
 import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.webaide.project.Project;
@@ -56,6 +57,12 @@ public class EditorFileTreeManager {
         fileTree.adapter.setOnFileClickListener((node, file, view) -> openFile(new FileX(file)));
         fileTree.adapter.setOnFileLongClickListener(this::onFileLongClick);
         fileTree.loadPath(new FileX(IDE.PROJECTS_PATH, project.name).getFullPath());
+        SwipeRefreshLayout swl = context.findViewById(R.id.swipe_refresh);
+        swl.setOnRefreshListener(
+                () -> {
+                    fileTree.adapter.notifyDataSetChanged();
+                    swl.setRefreshing(false);
+                });
     }
 
     public boolean onFileLongClick(Node node, File file, View v) {
