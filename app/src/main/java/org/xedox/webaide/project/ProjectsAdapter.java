@@ -6,16 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.xedox.webaide.R;
+import org.xedox.webaide.activity.BaseActivity;
+import org.xedox.webaide.dialogs.RenameProjectDialog;
 import org.xedox.webaide.util.OverflowMenu;
-import org.xedox.webaide.project.Project;
+import org.xedox.webaide.util.io.IFile;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.xedox.webaide.project.ProjectManager;
-import org.xedox.webaide.dialogs.RenameProjectDialog;
-import org.xedox.webaide.util.io.IFile;
 
 public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> {
 
@@ -54,7 +56,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
     public int getItemCount() {
         return projects.size();
     }
-    
+
     public void change() {
         if (onChangeListener != null) {
             onChangeListener.onChange();
@@ -79,51 +81,6 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
             notifyItemRemoved(position);
         }
         change();
-    }
-
-    class ProjectViewHolder extends RecyclerView.ViewHolder {
-        private final TextView nameView;
-        private final TextView pathView;
-        private final ImageButton more;
-
-        public ProjectViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nameView = itemView.findViewById(R.id.name);
-            pathView = itemView.findViewById(R.id.path);
-            more = itemView.findViewById(R.id.more);
-        }
-
-        void bind(@NonNull Project project) {
-            nameView.setText(project.name);
-            pathView.setText(
-                    project.path.toFile()
-                            .getAbsolutePath());
-
-            more.setOnClickListener(
-                    (v) -> {
-                        OverflowMenu.show(
-                                context,
-                                v,
-                                R.menu.project,
-                                (item) -> {
-                                    int id = item.getItemId();
-                                    if (id == R.id.rename) {
-                                        RenameProjectDialog.show(
-                                                context, project.name, getAbsoluteAdapterPosition());
-                                    } else if (id == R.id.remove) {
-                                        ProjectManager.removeProject(project.name);
-                                        remove(project);
-                                    }
-                                });
-                    });
-            itemView.setOnClickListener(
-                    v -> {
-                        int position = getAbsoluteAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION && clickListener != null) {
-                            clickListener.onProjectClick(project);
-                        }
-                    });
-        }
     }
 
     public void add(Project project) {
@@ -160,5 +117,47 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
 
     public interface OnChangeListener {
         void onChange();
+    }
+
+    class ProjectViewHolder extends RecyclerView.ViewHolder {
+        private final TextView nameView;
+        private final TextView pathView;
+        private final ImageButton more;
+
+        public ProjectViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nameView = itemView.findViewById(R.id.name);
+            pathView = itemView.findViewById(R.id.path);
+            more = itemView.findViewById(R.id.more);
+        }
+
+        void bind(@NonNull Project project) {
+            nameView.setText(project.name);
+            pathView.setText(project.path.toFile().getAbsolutePath());
+
+            more.setOnClickListener((v) -> {
+                OverflowMenu.show(context, v, R.menu.project, (item) -> {
+                    int id = item.getItemId();
+                    if (id == R.id.rename) {
+                        RenameProjectDialog.show(context, project.name, getAbsoluteAdapterPosition());
+                    } else if (id == R.id.remove) {
+                        ProjectManager.removeProject(project.name);
+                        remove(project);
+                    } else if (id == R.id.clone) {
+                        Project cloned = ProjectManager.cloneProject(project.name, (BaseActivity) context);
+                        if (cloned != null) {
+                            add(cloned);
+                        }
+                    }
+                });
+            });
+
+            itemView.setOnClickListener(v -> {
+                int position = getAbsoluteAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener.onProjectClick(project);
+                }
+            });
+        }
     }
 }
