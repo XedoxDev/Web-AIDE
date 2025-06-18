@@ -55,6 +55,7 @@
     <string name="open_in_other_app">Open Externally</string>
     <string name="rename_file">Rename File</string>
     <string name="rename_failed">Rename failed</string>
+    <string name="project_cloned_successful">Project cloned successfully</string>
 
     <!-- Folder operations -->
     <string name="folder_name">Folder Name</string>
