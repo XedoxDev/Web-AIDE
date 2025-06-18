@@ -10,18 +10,20 @@
     android:clipToPadding="false">
 
     <HorizontalScrollView
-        android:layout_height="match_parent"
+        android:id="@+id/horizontal_filetree_scroll"
         android:layout_width="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:nestedScrollingEnabled="false"
+        android:scrollbars="horizontal|vertical">
 
         <org.xedox.filetree.widget.FileTreeView
-            android:layout_height="match_parent"
+            android:id="@+id/file_tree"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="horizontal|vertical"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:id="@+id/file_tree" />
-
+            android:nestedScrollingEnabled="false"
+        />
     </HorizontalScrollView>
 
 </RelativeLayout>
