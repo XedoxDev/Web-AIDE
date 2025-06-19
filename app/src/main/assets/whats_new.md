@@ -20,6 +20,7 @@ EN:
 - Fix markdown editor snippets
 - Add project copying
 - Other bug fixes
+- UI changes
 END
 
 

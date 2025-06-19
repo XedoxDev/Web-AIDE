@@ -148,29 +148,18 @@ public class ConsoleLayout extends RelativeLayout {
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        private static final int FLING_THRESHOLD_VELOCITY = 500;
-
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (Math.abs(velocityY) > FLING_THRESHOLD_VELOCITY) {
-                if (velocityY > FLING_THRESHOLD_VELOCITY) {
-                    if(headerY < getHeight() / 2) {
-                        centerConsole();
-                        return true;
-                    }
-                    minimizeConsole();
-                    return true;
-                } else if(velocityY < -FLING_THRESHOLD_VELOCITY){
-                    if(headerY > getHeight() / 2) {
-                        centerConsole();
-                        return true;
-                    }
-                    maxConsole();
-                    return true;
-                }
+            if (headerY > getHeight() / 1.7) {
+                centerConsole();
+                return true;
+            } else if (headerY > getHeight() / 3.0) {
+                maxConsole();
+                return true;
+            } else {
+                minimizeConsole();
+                return true;
             }
-            return false;
         }
     }
 }

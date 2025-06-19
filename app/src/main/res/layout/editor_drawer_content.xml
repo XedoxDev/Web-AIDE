@@ -5,13 +5,28 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@color/background"
-    android:padding="8dp"
-    android:clipChildren="false"
-    android:clipToPadding="false">
+    android:padding="16dp">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="19sp"
+        android:id="@+id/file_tree_title"
+        android:text="@string/file_tree" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:id="@+id/filetree_divider"
+        android:layout_below="@+id/file_tree_title"
+        android:layout_marginTop="8dp" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_below="@+id/file_tree_title"
+        android:layout_marginTop="16dp"
         android:id="@+id/swipe_refresh">
 
         <org.xedox.filetree.widget.TwoDScrollView
@@ -23,7 +38,9 @@
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:id="@+id/file_tree" />
+
         </org.xedox.filetree.widget.TwoDScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

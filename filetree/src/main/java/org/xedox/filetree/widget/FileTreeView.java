@@ -111,7 +111,7 @@ public class FileTreeView extends RecyclerView {
                 endY = startY + 1 * fileItemLayoutHeight;
             }
             canvas.drawLine(startX, startY, startX, endY, linePaint);
-
+            if(!childrenLines) return;
             float childLevel = node.level + 1;
             for (int j = i + 1; j < nodes.size(); j++) {
                 Node child = nodes.get(j);
