@@ -68,7 +68,7 @@ public class FileTreeView extends RecyclerView {
         linePaint.setStyle(Paint.Style.STROKE);
         initAttributes(attrs);
     }
-
+    
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

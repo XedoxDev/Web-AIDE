@@ -148,8 +148,7 @@ public class EditorActivity extends BaseActivity {
                         View navView = findViewById(R.id.nav_view);
                         View scrollView = findViewById(R.id.horizontal_filetree_scroll);
 
-                        if (ev.getAction() == MotionEvent.ACTION_DOWN
-                                || (ev.getX() < navView.getWidth() && ev.getX() >= 0)) {
+                        if (isTouchInsideView(ev.getRawX(), ev.getRawY(), navView)) {
                             scrollView.dispatchTouchEvent(ev);
                             return true;
                         }
@@ -157,6 +156,18 @@ public class EditorActivity extends BaseActivity {
                     return false;
                 });
     }
+   private
+     boolean isTouchInsideView(float touchX, float touchY, View view) {
+    int[] location = new int[2];
+    view.getLocationOnScreen(location); 
+    
+    int left = location[0];
+    int top = location[1];
+    int right = left + view.getWidth();
+    int bottom = top + view.getHeight();
+    
+    return (touchX >= left && touchX <= right && touchY >= top && touchY <= bottom);
+}
 
     @Override
     protected void onDestroy() {

@@ -1,6 +1,6 @@
 # Web Android IDE (Web-AIDE)
 
-[![Version](https://img.shields.io/badge/Version-v0.0.3-blue)](https://github.com/XedoxDev/Web-Android-IDE/releases)
+[![Version](https://img.shields.io/badge/Version-v0.0.4-blue)](https://github.com/XedoxDev/Web-Android-IDE/releases)
 [![Status](https://img.shields.io/badge/Status-Alpha_Testing-orange)](https://github.com/XedoxDev/Web-Android-IDE/wiki/Development-Roadmap)
 [![License](https://img.shields.io/github/license/XedoxDev/Web-AIDE)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-100%25-blue)](https://java.com)
@@ -14,17 +14,11 @@ A mobile web development environment for Android devices with Git integration an
 - Minimum Android Version: 8.0 (API 26)
 - Target SDK Version: 36
 
-## ✨ Key Features
+## ✨ Thanks to
 
-- **Code Editor**: Syntax highlighting and basic IDE functionality
-- **Git Integration**: Version control support
-- **Live Preview**: Real-time web page preview
-
-## 🛠 Technology Stack
-
-<p align="left">
-  <img src="https://skillicons.dev/icons?i=java,androidstudio,git,github" width="120" alt="Tech Stack"/>
-</p>
+- [**Rosemoe/SoraEditor**](https://github.com/Rosemoe/sora-editor)
+- [**AndroidIDE**](https://github.com/AndroidIDEOfficial/AndroidIDE)
+- [**jaredrummler/TwoDScrollView**](https://github.com/jaredrummler/TwoDScrollView.git)
 
 ## 🤝 Contributing
 

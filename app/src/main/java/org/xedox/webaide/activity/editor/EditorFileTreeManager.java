@@ -68,7 +68,7 @@ public class EditorFileTreeManager {
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context)   ;
           fileTree.turnOnLines = prefs.getBoolean("turn_on_line", false);
           fileTree.childrenLines = prefs.getBoolean("tree_lines_to_children", false);
-          fileTree.lineWidth = prefs.getInt("line_width", 2);
+          fileTree.setLineWidth(prefs.getInt("line_width", 2));
     }
 
     public boolean onFileLongClick(Node node, File file, View v) {
