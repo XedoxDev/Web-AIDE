@@ -10,22 +10,20 @@
     android:clipToPadding="false">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:id="@+id/swipe_refresh">
 
-        <HorizontalScrollView
+        <org.xedox.filetree.widget.TwoDScrollView
             android:layout_height="match_parent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:id="@+id/horizontal_filetree_scroll">
 
             <org.xedox.filetree.widget.FileTreeView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:id="@+id/file_tree" />
-
-        </HorizontalScrollView>
-
+        </org.xedox.filetree.widget.TwoDScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

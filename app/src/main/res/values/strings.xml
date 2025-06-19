@@ -166,6 +166,19 @@
     <string name="system">System</string>
     <string name="general">General</string>
 
+    <string name="lines_settings">Lines settings</string>
+    <string name="line_width">Line width</string>
+    <string name="line_width_summary">Set the width of tree lines</string>
+
+    <string name="turn_on_line">Turn on lines</string>
+    <string name="turn_on_line_summary">Enable all connection lines in the tree</string>
+
+    
+    <string name="tree_lines">Tree lines</string>
+    <string name="tree_lines_summary">Show lines connecting tree nodes</string>
+    
+    <string name="tree_lines_to_children">Tree lines to children</string>
+    <string name="tree_lines_to_children_summary">Show lines connecting parent nodes to their children</string>
     <string name="markdown_display_type">Markdown display type</string>
     <string name="markdown_flexmark">Flexmark</string>
     <string name="markdown_markwon">Markdown</string>

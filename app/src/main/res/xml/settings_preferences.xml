@@ -55,4 +55,39 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/lines_settings">
+        <SwitchPreferenceCompat
+            android:key="turn_on_line"
+            android:title="@string/turn_on_line"
+            android:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            android:key="tree_lines"
+            android:title="@string/tree_lines"
+            android:defaultValue="true"
+            android:dependency="turn_on_line">
+            <extra android:name="dependency_reset" android:value="true" />
+        </SwitchPreferenceCompat>
+
+        <org.xedox.webaide.util.preference.MaterialSeekBarPreference
+            android:key="line_width"
+            android:title="@string/line_width"
+            android:defaultValue="2"
+            android:min="1"
+            android:max="10"
+            android:dependency="tree_lines"
+            android:enabled="false">
+            <extra android:name="dependency_reset" android:value="true" />
+        </org.xedox.webaide.util.preference.MaterialSeekBarPreference>
+
+        <SwitchPreferenceCompat
+            android:key="tree_lines_to_children"
+            android:title="@string/tree_lines_to_children"
+            android:defaultValue="true"
+            android:dependency="tree_lines"
+            android:enabled="false">
+            <extra android:name="dependency_reset" android:value="true" />
+        </SwitchPreferenceCompat>
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

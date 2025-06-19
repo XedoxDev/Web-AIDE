@@ -145,8 +145,7 @@ public class EditorActivity extends BaseActivity {
         // WORK - NO TOUCH //
         drawerLayout.setOnTouchListener(
                 (view, ev) -> {
-                    if (ev.getX() < findViewById(R.id.nav_view).getWidth() && drawerLayout.isOpen()) {
-
+                    if (ev.getPointerId(0) >= 0 && ev.getX() < findViewById(R.id.nav_view).getWidth() && drawerLayout.isOpen()) {
                         findViewById(R.id.horizontal_filetree_scroll).dispatchTouchEvent(ev);
                         return true;
                     }

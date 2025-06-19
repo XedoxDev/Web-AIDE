@@ -93,7 +93,7 @@ public class FileTreeView extends RecyclerView {
         List<Node> nodes = adapter.getNodes();
         if (nodes == null || nodes.isEmpty() || fileItemLayoutHeight == 0) return;
         int scrollY = computeVerticalScrollOffset();
-        int scrollX = computeHorizontalScrollOffset() - scrollY;
+        int scrollX = computeHorizontalScrollOffset();
 
         for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
