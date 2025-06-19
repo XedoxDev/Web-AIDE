@@ -1,14 +1,12 @@
 package org.xedox.webaide.console;
 
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Canvas;
+import android.os.Looper;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import org.xedox.webaide.R;
@@ -20,6 +18,7 @@ public class ConsoleLayout extends RelativeLayout {
     private ConsoleView console;
     private float headerY = 0;
     private float initialTouchY;
+    private GestureDetector gestureDetector;
 
     public ConsoleLayout(Context context) {
         super(context);
@@ -42,7 +41,7 @@ public class ConsoleLayout extends RelativeLayout {
         header = findViewById(R.id.header);
         content = findViewById(R.id.content);
         console = findViewById(R.id.console);
-
+        gestureDetector = new GestureDetector(context, new GestureListener());
         post(
                 () -> {
                     headerY = getHeight() - header.getHeight();
@@ -55,6 +54,7 @@ public class ConsoleLayout extends RelativeLayout {
     }
 
     private boolean handleHeaderMove(View view, MotionEvent event) {
+        if (gestureDetector.onTouchEvent(event)) return true;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialTouchY = event.getRawY();
@@ -77,6 +77,20 @@ public class ConsoleLayout extends RelativeLayout {
                 return true;
         }
         return false;
+    }
+
+    private void gesture() {}
+
+    public void minimizeConsole() {
+        moveTo(getHeight() - header.getHeight());
+    }
+
+    public void centerConsole() {
+        moveTo(getHeight() / 2 - header.getHeight());
+    }
+
+    public void maxConsole() {
+        moveTo(0);
     }
 
     private void updateContent() {
@@ -106,7 +120,7 @@ public class ConsoleLayout extends RelativeLayout {
     public void printError(int text) {
         console.printError(getContext().getString(text));
     }
-    
+
     public void printError(Throwable err) {
         console.printError(err.toString());
     }
@@ -114,7 +128,7 @@ public class ConsoleLayout extends RelativeLayout {
     public void printText(String text) {
         console.printText(text);
     }
-    
+
     public void printInfo(String text) {
         console.printText(text);
     }
@@ -124,13 +138,39 @@ public class ConsoleLayout extends RelativeLayout {
     }
 
     public void moveTo(float y) {
-        ObjectAnimator anim =
-                ObjectAnimator.ofFloat(header, "y", header.getTranslationY(), y);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(header, "y", header.getTranslationY(), y);
         anim.addUpdateListener(
                 (valueAnimator) -> {
                     updateContent();
                 });
-        
+
         anim.start();
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        private static final int FLING_THRESHOLD_VELOCITY = 500;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (Math.abs(velocityY) > FLING_THRESHOLD_VELOCITY) {
+                if (velocityY > FLING_THRESHOLD_VELOCITY) {
+                    if(headerY < getHeight() / 2) {
+                        centerConsole();
+                        return true;
+                    }
+                    minimizeConsole();
+                    return true;
+                } else if(velocityY < -FLING_THRESHOLD_VELOCITY){
+                    if(headerY > getHeight() / 2) {
+                        centerConsole();
+                        return true;
+                    }
+                    maxConsole();
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

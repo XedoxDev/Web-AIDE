@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import org.xedox.webaide.IDE;
 import org.xedox.webaide.R;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.dialogs.RenameProjectDialog;
@@ -133,7 +135,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
 
         void bind(@NonNull Project project) {
             nameView.setText(project.name);
-            pathView.setText(project.path.toFile().getAbsolutePath());
+            pathView.setText(new File(IDE.PROJECTS_PATH, project.getName()).getAbsolutePath());
 
             more.setOnClickListener((v) -> {
                 OverflowMenu.show(context, v, R.menu.project, (item) -> {

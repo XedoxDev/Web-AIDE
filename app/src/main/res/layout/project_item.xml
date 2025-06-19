@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="1dp"
-    app:strokeWidth="1dp">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:layout_margin="4dp"
+     app:cardElevation="1dp"
+     app:strokeWidth="1dp"
+     app:cardCornerRadius="12dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:padding="4dp">
 
         <ImageView
-            android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/folder"
-            android:padding="3dp" />
+             android:layout_height="40dp"
+             android:layout_width="40dp"
+             android:src="@drawable/folder"
+             android:layout_centerVertical="true"
+             android:padding="3dp"
+             android:layout_alignParentStart="true"
+             android:id="@+id/icon" />
 
         <ImageButton
-            android:id="@+id/more"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            style="@style/Widget.AppCompat.ActionButton"
-            app:srcCompat="@drawable/more" />
+             android:layout_height="48dp"
+             android:layout_width="48dp"
+             android:layout_centerVertical="true"
+             android:layout_alignParentEnd="true"
+             style="@style/Widget.AppCompat.ActionButton"
+             app:srcCompat="@drawable/more"
+             android:id="@+id/more" />
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/more"
-            android:layout_toEndOf="@id/icon"
-            android:layout_alignParentTop="true"
-            android:textSize="16sp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:layout_margin="3dp" />
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:layout_toStartOf="@id/more"
+             android:ellipsize="end"
+             android:textSize="16sp"
+             android:layout_marginLeft="3dp"
+             android:textColor="?android:attr/textColorPrimary"
+             android:singleLine="true"
+             android:layout_marginTop="3dp"
+             android:layout_toEndOf="@id/icon"
+             android:layout_marginRight="3dp"
+             android:layout_alignParentTop="true"
+             android:id="@+id/name" />
 
         <TextView
-            android:id="@+id/path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/more"
-            android:layout_toEndOf="@id/icon"
-            android:layout_below="@id/name"
-            android:textSize="12sp"
-            android:textColor="?android:attr/textColorSecondary"
-            android:layout_margin="3dp" />
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:layout_toEndOf="@id/icon"
+             android:layout_toStartOf="@id/more"
+             android:layout_below="@id/name"
+             android:textSize="12sp"
+             android:layout_marginLeft="3dp"
+             android:layout_marginRight="3dp"
+             android:textColor="@color/hint"
+             android:id="@+id/path" />
 
     </RelativeLayout>
 

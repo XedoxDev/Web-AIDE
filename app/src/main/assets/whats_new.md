@@ -8,6 +8,7 @@ EN:
   - Add markdown display type (setting)
     - Markwon
     - Flexmark
+- Add gesture to console  
   
 ### Improvements  
 - Optimize color picker
@@ -18,6 +19,7 @@ EN:
   - Add file tree settings
 - Fix markdown editor snippets
 - Add project copying
+- Other bug fixes
 END
 
 
