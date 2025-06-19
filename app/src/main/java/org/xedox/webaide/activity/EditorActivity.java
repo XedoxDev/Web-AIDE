@@ -155,19 +155,25 @@ public class EditorActivity extends BaseActivity {
                     }
                     return false;
                 });
+                String[] openFiles = getIntent().getStringArrayExtra("open_files");
+                if(openFiles != null){
+                    for(String path : openFiles) {
+                    	editorAdapter.addFile(new FileX(path));
+                    }
+                }
     }
-   private
-     boolean isTouchInsideView(float touchX, float touchY, View view) {
-    int[] location = new int[2];
-    view.getLocationOnScreen(location); 
-    
-    int left = location[0];
-    int top = location[1];
-    int right = left + view.getWidth();
-    int bottom = top + view.getHeight();
-    
-    return (touchX >= left && touchX <= right && touchY >= top && touchY <= bottom);
-}
+
+    private boolean isTouchInsideView(float touchX, float touchY, View view) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getWidth();
+        int bottom = top + view.getHeight();
+
+        return (touchX >= left && touchX <= right && touchY >= top && touchY <= bottom);
+    }
 
     @Override
     protected void onDestroy() {
@@ -275,10 +281,15 @@ public class EditorActivity extends BaseActivity {
             getCurrentFragment().format();
             return true;
         } else if (id == R.id.settings) {
-            startActivity(
-                    new Intent(this, SettingsActivity.class)
-                            .putExtra("project_name", project.name));
+            Intent in = new Intent(this, SettingsActivity.class);
+            in.putExtra("project_name", project.name);
+            String[] files = new String[editorAdapter.getItemCount()];
+            for(int i = 0; i < editorAdapter.getItemCount(); i++) {
+            	files[i] = editorAdapter.getFiles().get(i).getFullPath();
+            }
+            in.putExtra("open_files", files);
             saveAllFiles();
+            startActivity(in);
             super.finish();
             return true;
         }

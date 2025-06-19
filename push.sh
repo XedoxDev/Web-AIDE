@@ -1,17 +1,16 @@
 #!/bin/bash
 
-echo "Adding all files to commit..."
-git add .
+echo -n "Do you want to commit changes? (y/n): "
+read use_commit
 
-echo -n "Enter commit message: "
-read commit_message
-
-if [ -z "$commit_message" ]; then
-    echo "Error: Commit message cannot be empty!"
-    exit 1
+if [ "$use_commit" = "y" ]; then
+    bash commit.sh
+else
+    echo "Skipping commit, pushing existing changes..."
 fi
 
-git commit -m "$commit_message"
 git push
 
-echo "Done! Changes pushed with message: '$commit_message'"
+if [ "$use_commit" != "y" ]; then
+    echo "Done! Changes pushed without new commit."
+fi

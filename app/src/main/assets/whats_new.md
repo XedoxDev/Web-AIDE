@@ -14,6 +14,8 @@ EN:
 - Update color picker functional
 - Update whats new
 - Big update file tree
+  - Visual update
+  - Add file tree settings
 - Fix markdown editor snippets
 - Add project copying
 END

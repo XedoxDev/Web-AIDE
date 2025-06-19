@@ -55,7 +55,7 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/lines_settings">
+    <PreferenceCategory android:title="@string/file_tree">
         <SwitchPreferenceCompat
             android:key="turn_on_line"
             android:title="@string/turn_on_line"

@@ -25,6 +25,7 @@ public class SettingsActivity extends BaseActivity {
 
     private FrameLayout contentFrame;
     private String name;
+    private String[] openFiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class SettingsActivity extends BaseActivity {
                 .commit();
 
         name = getIntent().getStringExtra("project_name");
-
+        openFiles = getIntent().getStringArrayExtra("open_files");
         getOnBackPressedDispatcher()
                 .addCallback(
                         new OnBackPressedCallback(true) {
@@ -61,6 +62,7 @@ public class SettingsActivity extends BaseActivity {
                             .addFlags(
                                     Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("project_name", name);
+            i.putExtra("open_files", openFiles);
         } else {
             i =
                     new Intent(this, MainActivity.class)

@@ -44,6 +44,9 @@ public class SoraEditor extends CodeEditor implements IEditor {
             case "serif":
                 font = Typeface.SERIF;
                 break;
+            case "monospace":
+                font = Typeface.MONOSPACE;
+                break;
             case "custom":
                 font = Typeface.createFromFile(IDE.HOME + "font.ttf");
                 break;
