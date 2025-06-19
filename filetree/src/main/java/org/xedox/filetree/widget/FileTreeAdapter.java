@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -252,10 +253,31 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
 
     private void addChildren(Node node) {
         int index = nodes.indexOf(node);
+        List<Node> folders = new ArrayList<>();
+        List<Node> files = new ArrayList<>();
+        
         for (Node child : node.children()) {
-            nodes.add(index + 1, child);
+            if (child.isFile) {
+                files.add(child);
+            } else {
+                folders.add(child);
+            }
+        }
+        
+        Collections.sort(folders, (n1, n2) -> n1.name.compareToIgnoreCase(n2.name));
+        Collections.sort(files, (n1, n2) -> n1.name.compareToIgnoreCase(n2.name));
+        
+        for (Node folder : folders) {
+            nodes.add(index + 1, folder);
             count++;
-            if (!child.isFile && child.isOpen) addChildren(child);
+            if (folder.isOpen) {
+                addChildren(folder);
+            }
+        }
+        
+        for (Node file : files) {
+            nodes.add(index + 1 + folders.size(), file);
+            count++;
         }
     }
 
@@ -336,10 +358,23 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         if (parent.isOpen) {
             int parentPos = nodes.indexOf(parent);
             if (parentPos == -1) return;
+            
             int insertPos = parentPos + 1;
-            while (insertPos < nodes.size() && nodes.get(insertPos).level > parent.level) {
-                insertPos++;
+            boolean isFolder = !toAdd.isFile;
+            
+            if (isFolder) {
+                while (insertPos < nodes.size() && 
+                       nodes.get(insertPos).level > parent.level && 
+                       !nodes.get(insertPos).isFile) {
+                    insertPos++;
+                }
+            } else {
+                while (insertPos < nodes.size() && 
+                       nodes.get(insertPos).level > parent.level) {
+                    insertPos++;
+                }
             }
+            
             nodes.add(insertPos, toAdd);
             notifyItemInserted(insertPos);
         }

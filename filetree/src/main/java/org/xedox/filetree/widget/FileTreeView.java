@@ -20,7 +20,9 @@ public class FileTreeView extends RecyclerView {
     private int fileItemLayoutHeight;
     private Paint linePaint;
     private int lineColor = 0xFF888888;
-    private int lineWidth = 2;
+    public int lineWidth = 2;
+    public boolean turnOnLines = false;
+    public boolean childrenLines = false;
 
     public FileTreeView(Context context) {
         super(context);
@@ -91,7 +93,7 @@ public class FileTreeView extends RecyclerView {
 
     private void drawConnectingLines(Canvas canvas) {
         List<Node> nodes = adapter.getNodes();
-        if (nodes == null || nodes.isEmpty() || fileItemLayoutHeight == 0) return;
+        if (nodes == null || nodes.isEmpty() || fileItemLayoutHeight == 0 || !turnOnLines) return;
         int scrollY = computeVerticalScrollOffset();
         int scrollX = computeHorizontalScrollOffset();
 
@@ -101,19 +103,34 @@ public class FileTreeView extends RecyclerView {
 
             int indent = adapter.getIndent();
             float startX = node.level * indent + indent / 2f - scrollX;
-            float startY = i * fileItemLayoutHeight + fileItemLayoutHeight - scrollY;
-            float endY = startY + getVisibleChildrenCount(node) * fileItemLayoutHeight;
-
+            float startY = i * fileItemLayoutHeight + fileItemLayoutHeight / 2 - scrollY;
+            float endY = 0;
+            if (node.children().get(node.children.size()-1).isFile) {
+                endY = startY + getChildrenCount(node) * fileItemLayoutHeight;
+            } else {
+                endY = startY + 1 * fileItemLayoutHeight;
+            }
             canvas.drawLine(startX, startY, startX, endY, linePaint);
+
+            float childLevel = node.level + 1;
+            for (int j = i + 1; j < nodes.size(); j++) {
+                Node child = nodes.get(j);
+                if (child.level <= node.level) break;
+                if (child.level == childLevel) {
+                    float childStartX = child.level * indent - scrollX;
+                    float childY = j * fileItemLayoutHeight + fileItemLayoutHeight / 2f - scrollY;
+                    canvas.drawLine(startX, childY, childStartX, childY, linePaint);
+                }
+            }
         }
     }
 
-    private int getVisibleChildrenCount(Node node) {
+    private int getChildrenCount(Node node) {
         if (!node.isOpen) return 0;
         int count = node.children.size();
-        for (Node child : node.children) {
-            if (!child.isFile && child.isOpen) {
-                count += getVisibleChildrenCount(child);
+        for (Node n : node.children) {
+            if (n.isOpen) {
+                count += getChildrenCount(n);
             }
         }
         return count;

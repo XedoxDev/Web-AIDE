@@ -172,7 +172,6 @@
 
     <string name="turn_on_line">Turn on lines</string>
     <string name="turn_on_line_summary">Enable all connection lines in the tree</string>
-
     
     <string name="tree_lines">Tree lines</string>
     <string name="tree_lines_summary">Show lines connecting tree nodes</string>

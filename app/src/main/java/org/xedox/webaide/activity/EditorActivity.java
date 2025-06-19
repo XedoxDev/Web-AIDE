@@ -142,12 +142,17 @@ public class EditorActivity extends BaseActivity {
                                 finish(true);
                             }
                         });
-        // WORK - NO TOUCH //
         drawerLayout.setOnTouchListener(
                 (view, ev) -> {
-                    if (ev.getPointerId(0) >= 0 && ev.getX() < findViewById(R.id.nav_view).getWidth() && drawerLayout.isOpen()) {
-                        findViewById(R.id.horizontal_filetree_scroll).dispatchTouchEvent(ev);
-                        return true;
+                    if (drawerLayout.isOpen()) {
+                        View navView = findViewById(R.id.nav_view);
+                        View scrollView = findViewById(R.id.horizontal_filetree_scroll);
+
+                        if (ev.getAction() == MotionEvent.ACTION_DOWN
+                                || (ev.getX() < navView.getWidth() && ev.getX() >= 0)) {
+                            scrollView.dispatchTouchEvent(ev);
+                            return true;
+                        }
                     }
                     return false;
                 });

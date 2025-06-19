@@ -1,7 +1,9 @@
 package org.xedox.webaide.activity.editor;
 
+import android.content.SharedPreferences;
 import android.view.View;
 
+import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.xedox.filetree.utils.Node;
 import org.xedox.filetree.widget.FileTreeView;
@@ -63,6 +65,10 @@ public class EditorFileTreeManager {
                     fileTree.adapter.notifyDataSetChanged();
                     swl.setRefreshing(false);
                 });
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context)   ;
+          fileTree.turnOnLines = prefs.getBoolean("turn_on_line", false);
+          fileTree.childrenLines = prefs.getBoolean("tree_lines_to_children", false);
+          fileTree.lineWidth = prefs.getInt("line_width", 2);
     }
 
     public boolean onFileLongClick(Node node, File file, View v) {
