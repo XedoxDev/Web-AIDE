@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/settings"
+        android:title="Settings"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/clone_repo"
+        android:icon="@drawable/git"
+        android:title="Git Clone"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/news"
+        android:icon="@drawable/news"
+        android:title="What's New"
+        app:showAsAction="never" />
+</menu>

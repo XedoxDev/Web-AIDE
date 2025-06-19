@@ -74,39 +74,6 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/new_project" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/copy"
-            android:layout_above="@+id/new_project"
-            android:backgroundTint="@color/actionButton"
-            android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
-            android:id="@+id/clone_repo" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/settings"
-            android:layout_above="@+id/clone_repo"
-            android:backgroundTint="@color/actionButton"
-            android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
-            android:id="@+id/settings" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/news"
-            android:backgroundTint="@color/actionButton"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/news" />
-
     </RelativeLayout>
 
 </RelativeLayout>
