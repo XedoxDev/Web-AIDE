@@ -126,8 +126,6 @@ public class IDE extends MultiDexApplication {
         changeEditorScheme(context);
 
         try {
-            ThemeRegistry.getInstance().loadTheme(model);
-            ThemeRegistry.getInstance().setTheme(theme);
             GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
         } catch (Throwable e) {
             e.printStackTrace();
@@ -147,6 +145,12 @@ public class IDE extends MultiDexApplication {
         ThemeModel model = new ThemeModel(source, theme);
 
         model.setDark(isDarkMode(context));
+        try {
+        	ThemeRegistry.getInstance().loadTheme(model);
+            ThemeRegistry.getInstance().setTheme(theme);
+        } catch(Exception err) {
+        	err.printStackTrace();
+        }
     }
 
     private static String getMimeType(String url) {

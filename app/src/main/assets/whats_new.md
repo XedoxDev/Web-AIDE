@@ -10,6 +10,7 @@ EN:
     - Flexmark
 - Add gesture to console
 - Add saving open files
+- Add app themes (System, light, dark)
   
 ### Improvements  
 - Optimize color picker
