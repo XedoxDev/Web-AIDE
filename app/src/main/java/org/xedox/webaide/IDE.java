@@ -27,17 +27,16 @@ public class IDE extends MultiDexApplication {
 
     public static File HOME;
     public static File PROJECTS_PATH;
-    public static Context context;
     public static int TAB_SIZE = 4;
     private static boolean isInit = false;
+    public static IDE appContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+        appContext = (IDE)getApplicationContext();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String themePref = sharedPref.getString("theme", "system");
-
         applyTheme(themePref);
     }
 
@@ -124,6 +123,18 @@ public class IDE extends MultiDexApplication {
     }
 
     public static void initSchemes(Context context) {
+        changeEditorScheme(context);
+
+        try {
+            ThemeRegistry.getInstance().loadTheme(model);
+            ThemeRegistry.getInstance().setTheme(theme);
+            GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void changeEditorScheme(Context context) {
         FileProviderRegistry.getInstance()
                 .addFileProvider(new AssetsFileResolver(context.getAssets()));
 
@@ -136,14 +147,6 @@ public class IDE extends MultiDexApplication {
         ThemeModel model = new ThemeModel(source, theme);
 
         model.setDark(isDarkMode(context));
-
-        try {
-            ThemeRegistry.getInstance().loadTheme(model);
-            ThemeRegistry.getInstance().setTheme(theme);
-            GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
 
     private static String getMimeType(String url) {
@@ -154,6 +157,7 @@ public class IDE extends MultiDexApplication {
     }
 
     public static void applyTheme(String themeValue) {
+        initSchemes(appContext);
         switch (themeValue) {
             case "system":
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
