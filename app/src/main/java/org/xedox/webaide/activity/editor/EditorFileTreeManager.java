@@ -208,7 +208,7 @@ public class EditorFileTreeManager {
 
     private void openFileInExternalApp(Node node) {
         try {
-            IDE.openFileInExternalApp(context, new File(node.fullPath));
+            context.openFileInExternalApp(new File(node.fullPath));
         } catch (Exception e) {
             showErrorOnUiThread(R.string.file_open_external_error, e);
         }

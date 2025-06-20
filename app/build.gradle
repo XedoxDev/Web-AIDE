@@ -30,18 +30,18 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$app_compat"
-    implementation "androidx.multidex:multidex:2.0.1"
-    implementation "androidx.preference:preference:1.2.1"
+    implementation "androidx.multidex:multidex:$multidex"
+    implementation "androidx.preference:preference:$preference"
     implementation "com.google.android.material:material:$material"
     implementation "com.google.code.gson:gson:$gson"
-    implementation("com.google.javascript:closure-compiler:v20230206")
+    implementation("com.google.javascript:closure-compiler:$closure_compiler")
     
     implementation "io.github.Rosemoe.sora-editor:editor"
     implementation "io.github.Rosemoe.sora-editor:language-textmate"
     implementation "io.noties.markwon:core:${markwonVersion}"
     
     implementation "org.eclipse.jgit:org.eclipse.jgit:$jgit"
-    implementation "org.jsoup:jsoup:1.17.2"
+    implementation "org.jsoup:jsoup:$jsoup"
 
     implementation project(":filetree")
     implementation project(":colorpicker")
@@ -49,10 +49,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
     
-    implementation 'com.vladsch.flexmark:flexmark:0.64.8' 
-    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.64.8' 
-    implementation 'com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:0.64.8' 
+    implementation "com.vladsch.flexmark:flexmark:$flexmark" 
+    implementation "com.vladsch.flexmark:flexmark-ext-tables:$flexmark" 
+    implementation "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:$flexmark" 
     
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-   
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 }

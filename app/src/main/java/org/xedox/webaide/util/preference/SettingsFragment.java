@@ -28,7 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         final String key = preference.getKey();
         
         if (key.equals("theme")) {
-            IDE.applyTheme((String) newValue);
+            IDE.applyTheme(getActivity(), (String) newValue);
             updateThemePreferenceSummary((ListPreference) preference);
             return true;
         }

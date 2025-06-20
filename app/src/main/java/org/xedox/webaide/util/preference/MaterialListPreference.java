@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import androidx.preference.ListPreference;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.xedox.webaide.dialogs.DialogBuilder;
+import org.xedox.webaide.R;
 
 public class MaterialListPreference extends ListPreference {
 
@@ -39,7 +40,7 @@ public class MaterialListPreference extends ListPreference {
             }
             dialog.dismiss();
         });
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }

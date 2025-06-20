@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
     private TextView aboutApp;
     public ProjectsAdapter projectsAdapter;
     private View emptyProjects;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,45 +49,48 @@ public class MainActivity extends BaseActivity {
 
         newProject.setOnClickListener(v -> NewProjectDialog.show(this));
 
-        projectsAdapter.setOnProjectClickListener(project -> {
-            Intent i = new Intent(this, EditorActivity.class);
-            i.putExtra("project_name", project.name);
-            startActivity(i);
-            finish();
-        });
+        projectsAdapter.setOnProjectClickListener(
+                project -> {
+                    Intent i = new Intent(this, EditorActivity.class);
+                    i.putExtra("project_name", project.name);
+                    startActivity(i);
+                    finish();
+                });
 
         HighlightText.clickable(
                 aboutApp,
                 "Telegram",
                 R.color.link,
-                () -> IDE.openLinkInBrowser(this, "https://t.me/xedox_studio"));
+                () -> openLinkInBrowser("https://t.me/xedox_studio"));
 
         HighlightText.clickable(
                 aboutApp,
                 "GitHub",
                 R.color.link,
-                () -> IDE.openLinkInBrowser(this, "https://github.com/XedoxDev/Web-AIDE.git"));
+                () -> openLinkInBrowser("https://github.com/XedoxDev/Web-AIDE.git"));
 
-        projectsAdapter.setOnChangeListener(() -> {
-            int numberOfProjects = projectsAdapter.getItemCount();
-            if (numberOfProjects <= 0) {
-                emptyProjects.setVisibility(View.VISIBLE);
-                projects.setVisibility(View.GONE);
-            } else {
-                emptyProjects.setVisibility(View.GONE);
-                projects.setVisibility(View.VISIBLE);
-            }
-        });
+        projectsAdapter.setOnChangeListener(
+                () -> {
+                    int numberOfProjects = projectsAdapter.getItemCount();
+                    if (numberOfProjects <= 0) {
+                        emptyProjects.setVisibility(View.VISIBLE);
+                        projects.setVisibility(View.GONE);
+                    } else {
+                        emptyProjects.setVisibility(View.GONE);
+                        projects.setVisibility(View.VISIBLE);
+                    }
+                });
 
         projectsAdapter.change();
 
         View toolbarTitle = toolbar.getChildAt(0);
-        toolbarTitle.setOnClickListener(v -> {
-            new DialogBuilder(this)
-                .setTitle("You touch MY TITLE")
-                .setMessage("BRO, WHY YOU DO IT????")
-                .show();
-        });
+        toolbarTitle.setOnClickListener(
+                v -> {
+                    new DialogBuilder(this)
+                            .setTitle("You touch MY TITLE")
+                            .setMessage("BRO, WHY YOU DO IT????")
+                            .show();
+                });
     }
 
     @Override
@@ -100,7 +103,8 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (menu != null && menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {
-                Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+                Method m =
+                        menu.getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
                 m.setAccessible(true);
                 m.invoke(menu, true);
             } catch (Exception e) {

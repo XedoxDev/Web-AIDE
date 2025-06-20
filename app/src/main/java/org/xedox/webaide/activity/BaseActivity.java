@@ -4,6 +4,11 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.AnimatorSet;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
+import android.content.Context;
+import java.io.File;
+import androidx.core.content.FileProvider;
+import android.webkit.MimeTypeMap;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
@@ -160,5 +165,42 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public interface SelectListener {
         void onSelect(Object... options);
+    }
+
+    public void openLinkInBrowser(String link) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(link));
+        startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openFileInExternalApp(File file) {
+        try {
+            String authority = getPackageName() + ".provider";
+            Uri uri = FileProvider.getUriForFile(this, authority, file);
+
+            String mime = getMimeType(file.getPath());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, mime);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String getMimeType(String url) {
+        String ext = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (ext == null) {
+            return "*/*";
+        }
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getMimeTypeFromExtension(ext.toLowerCase());
     }
 }
