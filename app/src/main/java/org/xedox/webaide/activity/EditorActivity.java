@@ -155,12 +155,12 @@ public class EditorActivity extends BaseActivity {
                     }
                     return false;
                 });
-                String[] openFiles = getIntent().getStringArrayExtra("open_files");
-                if(openFiles != null){
-                    for(String path : openFiles) {
-                    	editorAdapter.addFile(new FileX(path));
-                    }
-                }
+        String[] openFiles = getIntent().getStringArrayExtra("open_files");
+        if (openFiles != null) {
+            for (String path : openFiles) {
+                editorAdapter.addFile(new FileX(path));
+            }
+        }
     }
 
     private boolean isTouchInsideView(float touchX, float touchY, View view) {
@@ -284,8 +284,8 @@ public class EditorActivity extends BaseActivity {
             Intent in = new Intent(this, SettingsActivity.class);
             in.putExtra("project_name", project.name);
             String[] files = new String[editorAdapter.getItemCount()];
-            for(int i = 0; i < editorAdapter.getItemCount(); i++) {
-            	files[i] = editorAdapter.getFiles().get(i).getFullPath();
+            for (int i = 0; i < editorAdapter.getItemCount(); i++) {
+                files[i] = editorAdapter.getFiles().get(i).getFullPath();
             }
             in.putExtra("open_files", files);
             saveAllFiles();

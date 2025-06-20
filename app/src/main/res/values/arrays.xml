@@ -3,11 +3,13 @@
     <string-array name="dialog_type_entries">
         <item>Material3</item>
         <item>AndroidX</item>
+        <item>AlertDialogX (By Xedox)</item>
     </string-array>
 
     <string-array name="dialog_type_values">
         <item>Material3</item>
         <item>AndroidX</item>
+        <item>AlertDialogX</item>
     </string-array>
 
     <string-array name="typeface_entries">

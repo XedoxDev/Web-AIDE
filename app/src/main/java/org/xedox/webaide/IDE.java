@@ -24,6 +24,7 @@ import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import java.io.File;
 import org.xedox.webaide.activity.BaseActivity;
 import org.xedox.webaide.dialogs.DialogBuilder;
+import org.xedox.webaide.util.AlertDialogBuilderX;
 
 public class IDE extends MultiDexApplication {
 
@@ -35,18 +36,19 @@ public class IDE extends MultiDexApplication {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        instance = this;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String themePref = sharedPref.getString("theme", "system");
         applyTheme(themePref);
+        super.onCreate();
+        instance = this;
     }
 
     public static void init(BaseActivity activity) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
         TAB_SIZE = getTabSize(pref);
         initDialogType(pref);
-        
+        String themePref = pref.getString("theme", "system");
+        applyTheme(themePref);
         if (isInit) return;
         HOME = activity.getExternalFilesDir(null);
         PROJECTS_PATH = new File(HOME, "Projects");
@@ -68,6 +70,7 @@ public class IDE extends MultiDexApplication {
             String dialogType = pref.getString("dialog_type", "Material3");
             switch(dialogType) {
                 case "Material3": DialogBuilder.builderType = MaterialAlertDialogBuilder.class; break;
+                case "AlertDialogX": DialogBuilder.builderType = AlertDialogBuilderX.class; break;
                 case "AndroidX":
                 default:  DialogBuilder.builderType = AlertDialog.Builder.class;
             }

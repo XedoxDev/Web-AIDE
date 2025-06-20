@@ -23,6 +23,7 @@
     <string name="login">Username</string>
     <string name="password">Password</string>
     <string name="markdown_preview">Markdown preview</string>
+ <string name="whats_new">Whats new</string>
 
     <!-- Confirmation dialogs -->
     <string name="confirm_delete_title">Confirm Deletion</string>

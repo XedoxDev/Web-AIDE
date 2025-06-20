@@ -5,7 +5,7 @@
         android:id="@+id/settings"
         android:icon="@drawable/settings"
         android:title="Settings"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/clone_repo"
@@ -16,6 +16,6 @@
     <item
         android:id="@+id/news"
         android:icon="@drawable/news"
-        android:title="What's New"
+        android:title="@string/whats_new"
         app:showAsAction="never" />
 </menu>

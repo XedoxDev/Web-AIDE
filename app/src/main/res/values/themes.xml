@@ -18,4 +18,10 @@
         <item name="tint">?attr/colorOnSurface</item>
         <item name="iconTint">?attr/colorOnSurface</item>
     </style>
+
+    <style
+        name="AlertDialogXTheme"
+        parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/alert_dialog_x_background</item>
+    </style>
 </resources>

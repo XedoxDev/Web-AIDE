@@ -30,16 +30,12 @@ public class MainActivity extends BaseActivity {
     private TextView aboutApp;
     public ProjectsAdapter projectsAdapter;
     private View emptyProjects;
-    private MaterialToolbar toolbar;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        loadToolbar();
         projects = findViewById(R.id.last_folders);
         newProject = findViewById(R.id.new_project);
         aboutApp = findViewById(R.id.about_app);
