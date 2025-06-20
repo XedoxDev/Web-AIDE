@@ -1,28 +1,36 @@
-EN:
+START:
 # What's New?  
 **WebDroid Update v0.0.4 (Build 4)**  
 
-### New Features  
-- Add setting for chhange dialogs type (Material3, AndroidX)
-- Add markdown preview
-  - Add markdown display type (setting)
-    - Markwon
-    - Flexmark
-- Add gesture to console
-- Add saving open files
-- Add app themes (System, light, dark)
-  
-### Improvements  
-- Optimize color picker
-- Update color picker functional
-- Update whats new
-- Big update file tree
-  - Visual update
-  - Add file tree settings
-- Fix markdown editor snippets
-- Add project copying
-- Other bug fixes
-- UI changes
+### 🚀 New Features  
+- Added dialog type setting
+  - Material3
+  - AndroidX
+  - AlertDialogX (By Xedox)
+- Implemented Markdown preview with engine selection
+  - Markwon
+  - FlexMark
+- Added console gestures  
+- Added open files persistence  
+- Added app themes
+  - System
+  - Light
+  - Dark
+
+### 🔧 Improvements  
+- Optimized and enhanced color picker  
+- Updated file tree:  
+  - Visual improvements  
+  - Added display settings  
+- Added project duplication  
+- Updated "What's New" section  
+- Minor UI refinements  
+
+### 🐛 Bug Fixes  
+- Fixed Markdown editor snippets  
+- Fixed file tree display in dark theme  
+- Fixed accidental editor closing with gestures  
+- Various minor fixes  
 END
 
 
@@ -37,7 +45,7 @@ END
 
 ==== Previous updates ====
 
-EN:
+START:
 # What's New?  
 **WebDroid Update v0.0.3 (Build 3)**  
 
@@ -61,7 +69,8 @@ EN:
 - Update WhatsNew dialog
 END
 
-EN:# What's New?  
+START:
+# What's New?  
 **WebDroid Update v0.0.2 (Build 2)**  
 
 ### New Features  

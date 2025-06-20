@@ -19,7 +19,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         ListPreference themePreference = findPreference("theme");
         if (themePreference != null) {
             themePreference.setOnPreferenceChangeListener(this);
-            updateThemePreferenceSummary(themePreference);
         }
     }
 
@@ -29,24 +28,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
         
         if (key.equals("theme")) {
             IDE.applyTheme(getActivity(), (String) newValue);
-            updateThemePreferenceSummary((ListPreference) preference);
             return true;
         }
         return false;
     }
 
-    private void updateThemePreferenceSummary(ListPreference preference) {
-        String value = preference.getValue();
-        CharSequence entry = preference.getEntry();
-        preference.setSummary(entry != null ? entry : "");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ListPreference themePreference = findPreference("theme");
-        if (themePreference != null) {
-            updateThemePreferenceSummary(themePreference);
-        }
-    }
 }

@@ -59,12 +59,14 @@ public class IDE extends MultiDexApplication {
                 }
                 isInit = true;
             }
-            IFormatter.updateTabSize(pref);
-            initDialogType(pref);
         } catch (Throwable err) {
             err.printStackTrace();
             ErrorDialog.show(activity, "Failed to pre init activity", err);
         }
+        
+        IFormatter.updateTabSize(pref);
+        initDialogType(pref);
+        SoraEditorManager.changeEditorScheme(activity, pref.getString("editor_theme", "monokai").toLowerCase() + (isDarkMode(activity) ? "_dark" : "_light"));
     }
 
     private static void initDialogType(SharedPreferences pref) {

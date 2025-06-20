@@ -34,14 +34,16 @@
         <item>@string/non_printable_selection</item>
         <item>@string/non_printable_line_sep</item>
         <item>@string/non_printable_tabs</item>
+        <item>@string/non_printable_empty_line</item>
     </string-array>
 
     <string-array name="non_printable_values">
         <item>leading</item>
         <item>trailing</item>
-        <item>selection</item>
+        <item>in_selection</item>
         <item>line_separator</item>
         <item>tab</item>
+        <item>empty_line</item>
     </string-array>
 
     <string-array name="non_printable_default">
@@ -49,7 +51,7 @@
         <item>selection</item>
         <item>line_separator</item>
     </string-array>
-    
+
     <string-array name="markdown_display_type_entries">
         <item>@string/markdown_flexmark</item>
         <item>@string/markdown_markwon</item>
@@ -59,7 +61,7 @@
         <item>Flexmark</item>
         <item>Markwon</item>
     </string-array>
-    
+
     <string-array name="theme_entries">
         <item>@string/system</item>
         <item>@string/light</item>
@@ -70,5 +72,21 @@
         <item>system</item>
         <item>light</item>
         <item>dark</item>
+    </string-array>
+
+    <string-array name="editor_theme_entries">
+        <item>Darcula</item>
+        <item>Monokai</item>
+        <item>Solarized</item>
+        <item>QuietLight</item>
+        <item>GitHub</item>
+    </string-array>
+
+    <string-array name="editor_theme_values">
+        <item>Darcula</item>
+        <item>Monokai</item>
+        <item>Solarized</item>
+        <item>Quiet</item>
+        <item>GitHub</item>
     </string-array>
 </resources>

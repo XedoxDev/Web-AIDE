@@ -2,6 +2,8 @@ package org.xedox.webaide.editor;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
@@ -12,16 +14,25 @@ import org.eclipse.tm4e.core.registry.IThemeSource;
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import org.xedox.webaide.dialogs.ErrorDialog;
+import org.xedox.webaide.util.io.Assets;
 
 public class SoraEditorManager {
 
-    private static Set<String> themes;
+    public static Set<String> themes;
     public static String currentTheme;
 
     public static void initSchemes(Context context) {
         try {
             themes = new HashSet<>();
-            themes.add("darcula");
+            Gson gson = new Gson();
+            JsonObject jsonObject =
+                    gson.fromJson(
+                            Assets.from(context).asset("textmate/themes.json").read(),
+                            JsonObject.class);
+            String[] themesArr = gson.fromJson(jsonObject.get("themes"), String[].class);
+            for (String theme : themesArr) {
+                themes.add(theme);
+            }
             currentTheme = "darcula";
             for (String theme : themes) {
                 loadScheme(context, theme + "_dark");
@@ -63,7 +74,8 @@ public class SoraEditorManager {
 
     public static void changeEditorScheme(Context context, String theme) {
         try {
-            ThemeRegistry.getInstance().setTheme(theme);
+            currentTheme = theme;
+            ThemeRegistry.getInstance().setTheme(currentTheme);
         } catch (Exception err) {
             err.printStackTrace();
             ErrorDialog.show(context, "Failed to change editor theme", err);

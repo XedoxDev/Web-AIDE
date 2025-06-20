@@ -23,7 +23,7 @@
     <string name="login">Username</string>
     <string name="password">Password</string>
     <string name="markdown_preview">Markdown preview</string>
- <string name="whats_new">Whats new</string>
+    <string name="whats_new">Whats new</string>
 
     <!-- Confirmation dialogs -->
     <string name="confirm_delete_title">Confirm Deletion</string>
@@ -94,6 +94,7 @@
     <string name="non_printable_tabs">Tab characters</string>
     <string name="non_printable_line_sep">Line separators</string>
     <string name="non_printable_selection">Spaces in selection</string>
+    <string name="non_printable_empty_line">Empty line</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
     <string name="pattern">Pattern</string>
@@ -169,21 +170,24 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="app_theme">App theme</string>
-     <string name="app_theme_summary">Choose light, dark or system theme</string>
-    
+    <string name="app_theme_summary">Choose light, dark or system theme</string>
+
     <string name="lines_settings">Lines settings</string>
     <string name="line_width">Line width</string>
     <string name="line_width_summary">Set the width of tree lines</string>
 
     <string name="turn_on_line">Turn on lines</string>
     <string name="turn_on_line_summary">Enable all connection lines in the tree</string>
-    
+
     <string name="tree_lines">Tree lines</string>
     <string name="tree_lines_summary">Show lines connecting tree nodes</string>
-    
+
     <string name="tree_lines_to_children">Tree lines to children</string>
     <string name="tree_lines_to_children_summary">Show lines connecting parent nodes to their children</string>
     <string name="markdown_display_type">Markdown display type</string>
     <string name="markdown_flexmark">Flexmark</string>
     <string name="markdown_markwon">Markdown</string>
+
+    <string name="editor_color_theme">Editor color theme</string>
+    <string name="editor_color_theme_summary">Shoose editor color theme</string>
 </resources>

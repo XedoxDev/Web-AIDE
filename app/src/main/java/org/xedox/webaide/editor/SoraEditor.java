@@ -7,9 +7,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.preference.PreferenceManager;
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import java.util.Set;
 import java.util.HashSet;
 import org.xedox.webaide.IDE;
@@ -67,7 +69,7 @@ public class SoraEditor extends CodeEditor implements IEditor {
                 case "leading":
                     paintingFlags |= CodeEditor.FLAG_DRAW_WHITESPACE_LEADING;
                     break;
-                case "line_sep":
+                case "line_separator":
                     paintingFlags |= CodeEditor.FLAG_DRAW_LINE_SEPARATOR;
                     break;
                 case "in_selection":
