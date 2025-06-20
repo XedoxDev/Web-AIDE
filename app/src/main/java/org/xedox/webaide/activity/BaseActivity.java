@@ -14,7 +14,6 @@ import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
-
 import java.io.IOException;
 import android.database.Cursor;
 import android.provider.OpenableColumns;
@@ -23,10 +22,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.xedox.webaide.IDE;
 import org.xedox.webaide.R;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,8 +31,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected static final String TAG = "BaseActivity";
     protected Toolbar toolbar;
-
     public View root;
+    private SelectListener mSelectListener;
 
     private final ActivityResultLauncher<String[]> filePickerLauncher =
             registerForActivityResult(
@@ -107,7 +104,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void setSubtitle(String title) {
-        getSupportActionBar().setSubtitle(title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(title);
+        }
     }
 
     public void showFilePicker(SelectListener listener) {
@@ -159,12 +158,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return stringBuilder.toString();
     }
 
-    private SelectListener mSelectListener;
-
     public interface SelectListener {
-        void onSelect(
-                Object...
-                        options); // file picker options: [0]=Uri, [1]=filename, [2]=content (null
-                                  // if cancelled)
+        void onSelect(Object... options);
     }
 }

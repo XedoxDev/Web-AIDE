@@ -6,8 +6,8 @@
     </string-array>
 
     <string-array name="dialog_type_values">
-        <item>com.google.android.material.dialog.MaterialAlertDialogBuilder</item>
-        <item>androidx.appcompat.app.AlertDialog.Builder</item>
+        <item>Material3</item>
+        <item>AndroidX</item>
     </string-array>
 
     <string-array name="typeface_entries">

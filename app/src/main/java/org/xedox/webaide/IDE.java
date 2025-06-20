@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
@@ -29,12 +31,12 @@ public class IDE extends MultiDexApplication {
     public static File PROJECTS_PATH;
     public static int TAB_SIZE = 4;
     private static boolean isInit = false;
-    public static IDE appContext;
+    private static IDE instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        appContext = (IDE)getApplicationContext();
+        instance = this;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String themePref = sharedPref.getString("theme", "system");
         applyTheme(themePref);
@@ -44,41 +46,31 @@ public class IDE extends MultiDexApplication {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
         TAB_SIZE = getTabSize(pref);
         initDialogType(pref);
-        String themePref = pref.getString("theme", "system");
-        applyTheme(themePref);
+        
         if (isInit) return;
         HOME = activity.getExternalFilesDir(null);
         PROJECTS_PATH = new File(HOME, "Projects");
         if (!PROJECTS_PATH.exists()) {
             PROJECTS_PATH.mkdirs();
         }
+
         try {
-            initSchemes(activity);
-        } catch (Exception err) {
-            err.printStackTrace();
-            activity.showSnackbar(err.getMessage());
+            GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
+        } catch (Throwable e) {
+            Log.e("IDE", "Failed to load grammars", e);
+            activity.showSnackbar("Failed to load syntax grammars");
         }
+
         isInit = true;
     }
 
     private static void initDialogType(SharedPreferences pref) {
-        try {
-            String dialogType =
-                    pref.getString("dialog_type", "androidx.appcompat.app.AlertDialog.Builder");
-            Class<?> clazz = Class.forName(dialogType);
-
-            if (AlertDialog.Builder.class.isAssignableFrom(clazz)) {
-                @SuppressWarnings("unchecked")
-                Class<? extends AlertDialog.Builder> clazzBuilder =
-                        (Class<? extends AlertDialog.Builder>) clazz;
-                DialogBuilder.builderType = clazzBuilder;
-            } else {
-                DialogBuilder.builderType = AlertDialog.Builder.class;
+            String dialogType = pref.getString("dialog_type", "Material3");
+            switch(dialogType) {
+                case "Material3": DialogBuilder.builderType = MaterialAlertDialogBuilder.class; break;
+                case "AndroidX":
+                default:  DialogBuilder.builderType = AlertDialog.Builder.class;
             }
-        } catch (ClassNotFoundException e) {
-            DialogBuilder.builderType = AlertDialog.Builder.class;
-            e.printStackTrace();
-        }
     }
 
     public static int getTabSize(SharedPreferences pref) {
@@ -98,41 +90,31 @@ public class IDE extends MultiDexApplication {
         try {
             activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("IDE", "Error opening link", e);
         }
     }
 
     public static void openFileInExternalApp(Context context, File file) {
         try {
-            Uri uri =
-                    FileProvider.getUriForFile(
-                            context, context.getPackageName() + ".provider", file);
+            Uri uri = FileProvider.getUriForFile(
+                    context, context.getPackageName() + ".provider", file);
 
             String mime = getMimeType(file.getPath());
-            Intent intent =
-                    new Intent(Intent.ACTION_VIEW)
-                            .setDataAndType(uri, mime)
-                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent intent = new Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(uri, mime)
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             if (intent.resolveActivity(context.getPackageManager()) != null) {
                 context.startActivity(intent);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("IDE", "Error opening file", e);
         }
     }
 
-    public static void initSchemes(Context context) {
-        changeEditorScheme(context);
-
-        try {
-            GrammarRegistry.getInstance().loadGrammars("textmate/langs.json");
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-    
     public static void changeEditorScheme(Context context) {
+        if (context == null) return;
+
         FileProviderRegistry.getInstance()
                 .addFileProvider(new AssetsFileResolver(context.getAssets()));
 
@@ -140,28 +122,24 @@ public class IDE extends MultiDexApplication {
         String theme = isDarkMode(context) ? "darcula" : "darcula_light";
         String themePath = String.format("textmate/schemes/%s.json", theme);
 
-        InputStream is = fileProviderRegistry.tryGetInputStream(themePath);
-        IThemeSource source = IThemeSource.fromInputStream(is, themePath, null);
-        ThemeModel model = new ThemeModel(source, theme);
+        try (InputStream is = fileProviderRegistry.tryGetInputStream(themePath)) {
+            if (is == null) {
+                Log.e("IDE", "Failed to load theme: " + themePath);
+                return;
+            }
 
-        model.setDark(isDarkMode(context));
-        try {
-        	ThemeRegistry.getInstance().loadTheme(model);
+            IThemeSource source = IThemeSource.fromInputStream(is, themePath, null);
+            ThemeModel model = new ThemeModel(source, theme);
+            model.setDark(isDarkMode(context));
+
+            ThemeRegistry.getInstance().loadTheme(model);
             ThemeRegistry.getInstance().setTheme(theme);
-        } catch(Exception err) {
-        	err.printStackTrace();
+        } catch (Exception err) {
+            Log.e("IDE", "Error applying editor theme", err);
         }
     }
 
-    private static String getMimeType(String url) {
-        String ext = MimeTypeMap.getFileExtensionFromUrl(url);
-        return ext != null
-                ? MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.toLowerCase())
-                : "*/*";
-    }
-
     public static void applyTheme(String themeValue) {
-        initSchemes(appContext);
         switch (themeValue) {
             case "system":
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -173,5 +151,16 @@ public class IDE extends MultiDexApplication {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
         }
+
+        if (instance != null) {
+            changeEditorScheme(instance);
+        }
+    }
+
+    private static String getMimeType(String url) {
+        String ext = MimeTypeMap.getFileExtensionFromUrl(url);
+        return ext != null
+                ? MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.toLowerCase())
+                : "*/*";
     }
 }
