@@ -8,7 +8,8 @@ EN:
   - Add markdown display type (setting)
     - Markwon
     - Flexmark
-- Add gesture to console  
+- Add gesture to console
+- Add saving open files
   
 ### Improvements  
 - Optimize color picker

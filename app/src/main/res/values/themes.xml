@@ -12,11 +12,10 @@
         <item name="colorOnSurface">@color/onSurface</item>
         <item name="colorError">@color/error</item>
         <item name="colorOnError">@color/onError</item>
-        <item name="android:statusBarColor">@color/background</item>
-        <item name="android:textColor">@drawable/icon_tint</item>
-        <item name="android:textColorSecondary">@drawable/icon_tint</item>
-        <item name="tint">@drawable/icon_tint</item>
-        <item name="iconTint">@drawable/icon_tint</item>
+        <item name="android:statusBarColor">@color/surface</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textColorSecondary">?attr/colorOnSurfaceVariant</item>
+        <item name="tint">?attr/colorOnSurface</item>
+        <item name="iconTint">?attr/colorOnSurface</item>
     </style>
-
 </resources>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import androidx.multidex.MultiDexApplication;
@@ -34,12 +35,18 @@ public class IDE extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String themePref = sharedPref.getString("theme", "system");
+
+        applyTheme(themePref);
     }
 
     public static void init(BaseActivity activity) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
         TAB_SIZE = getTabSize(pref);
         initDialogType(pref);
+        String themePref = pref.getString("theme", "system");
+        applyTheme(themePref);
         if (isInit) return;
         HOME = activity.getExternalFilesDir(null);
         PROJECTS_PATH = new File(HOME, "Projects");
@@ -119,16 +126,16 @@ public class IDE extends MultiDexApplication {
     public static void initSchemes(Context context) {
         FileProviderRegistry.getInstance()
                 .addFileProvider(new AssetsFileResolver(context.getAssets()));
-                
+
         FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
-        String theme = "darcula";
+        String theme = isDarkMode(context) ? "darcula" : "darcula_light";
         String themePath = String.format("textmate/schemes/%s.json", theme);
-        
+
         InputStream is = fileProviderRegistry.tryGetInputStream(themePath);
         IThemeSource source = IThemeSource.fromInputStream(is, themePath, null);
         ThemeModel model = new ThemeModel(source, theme);
 
-        model.setDark(true);
+        model.setDark(isDarkMode(context));
 
         try {
             ThemeRegistry.getInstance().loadTheme(model);
@@ -144,5 +151,19 @@ public class IDE extends MultiDexApplication {
         return ext != null
                 ? MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.toLowerCase())
                 : "*/*";
+    }
+
+    public static void applyTheme(String themeValue) {
+        switch (themeValue) {
+            case "system":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
     }
 }

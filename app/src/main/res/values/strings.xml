@@ -165,7 +165,11 @@
     <string name="language">Language</string>
     <string name="system">System</string>
     <string name="general">General</string>
-
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="app_theme">App theme</string>
+     <string name="app_theme_summary">Choose light, dark or system theme</string>
+    
     <string name="lines_settings">Lines settings</string>
     <string name="line_width">Line width</string>
     <string name="line_width_summary">Set the width of tree lines</string>

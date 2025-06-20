@@ -5,6 +5,9 @@ import android.animation.ObjectAnimator;
 import android.animation.AnimatorSet;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -33,15 +36,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
 
     public View root;
-    
-    private final ActivityResultLauncher<String[]> filePickerLauncher = registerForActivityResult(
-            new ActivityResultContracts.OpenDocument(),
-            uri -> {
-                if (uri != null) {
-                    onFileSelected(uri);
-                }
-            }
-    );
+
+    private final ActivityResultLauncher<String[]> filePickerLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.OpenDocument(),
+                    uri -> {
+                        if (uri != null) {
+                            onFileSelected(uri);
+                        }
+                    });
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,16 +105,16 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
         animatorSet.setDuration(300).start();
     }
-    
+
     public void setSubtitle(String title) {
         getSupportActionBar().setSubtitle(title);
     }
-    
+
     public void showFilePicker(SelectListener listener) {
-        filePickerLauncher.launch(new String[]{"*/*"});
+        filePickerLauncher.launch(new String[] {"*/*"});
         mSelectListener = listener;
     }
-    
+
     protected void onFileSelected(Uri uri) {
         if (mSelectListener != null) {
             try {
@@ -124,7 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     private String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
@@ -143,11 +146,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
-    
+
     private String readFileContent(Uri uri) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = getContentResolver().openInputStream(uri);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
@@ -155,10 +158,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return stringBuilder.toString();
     }
-    
+
     private SelectListener mSelectListener;
-    
+
     public interface SelectListener {
-        void onSelect(Object... options); // file picker options: [0]=Uri, [1]=filename, [2]=content (null if cancelled)
+        void onSelect(
+                Object...
+                        options); // file picker options: [0]=Uri, [1]=filename, [2]=content (null
+                                  // if cancelled)
     }
 }

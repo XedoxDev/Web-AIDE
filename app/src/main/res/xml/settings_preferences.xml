@@ -9,13 +9,25 @@
             android:title="@string/dialog_type"
             android:entries="@array/dialog_type_entries"
             android:entryValues="@array/dialog_type_values"
-            android:defaultValue="Material3" />
+            android:defaultValue="Material3"
+             />
         <org.xedox.webaide.util.preference.MaterialListPreference
             android:key="markdown_display_type"
             android:title="@string/markdown_display_type"
             android:entries="@array/markdown_display_type_entries"
             android:entryValues="@array/markdown_display_type_values"
-            android:defaultValue="Markwon" />
+            android:defaultValue="Markwon"
+            
+        />
+
+        <ListPreference
+            android:key="theme"
+            android:title="@string/app_theme"
+            android:summary="@string/app_theme_summary"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="system"
+             />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/code_editor">
@@ -34,7 +46,8 @@
             android:summary="@string/non_printable_summary"
             android:entries="@array/non_printable_entries"
             android:entryValues="@array/non_printable_values"
-            android:defaultValue="@array/non_printable_default" />
+            android:defaultValue="@array/non_printable_default"
+        />
 
         <org.xedox.webaide.util.preference.MaterialEditTextPreference
             android:key="editor_tab_size"
@@ -47,19 +60,22 @@
         <SwitchPreferenceCompat
             android:key="line_numbers"
             android:title="@string/line_numbers"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+        />
 
         <SwitchPreferenceCompat
             android:key="block_line"
             android:title="@string/block_line"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+        />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/file_tree">
         <SwitchPreferenceCompat
             android:key="turn_on_line"
             android:title="@string/turn_on_line"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+        />
 
         <SeekBarPreference
             android:key="line_width"
@@ -67,13 +83,15 @@
             android:defaultValue="2"
             android:min="1"
             android:max="10"
-            android:dependency="turn_on_line"/>
+            android:dependency="turn_on_line" />
 
         <SwitchPreferenceCompat
             android:key="tree_lines_to_children"
             android:title="@string/tree_lines_to_children"
             android:defaultValue="true"
-            android:dependency="turn_on_line"/>
+            android:dependency="turn_on_line"
+            
+        />
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
