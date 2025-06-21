@@ -11,8 +11,6 @@ import org.xedox.webaide.dialogs.DialogBuilder;
 import org.xedox.webaide.project.Project;
 import org.xedox.webaide.project.ProjectsAdapter;
 import org.xedox.webaide.util.GitManager;
-import org.xedox.webaide.util.io.FileX;
-import org.xedox.webaide.util.io.IFile;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,7 +37,7 @@ public class CloneRepositoryDialog {
                         .setPositiveButton(R.string.clone, (d, which) -> processClone());
 
         this.errorMessage = dialogBuilder.findViewById(R.id.error_message);
-        this.progressBar = context.findViewById(R.id.progress);
+        this.progressBar = dialogBuilder.findViewById(R.id.progress); // fix: ambil progressBar dari dialog, bukan activity
     }
 
     public void show() {
@@ -78,7 +76,6 @@ public class CloneRepositoryDialog {
         mainHandler.post(
                 () -> {
                     context.showSnackbar(R.string.git_clone_successful);
-
                     String repoName = GitManager.extractRepoNameFromUrl(repoUrl);
                     adapter.add(new Project(repoName));
                 });
@@ -111,6 +108,6 @@ public class CloneRepositoryDialog {
     }
 
     public static void show(BaseActivity context, ProjectsAdapter adapter) {
-        new CloneRepositoryDialog(context, adapter);
+        new CloneRepositoryDialog(context, adapter).show(); // FIXED: tambahkan .show()
     }
 }
