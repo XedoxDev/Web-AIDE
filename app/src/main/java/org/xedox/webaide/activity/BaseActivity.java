@@ -69,26 +69,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = findViewById(android.R.id.content);
-        EdgeToEdge.enable(this);
-        setupInsets();
-        IDE.init(this);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         if (isEdgeToEdgeEnabled()) {
+            EdgeToEdge.enable(this);
             setupEdgeToEdge();
+        } else {
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+            root.setPadding(0, 0, 0, 0);
         }
-    }
 
-    private boolean isEdgeToEdgeEnabled() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            return Settings.Global.getInt(getContentResolver(), "force_fsg_nav_bar", 0) == 1;
-        }
-        return false;
+        IDE.init(this);
     }
 
     private void setupEdgeToEdge() {
         Window window = getWindow();
         View decorView = window.getDecorView();
 
-        window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
 
         decorView.setSystemUiVisibility(
@@ -101,7 +97,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, false);
-        removeSystemInsets(decorView, (statusBarSize, navigationBarSize) -> {});
+
+        // Only apply insets listener for edge-to-edge mode
+        ViewCompat.setOnApplyWindowInsetsListener(
+                root,
+                (v, insets) -> {
+                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(
+                            systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                    return insets;
+                });
+    }
+
+    private boolean isEdgeToEdgeEnabled() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return Settings.Global.getInt(getContentResolver(), "force_fsg_nav_bar", 0) == 1;
+        }
+        return false;
     }
 
     public static void removeSystemInsets(View view, OnSystemInsetsChangedListener listener) {
@@ -138,11 +150,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setupInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        ViewCompat.setOnApplyWindowInsetsListener(
+                root,
+                (v, insets) -> {
+                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(
+                            systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                    return insets;
+                });
     }
 
     protected void loadToolbar() {

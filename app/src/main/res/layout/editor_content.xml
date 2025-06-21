@@ -22,10 +22,6 @@
             android:layout_toLeftOf="@+id/undo_redo"
             app:tabMode="scrollable"
             android:background="#00000000"
-            app:tabBackground="@drawable/tab"
-            app:tabIndicatorColor="@color/hint"
-            app:tabSelectedTextColor="@color/onPrimary"
-            app:tabIndicatorHeight="0dp"
             android:visibility="visible" />
 
         <LinearLayout

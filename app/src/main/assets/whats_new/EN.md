@@ -1,5 +1,28 @@
 START:
 # What's New?  
+**WebDroid Update v0.0.5 (Build 5)**  
+
+### 🚀 New Features  
+- Nothing
+
+### 🔧 Improvements  
+- Nothing
+
+### 🐛 Bug Fixes 
+- Fix edgeToEdge support 
+END
+
+
+
+
+
+
+
+
+==== Previous updates ====
+
+START:
+# What's New?  
 **WebDroid Update v0.0.4 (Build 4)**  
 
 ### 🚀 New Features  
@@ -33,18 +56,6 @@ START:
 - Various minor fixes  
 - Fixed open color picker
 END
-
-
-
-
-
-
-
-
-
-
-
-==== Previous updates ====
 
 START:
 # What's New?  
