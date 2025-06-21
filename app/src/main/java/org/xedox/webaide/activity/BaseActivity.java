@@ -17,10 +17,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import java.io.File;
+
+import androidx.activity.EdgeToEdge;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.net.Uri;
@@ -63,6 +69,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = findViewById(android.R.id.content);
+        EdgeToEdge.enable(this);
+        setupInsets();
         IDE.init(this);
         if (isEdgeToEdgeEnabled()) {
             setupEdgeToEdge();
@@ -127,6 +135,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = view.getResources().getDisplayMetrics();
         double heightRatio = (double) bottomInset / displayMetrics.heightPixels;
         return heightRatio > 0.25;
+    }
+
+    private void setupInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     protected void loadToolbar() {
