@@ -10,7 +10,6 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_below="@+id/file_tree_title"
         android:id="@+id/swipe_refresh">
 
         <org.xedox.filetree.widget.TwoDScrollView

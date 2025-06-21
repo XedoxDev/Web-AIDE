@@ -7,7 +7,7 @@ START:
   - Material3
   - AndroidX
   - AlertDialogX (By Xedox)
-- Implemented Markdown preview with engine selection
+- Added markdown display type setting
   - Markwon
   - FlexMark
 - Added console gestures  
@@ -31,6 +31,7 @@ START:
 - Fixed file tree display in dark theme  
 - Fixed accidental editor closing with gestures  
 - Various minor fixes  
+- Fixed open color picker
 END
 
 
