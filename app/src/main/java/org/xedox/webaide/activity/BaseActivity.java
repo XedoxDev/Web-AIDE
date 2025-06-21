@@ -7,10 +7,16 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import java.io.File;
+
+import androidx.activity.EdgeToEdge;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.net.Uri;
@@ -52,7 +58,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = findViewById(android.R.id.content);
+        EdgeToEdge.enable(this);
+        setupInsets();
         IDE.init(this);
+    }
+
+    private void setupInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     protected void loadToolbar() {
