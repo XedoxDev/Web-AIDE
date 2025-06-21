@@ -71,7 +71,7 @@
     <string name="project_name_empty">Please enter a project name</string>
     <string name="project_exists">Project already exists</string>
     <string name="project_created_successful">Project created successfully</string>
-    <string name="project_created_unsuccessful">Failed to create project</string>
+    <string name="project_created_failed">Failed to create project</string>
     <string name="rename_project">Rename Project</string>
     <string name="projects_empty_hint">You no have projects.</string>
 
@@ -187,7 +187,6 @@
     <string name="markdown_display_type">Markdown display type</string>
     <string name="markdown_flexmark">Flexmark</string>
     <string name="markdown_markwon">Markdown</string>
-
     <string name="editor_color_theme">Editor color theme</string>
     <string name="editor_color_theme_summary">Shoose editor color theme</string>
 </resources>

@@ -27,6 +27,7 @@
             android:entryValues="@array/theme_values"
             android:defaultValue="system"
         />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/code_editor">

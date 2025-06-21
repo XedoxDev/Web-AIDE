@@ -93,10 +93,10 @@ public class Assets {
         }
 
         try (InputStream is = context.getAssets().open(assetName);
-             BufferedInputStream bis = new BufferedInputStream(is);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            
-            byte[] buffer = new byte[8192]; 
+                BufferedInputStream bis = new BufferedInputStream(is);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            byte[] buffer = new byte[8192];
             int bytesRead;
             while ((bytesRead = bis.read(buffer)) != -1) {
                 baos.write(buffer, 0, bytesRead);
@@ -137,8 +137,8 @@ public class Assets {
         }
 
         try (InputStream is = context.getAssets().open(assetName);
-             FileOutputStream fos = new FileOutputStream(outputFile)) {
-            
+                FileOutputStream fos = new FileOutputStream(outputFile)) {
+
             byte[] buffer = new byte[8192];
             int bytesRead;
             while ((bytesRead = is.read(buffer)) != -1) {
@@ -146,8 +146,7 @@ public class Assets {
             }
         } catch (IOException e) {
             throw new IOException(
-                "Error copying asset: " + assetName + " to " + outputFile.getAbsolutePath(),
-                e);
+                    "Error copying asset: " + assetName + " to " + outputFile.getAbsolutePath(), e);
         }
     }
 
@@ -163,5 +162,37 @@ public class Assets {
                 copyRecursively(assetPath, destFile);
             }
         }
+    }
+
+    private static boolean copyAssetsRecursively(
+            AssetManager assetManager, String assetPath, String targetPath) throws IOException {
+        String[] list = assetManager.list(assetPath);
+        if (list == null || list.length == 0) {
+            try (InputStream in = assetManager.open(assetPath)) {
+                File outFile = new File(targetPath);
+                if (outFile.getParentFile() != null) {
+                    outFile.getParentFile().mkdirs();
+                }
+                java.nio.file.Files.copy(in, outFile.toPath());
+                return true;
+            }
+        } else {
+            File targetDir = new File(targetPath);
+            if (!targetDir.exists()) {
+                targetDir.mkdirs();
+            }
+
+            boolean success = true;
+            for (String item : list) {
+                String childAssetPath = assetPath + File.separator + item;
+                String childTargetPath = targetPath + File.separator + item;
+                success &= copyAssetsRecursively(assetManager, childAssetPath, childTargetPath);
+            }
+            return success;
+        }
+    }
+
+    public boolean copyAssetsRecursively(String assetPath, String targetPath) throws IOException {
+        return copyAssetsRecursively(context.getAssets(), assetPath, targetPath);
     }
 }

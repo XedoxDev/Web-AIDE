@@ -2,14 +2,17 @@ package org.xedox.webaide.project;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xedox.webaide.activity.BaseActivity;
+import org.xedox.webaide.util.io.Assets;
 import org.xedox.webaide.util.io.FileX;
 import static org.xedox.webaide.IDE.*;
 import org.xedox.webaide.util.io.IFile;
 import org.xedox.webaide.R;
+import android.content.res.AssetManager;
 
 public class ProjectManager {
 
@@ -22,14 +25,18 @@ public class ProjectManager {
     }
 
     public static Project createProject(String name, BaseActivity activity) {
-        IFile file = new FileX(PROJECTS_PATH, name);
+        IFile projectDir = new FileX(PROJECTS_PATH, name);
         try {
-            IFile.unzip(activity.getAssets().open("project_example.zip"), file.getFullPath());
+            Assets.from(activity)
+                    .copyAssetsRecursively("project_example", projectDir.getFullPath());
+
+            activity.showSnackbar(R.string.project_created_successful);
+            return new Project(projectDir.getName());
         } catch (Exception err) {
             err.printStackTrace();
+            activity.showSnackbar(R.string.project_created_failed);
+            return null;
         }
-        activity.showSnackbar(R.string.project_created_successful);
-        return new Project(file.getName());
     }
 
     public static void removeProject(String name) {
@@ -77,10 +84,9 @@ public class ProjectManager {
             }
         } else {
             java.nio.file.Files.copy(
-                source.toPath(),
-                destination.toPath(),
-                java.nio.file.StandardCopyOption.REPLACE_EXISTING
-            );
+                    source.toPath(),
+                    destination.toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
     }
 }

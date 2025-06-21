@@ -6,6 +6,16 @@ import android.animation.AnimatorSet;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.provider.Settings;
+import android.util.DisplayMetrics;
+import android.view.Window;
+import android.view.WindowInsets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import java.io.File;
 import androidx.core.content.FileProvider;
 import android.webkit.MimeTypeMap;
@@ -14,6 +24,7 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
@@ -53,6 +64,69 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         root = findViewById(android.R.id.content);
         IDE.init(this);
+        if (isEdgeToEdgeEnabled()) {
+            setupEdgeToEdge();
+        }
+    }
+
+    private boolean isEdgeToEdgeEnabled() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return Settings.Global.getInt(getContentResolver(), "force_fsg_nav_bar", 0) == 1;
+        }
+        return false;
+    }
+
+    private void setupEdgeToEdge() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+
+        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setNavigationBarColor(Color.TRANSPARENT);
+
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            window.setNavigationBarContrastEnforced(false);
+        }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false);
+        removeSystemInsets(decorView, (statusBarSize, navigationBarSize) -> {});
+    }
+
+    public static void removeSystemInsets(View view, OnSystemInsetsChangedListener listener) {
+        ViewCompat.setOnApplyWindowInsetsListener(
+                view,
+                (v, insets) -> {
+                    int desiredBottomInset =
+                            calculateDesiredBottomInset(
+                                    view,
+                                    insets.getSystemWindowInsetTop(),
+                                    insets.getSystemWindowInsetBottom(),
+                                    listener);
+                    return ViewCompat.onApplyWindowInsets(
+                            view, insets.replaceSystemWindowInsets(0, 0, 0, desiredBottomInset));
+                });
+    }
+
+    public static int calculateDesiredBottomInset(
+            View view, int topInset, int bottomInset, OnSystemInsetsChangedListener listener) {
+        boolean hasKeyboard = isKeyboardAppeared(view, bottomInset);
+        int desiredBottomInset = hasKeyboard ? bottomInset : 0;
+        listener.onSystemInsetsChanged(topInset, hasKeyboard ? 0 : bottomInset);
+        return desiredBottomInset;
+    }
+
+    public interface OnSystemInsetsChangedListener {
+        void onSystemInsetsChanged(int statusBarSize, int navigationBarSize);
+    }
+
+    private static boolean isKeyboardAppeared(View view, int bottomInset) {
+        DisplayMetrics displayMetrics = view.getResources().getDisplayMetrics();
+        double heightRatio = (double) bottomInset / displayMetrics.heightPixels;
+        return heightRatio > 0.25;
     }
 
     protected void loadToolbar() {
@@ -171,7 +245,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(link));
-        startActivity(intent);
+            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
