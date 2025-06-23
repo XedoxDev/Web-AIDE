@@ -79,7 +79,6 @@
         <item>Monokai</item>
         <item>Solarized</item>
         <item>QuietLight</item>
-        <item>GitHub</item>
     </string-array>
 
     <string-array name="editor_theme_values">
@@ -87,6 +86,5 @@
         <item>Monokai</item>
         <item>Solarized</item>
         <item>Quiet</item>
-        <item>GitHub</item>
     </string-array>
 </resources>
