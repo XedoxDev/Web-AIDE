@@ -18,4 +18,11 @@
         android:icon="@drawable/news"
         android:title="@string/whats_new"
         app:showAsAction="never" />
+        
+        <item
+        android:id="@+id/open_parser"
+        android:title="Parser Source Web"
+        android:icon="@drawable/get_source"
+        android:showAsAction="never" />
+
 </menu>
