@@ -14,6 +14,7 @@
     <string name="exit">Exit</string>
     <string name="save">Save</string>
     <string name="remove">Remove</string>
+    <string name="apk_install_error">Failed to install APK</string>
     <string name="refresh">Refresh</string>
     <string name="create">Create</string>
     <string name="delete">Delete</string>
@@ -189,4 +190,7 @@
     <string name="markdown_markwon">Markdown</string>
     <string name="editor_color_theme">Editor color theme</string>
     <string name="editor_color_theme_summary">Shoose editor color theme</string>
+    <string name="app_logs">App logs</string>
+    <string name="build_logs">Build logs</string>
+    <string name="build_apk">Build APK</string>
 </resources>

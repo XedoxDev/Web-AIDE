@@ -261,6 +261,11 @@ public class EditorActivity extends BaseActivity {
                     new Intent(this, RunActivity.class)
                             .putExtra("index_path", project.indexHtml.getFullPath()));
             return true;
+        }if (id == R.id.build_apk) {
+           BuildApkDialog.show(this, (con) ->{
+               new ApkBuilder(this, console.getStreamBuild(), con);
+           }); 
+            return true;
         } else if (id == R.id.save) {
             editorAdapter.saveAll();
             updateMenu();

@@ -116,13 +116,11 @@ public class SoraEditor extends CodeEditor implements IEditor {
         return this;
     }
 
-    public void moveLeft() {
-        CharPosition cp = getSelectingTarget();
-        cp.index--;
-    }
-
-    public void moveRight() {
-        CharPosition cp = getSelectingTarget();
-        cp.index++;
+    public void append(CharSequence txt) {
+        if (txt == null || txt.length() == 0) return;
+        getText().insert(
+                getText().getLineCount() - 1,
+                getText().getColumnCount(getText().getLineCount() - 1),
+                txt);
     }
 }

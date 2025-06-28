@@ -9,14 +9,28 @@
         android:icon="@drawable/save"
         android:orderInCategory="10"
         app:showAsAction="ifRoom" />
-
     <item
-        android:id="@+id/run"
-        android:title="@string/run"
         android:icon="@drawable/run"
         android:orderInCategory="20"
         app:showAsAction="always"
-        app:iconTint="@color/run_icon" />
+        app:iconTint="@color/run_icon">
+        <menu>
+            <item
+                android:id="@+id/run"
+                android:title="@string/run"
+                android:icon="@drawable/run"
+                android:orderInCategory="1"
+                app:showAsAction="always"
+                app:iconTint="@color/run_icon" />
+            <item
+                android:id="@+id/build_apk"
+                android:title="@string/build_apk"
+                android:icon="@drawable/run"
+                android:orderInCategory="2"
+                app:showAsAction="always"
+                app:iconTint="@color/run_icon" />
+        </menu>
+    </item>
 
     <item
         android:id="@+id/format"

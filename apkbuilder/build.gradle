@@ -1,0 +1,35 @@
+plugins {
+    id "com.android.library"
+}
+
+android {
+    namespace "org.xedox.apkbuilder"
+    compileSdk 33
+    
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(":javac")
+    implementation "net.lingala.zip4j:zip4j:2.11.5"
+    implementation "com.github.MuntashirAkon:zipalign-android:1.0"
+}

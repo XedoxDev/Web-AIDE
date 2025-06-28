@@ -1,8 +1,10 @@
 package org.xedox.webaide.activity.editor;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.View;
-
+import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.xedox.filetree.utils.Node;
@@ -50,36 +52,50 @@ public class EditorFileTreeManager {
         this.console = console;
         this.git = git;
         this.executor = Executors.newSingleThreadExecutor();
-
         initialize();
     }
 
     private void initialize() {
         fileTree.adapter.setIcon(".md", R.drawable.markdown);
-        fileTree.adapter.setOnFileClickListener((node, file, view) -> openFile(new FileX(file)));
+        fileTree.adapter.setOnFileClickListener((node, file, view) -> {
+            if (file.getName().toLowerCase().endsWith(".apk")) {
+                installApk(new FileX(file));
+            } else {
+                openFile(new FileX(file));
+            }
+        });
         fileTree.adapter.setOnFileLongClickListener(this::onFileLongClick);
         fileTree.loadPath(new FileX(IDE.PROJECTS_PATH, project.name).getFullPath());
         SwipeRefreshLayout swl = context.findViewById(R.id.swipe_refresh);
-        swl.setOnRefreshListener(
-                () -> {
-                    fileTree.adapter.notifyDataSetChanged();
-                    swl.setRefreshing(false);
-                });
-         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context)   ;
-          fileTree.turnOnLines = prefs.getBoolean("turn_on_line", false);
-          fileTree.childrenLines = prefs.getBoolean("tree_lines_to_children", false);
-          fileTree.setLineWidth(prefs.getInt("line_width", 2));
+        swl.setOnRefreshListener(() -> {
+            fileTree.adapter.notifyDataSetChanged();
+            swl.setRefreshing(false);
+        });
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        fileTree.turnOnLines = prefs.getBoolean("turn_on_line", false);
+        fileTree.childrenLines = prefs.getBoolean("tree_lines_to_children", false);
+        fileTree.setLineWidth(prefs.getInt("line_width", 2));
+    }
+
+    private void installApk(IFile file) {
+        try {
+            Uri apkUri = FileProvider.getUriForFile(
+                    context,
+                    context.getPackageName() + ".provider",
+                    new File(file.getFullPath()));
+            Intent installIntent = new Intent(Intent.ACTION_VIEW);
+            installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            installIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(installIntent);
+        } catch (Exception e) {
+            showErrorOnUiThread(R.string.apk_install_error, e);
+        }
     }
 
     public boolean onFileLongClick(Node node, File file, View v) {
         int menuRes = node.isFile ? R.menu.file : R.menu.folder;
-        OverflowMenu.show(
-                context,
-                v,
-                menuRes,
-                item -> {
-                    handleFileOperation(node, item.getItemId());
-                });
+        OverflowMenu.show(context, v, menuRes, item -> handleFileOperation(node, item.getItemId()));
         return true;
     }
 
@@ -110,46 +126,35 @@ public class EditorFileTreeManager {
     }
 
     private void importFileFromExternalStorage(Node node) {
-        context.showFilePicker(
-                (options) -> {
-                    if (options == null
-                            || options.length < 3
-                            || options[1] == null
-                            || options[2] == null) {
-                        context.showSnackbar(R.string.file_import_failed);
-                        return;
+        context.showFilePicker((options) -> {
+            if (options == null || options.length < 3 || options[1] == null || options[2] == null) {
+                context.showSnackbar(R.string.file_import_failed);
+                return;
+            }
+            executor.execute(() -> {
+                try {
+                    IFile destFile = new FileX(node.fullPath, options[1].toString());
+                    String content = options[2].toString();
+                    if (destFile.exists()) {
+                        context.runOnUiThread(() -> showOverwriteConfirmation(destFile, content));
+                    } else {
+                        writeFileWithFeedback(destFile, content);
                     }
-
-                    executor.execute(
-                            () -> {
-                                try {
-                                    IFile destFile =
-                                            new FileX(node.fullPath, options[1].toString());
-                                    String content = options[2].toString();
-
-                                    if (destFile.exists()) {
-                                        context.runOnUiThread(
-                                                () -> showOverwriteConfirmation(destFile, content));
-                                    } else {
-                                        writeFileWithFeedback(destFile, content);
-                                    }
-                                } catch (Exception e) {
-                                    showErrorOnUiThread(R.string.file_import_error, e);
-                                }
-                            });
-                });
+                } catch (Exception e) {
+                    showErrorOnUiThread(R.string.file_import_error, e);
+                }
+            });
+        });
     }
 
     private void showOverwriteConfirmation(IFile file, String content) {
         new DialogBuilder(context)
                 .setTitle(R.string.file_exists)
                 .setMessage(R.string.overwrite_file_confirmation)
-                .setPositiveButton(
-                        R.string.yes,
-                        (d, w) -> {
-                            executor.execute(() -> writeFileWithFeedback(file, content));
-                            d.dismiss();
-                        })
+                .setPositiveButton(R.string.yes, (d, w) -> {
+                    executor.execute(() -> writeFileWithFeedback(file, content));
+                    d.dismiss();
+                })
                 .setNegativeButton(R.string.no, (d, w) -> d.dismiss())
                 .show();
     }
@@ -158,11 +163,10 @@ public class EditorFileTreeManager {
         try {
             file.mkfile();
             file.write(content);
-            context.runOnUiThread(
-                    () -> {
-                        fileTree.adapter.notifyDataSetChanged();
-                        context.showSnackbar(R.string.file_import_success);
-                    });
+            context.runOnUiThread(() -> {
+                fileTree.adapter.notifyDataSetChanged();
+                context.showSnackbar(R.string.file_import_success);
+            });
         } catch (Exception e) {
             showErrorOnUiThread(R.string.file_write_error, e);
         }
@@ -172,12 +176,10 @@ public class EditorFileTreeManager {
         new DialogBuilder(context)
                 .setTitle(R.string.confirm_delete_title)
                 .setMessage(context.getString(R.string.delete_confirmation, node.name))
-                .setPositiveButton(
-                        R.string.delete,
-                        (d, w) -> {
-                            deleteFile(node);
-                            d.dismiss();
-                        })
+                .setPositiveButton(R.string.delete, (d, w) -> {
+                    deleteFile(node);
+                    d.dismiss();
+                })
                 .setNegativeButton(R.string.cancel, (d, w) -> d.dismiss())
                 .show();
     }
@@ -191,7 +193,6 @@ public class EditorFileTreeManager {
             } else {
                 console.printError(R.string.file_delete_failed);
             }
-
         } catch (SecurityException e) {
             showErrorOnUiThread(R.string.file_delete_permission_denied, e);
         }
@@ -227,11 +228,10 @@ public class EditorFileTreeManager {
     }
 
     private void showErrorOnUiThread(int messageRes, Exception e) {
-        context.runOnUiThread(
-                () -> {
-                    console.printError(messageRes, e);
-                    context.showSnackbar(messageRes);
-                });
+        context.runOnUiThread(() -> {
+            console.printError(messageRes, e);
+            context.showSnackbar(messageRes);
+        });
     }
 
     public void shutdown() {
