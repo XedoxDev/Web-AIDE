@@ -7,10 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.xedox.webaide.CloneRepositoryDialog;
 import org.xedox.webaide.dialogs.DialogBuilder;
 import org.xedox.webaide.util.HighlightText;
@@ -127,6 +130,9 @@ public class MainActivity extends BaseActivity {
             return true;
         } else if (id == R.id.news) {
             WhatsNewDialog.show(this);
+            return true;
+        } else if (id == R.id.open_parser) {
+            startActivity(new Intent(this, UrlSourceActivity.class));
             return true;
         }
 

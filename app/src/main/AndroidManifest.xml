@@ -49,6 +49,10 @@
             android:name=".activity.MarkdownPreviewActivity"
             android:exported="false" 
             android:label="@string/markdown_preview"/>
+               <activity
+            android:name=".activity.UrlSourceActivity"
+            android:exported="true"
+            android:label="Parser Source Web" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
