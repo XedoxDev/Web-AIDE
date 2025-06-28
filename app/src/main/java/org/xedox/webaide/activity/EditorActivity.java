@@ -14,9 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.*;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import org.xedox.webaide.*;
 import org.xedox.webaide.activity.editor.*;
+import org.xedox.webaide.dialogs.BuildApkDialog;
+import org.xedox.apkbuilder.ApkBuilder;
 import org.xedox.webaide.dialogs.ColorPickerDialog;
 import org.xedox.webaide.editor.*;
 import org.xedox.webaide.console.ConsoleLayout;
@@ -261,10 +264,13 @@ public class EditorActivity extends BaseActivity {
                     new Intent(this, RunActivity.class)
                             .putExtra("index_path", project.indexHtml.getFullPath()));
             return true;
-        }if (id == R.id.build_apk) {
-           BuildApkDialog.show(this, (con) ->{
-               new ApkBuilder(this, console.getStreamBuild(), con);
-           }); 
+        }
+        if (id == R.id.build_apk) {
+            BuildApkDialog.show(
+                    this,
+                    (con) -> {
+                        new ApkBuilder(this, new PrintStream(console.getStreamBuild()), con);
+                    });
             return true;
         } else if (id == R.id.save) {
             editorAdapter.saveAll();

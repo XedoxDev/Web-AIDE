@@ -397,6 +397,6 @@
             android:text="Save Configuration"
             android:layout_marginTop="16dp"
             android:id="@+id/saveButton"
-            style="@style/Widget.Material3.Button.Tonal"/>
+            />
     </LinearLayout>
 </ScrollView>
