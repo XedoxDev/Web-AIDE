@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Save -->
     <item
         android:id="@+id/save"
         android:title="@string/save"
         android:icon="@drawable/save"
         android:orderInCategory="10"
         app:showAsAction="ifRoom" />
+
+    <!-- Run & Build APK submenu -->
     <item
         android:icon="@drawable/run"
         android:orderInCategory="20"
@@ -32,6 +34,7 @@
         </menu>
     </item>
 
+    <!-- Format -->
     <item
         android:id="@+id/format"
         android:title="@string/format"
@@ -39,26 +42,37 @@
         android:orderInCategory="30"
         app:showAsAction="ifRoom" />
 
+    <!-- Color Picker -->
     <item
         android:id="@+id/color_picker"
         android:title="@string/color_picker"
+        android:icon="@drawable/palette"
         android:orderInCategory="40"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/palette" />
+        app:showAsAction="ifRoom" />
 
+    <!-- Encrypt Tools -->
+    <item
+        android:id="@+id/encode_tools"
+        android:title="Encrypt Tools"
+        android:icon="@drawable/encode"
+        android:orderInCategory="50"
+        app:showAsAction="ifRoom" />
+
+    <!-- Markdown Preview -->
     <item
         android:id="@+id/markdown_preview"
         android:title="@string/markdown_preview"
         android:icon="@drawable/markdown"
-        android:orderInCategory="50"
+        android:orderInCategory="60"
         app:showAsAction="always"
         app:iconTint="@color/markdown_preview_icon" />
 
+    <!-- Git submenu -->
     <item
         android:id="@+id/git"
         android:title="@string/git"
         android:icon="@drawable/git"
-        android:orderInCategory="60"
+        android:orderInCategory="70"
         app:showAsAction="always"
         app:iconTint="@color/git_icon">
 
@@ -113,11 +127,12 @@
         </menu>
     </item>
 
+    <!-- Settings -->
     <item
         android:id="@+id/settings"
         android:title="@string/settings"
         android:icon="@drawable/settings"
-        android:orderInCategory="70"
+        android:orderInCategory="80"
         app:showAsAction="ifRoom" />
 
 </menu>
