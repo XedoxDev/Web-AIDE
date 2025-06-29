@@ -2,7 +2,6 @@ package org.xedox.webaide.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -19,13 +18,18 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UrlSourceActivity extends AppCompatActivity {
 
-    EditText inputUrl;
-    TextView outputSource;
-    Button buttonParse;
-    Button buttonCopy;
+    private EditText inputUrl;
+    private TextView outputSource;
+    private Button buttonParse;
+    private Button buttonCopy;
+
+    // Gunakan ExecutorService
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class UrlSourceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String url = inputUrl.getText().toString().trim();
                 if (!url.isEmpty()) {
-                    new FetchSourceTask().execute(url);
+                    fetchSource(url);
                 } else {
                     Toast.makeText(UrlSourceActivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
                 }
@@ -67,12 +71,11 @@ public class UrlSourceActivity extends AppCompatActivity {
         });
     }
 
-    private class FetchSourceTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
+    private void fetchSource(String urlString) {
+        executor.execute(() -> {
             StringBuilder result = new StringBuilder();
             try {
-                URL url = new URL(urls[0]);
+                URL url = new URL(urlString);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
@@ -85,14 +88,17 @@ public class UrlSourceActivity extends AppCompatActivity {
                 }
                 reader.close();
             } catch (Exception e) {
-                return "Failed to fetch source: " + e.getMessage();
+                result.append("Failed to fetch source: ").append(e.getMessage());
             }
-            return result.toString();
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            outputSource.setText(result);
-        }
+            // Update UI di thread utama
+            runOnUiThread(() -> outputSource.setText(result.toString()));
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdown(); // Matikan executor saat activity dihancurkan
     }
 }
