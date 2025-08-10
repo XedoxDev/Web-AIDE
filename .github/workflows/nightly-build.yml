@@ -1,0 +1,50 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build APK with Gradle
+      run: ./gradlew :main:assembleDebug
+
+    - name: Find APK file
+      id: find-apk
+      run: |
+        APK_PATH=$(find main/build/outputs/apk/debug -name "Web-AIDE-v*.apk" | head -1)
+        echo "APK_PATH=${APK_PATH}" >> $GITHUB_OUTPUT
+        echo "Found APK at: ${APK_PATH}"
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Web-AIDE-Debug
+        path: ${{ steps.find-apk.outputs.APK_PATH }}
