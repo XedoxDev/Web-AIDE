@@ -5,20 +5,24 @@ plugins {
 
 allprojects {
     ext {
-        // libs versions
         app_compat = "1.7.0"
         material = "1.13.0-alpha13"
         sora_editor = "0.23.5"
         desugar_jdk_libs = "2.1.5"
         jgit = "7.2.0.202503040940-r"
         gson = "2.13.1"
+        zip4j = "2.11.5"
         markwonVersion = "4.6.2"
         multidex = "2.0.1"
         preference = "1.2.1"
         closure_compiler = "v20230206"
         jsoup = "1.17.2"
-        flexmark = "0.64.8"
         swiperefreshlayout = "1.1.0"
+        recyclerview = "1.3.2"
+        
+        mCompileSDK = 36
+        mMinSDK = 26
+        mTargetSDK = 36
     }
 }
 

@@ -1,1 +1,0 @@
-# ColorPicker by Xedox

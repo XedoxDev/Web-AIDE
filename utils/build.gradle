@@ -1,16 +1,17 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
-    namespace 'org.xedox.colorpicker'
+    namespace "org.xedox.utils"
     compileSdk mCompileSDK
     
     defaultConfig {
         minSdk mMinSDK
         targetSdk mTargetSDK
-        versionCode 1
-        versionName "0.0.2"
+        versionCode 4
+        versionName "0.0.4a"
+        multiDexEnabled true
     }
     
     buildTypes {
@@ -27,6 +28,10 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.material:material:$material")
-    implementation("androidx.appcompat:appcompat:$app_compat")
+    api "androidx.appcompat:appcompat:$app_compat"
+    api "androidx.preference:preference:$preference"
+    api "org.eclipse.jgit:org.eclipse.jgit:$jgit"
+    api "com.google.android.material:material:$material"
+    implementation "io.noties.markwon:core:$markwonVersion"
+    implementation("net.lingala.zip4j:zip4j:$zip4j")
 }

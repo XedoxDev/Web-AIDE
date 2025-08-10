@@ -1,0 +1,72 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "org.xedox.webaide"
+    compileSdk mCompileSDK
+    
+    defaultConfig {
+        applicationId "org.xedox.webaide"
+        minSdk mMinSDK
+        targetSdk mTargetSDK
+        versionCode 5
+        versionName "0.0.5a"
+        multiDexEnabled true
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def projectName = "Web-AIDE"
+            def version = variant.versionName
+            def buildNumber = variant.versionCode
+            def variantName = variant.name
+            outputFileName = "${projectName}-v${version}-build.${buildNumber}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$app_compat"
+    implementation "androidx.multidex:multidex:$multidex"
+    implementation "androidx.preference:preference:$preference"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
+    
+    implementation "com.google.android.material:material:$material"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "com.google.javascript:closure-compiler:$closure_compiler"
+    
+    implementation "io.github.Rosemoe.sora-editor:editor"
+    implementation "io.github.Rosemoe.sora-editor:language-textmate"
+    implementation "io.noties.markwon:core:${markwonVersion}"
+    
+    implementation "org.eclipse.jgit:org.eclipse.jgit:$jgit"
+    implementation "org.jsoup:jsoup:$jsoup"
+    
+    implementation project(":filetree")
+    //implementation project(":colorpicker")
+    implementation project(":utils")
+    implementation platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
+}

@@ -1,75 +1,41 @@
 package org.xedox.filetree.utils;
 
 import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Node implements Serializable {
-    public String name;
-    public String path;
-    public String fullPath;
+public class Node extends File {
 
-    public boolean isFile;
-    public boolean isOpen;
-    public List<Node> children;
-
-    public int level = 0;
-    public int id;
-
-    public static int idCount = 0;
-
-    public Node() {
-        name = "";
-        path = "";
-        fullPath = "";
-        isOpen = false;
-        children = null;
-        isFile = true;
-        id = idCount++;
-        fullPath = path + File.separator + name;
+    public Node(File file) {
+        super(file.getAbsolutePath());
     }
 
-    public Node(String fullPath) {
-        File f = new File(fullPath);
-        name = f.getName();
-        path = f.getParent();
-        this.fullPath = fullPath;
-        isOpen = false;
-        isFile = f.isFile();
-        id = idCount++;
+    public Node(String path) {
+        super(path);
     }
 
-    public List<Node> updateChildren() {
-        children = new ArrayList<>();
-        File directory = new File(fullPath);
-
-        File[] files = directory.listFiles();
-        if(files==null) return children;
-        for (File f : files) {
-            Node node = new Node(f.getAbsolutePath());
-            node.level = level + 1;
-            children.add(node);
-        }
-        return children;
+    public Node(String parent, String child) {
+        super(parent, child);
     }
 
-    public List<Node> children() {
-        if(children==null)
-        return updateChildren();
-        else return children;
+    public Node(File parent, String child) {
+        super(parent, child);
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Node {name='%s', path='%s', fullPath='%s', childrenCount=%d, isFile=%b, isOpen=%b, children=%s}\n",
-                name,
-                path,
-                fullPath,
-                (children() == null ? 0 : children().size()),
-                isFile,
-                isOpen,
-                children());
+    private boolean isOpen;
+    private int level;
+
+    public boolean isOpen() {
+        return this.isOpen;
+    }
+
+    public void setOpen(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
+
+    public int getLevel() {
+        return this.level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

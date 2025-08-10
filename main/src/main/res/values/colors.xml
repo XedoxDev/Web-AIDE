@@ -1,0 +1,34 @@
+<resources>
+    <color name="tint_enable_off">#353535</color>
+    <color name="tint_enable_on">#202020</color>
+    <color name="run_icon">#2DB22D</color> 
+    <color name="markdown_preview_icon">#3A6BC8</color> 
+    <color name="git_icon">#E04C2E</color> 
+
+    <color name="background">#FAFAFA</color>
+    <color name="on_background">#1A1A1A</color>
+    <color name="primary">#0062A0</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#D0E4FF</color>
+    <color name="on_primary_container">#001D35</color>
+    <color name="secondary">#53535A</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#E0E0E7</color>
+    <color name="on_secondary_container">#1E1E24</color>
+    <color name="tertiary">#9C4D98</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#FFD6F9</color>
+    <color name="on_tertiary_container">#390039</color>
+    <color name="error">#BA1A1A</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="error_container">#FFDAD6</color>
+    <color name="on_error_container">#410002</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1A1A1A</color>
+    <color name="surface_variant">#E1E2E5</color>
+    <color name="on_surface_variant">#43474E</color>
+    <color name="outline">#74777F</color>
+    <color name="outline_variant">#C4C6D0</color>
+    <color name="surface_high">#F2F2F2</color>
+    <color name="surface_highest">#E6E6E6</color>
+</resources>

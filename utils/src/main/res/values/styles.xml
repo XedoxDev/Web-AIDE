@@ -1,0 +1,5 @@
+<resources>
+    <style name="NeoAlertDialogStyle" parent="@style/Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@drawable/neo_dialog_background</item>
+    </style>
+</resources>

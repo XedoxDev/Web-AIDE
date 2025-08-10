@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Web Android IDE</string>
+    <string name="you_no_have_projects">You no have projects</string>
+    <string name="new_project">New project</string>
+    <string name="create_project">Create project</string>
+    <string name="project_name">Project name</string>
+    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="project_successful_created">Project successful created</string>
+    <string name="failed_to_create_project">Failed to create project</string>
+    <string name="project_already_exists">Project already exists</string>
+    <string name="cancel">Cancel</string>
+    <string name="more">More</string>
+    <string name="remove">Remove</string>
+    <string name="rename">Rename</string>
+    <string name="rename_project">Rename project</string>
+    <string name="file_tree">File tree</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+</resources>
