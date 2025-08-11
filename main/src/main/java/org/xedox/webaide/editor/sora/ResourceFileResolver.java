@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+// File resoulver for working with file system
 public class ResourceFileResolver implements FileResolver {
 
     @Override

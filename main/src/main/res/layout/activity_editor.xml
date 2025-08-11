@@ -22,17 +22,45 @@
             android:layout_width="match_parent"
             android:layout_below="@id/toolbar"
             android:id="@+id/tabs_pager">
-
-            <com.google.android.material.tabs.TabLayout
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_height="50dp"
                 android:layout_width="match_parent"
-                android:id="@+id/tab_layout" />
-
+                android:layout_below="@id/toolbar"
+                android:id="@+id/tabs_undo_redo">
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/tab_layout"
+                    android:layout_toStartOf="@+id/undo"
+                    app:tabGravity="start"
+                    app:tabMode="scrollable" 
+                    android:background="@color/background"/>
+                <ImageButton
+                    android:id="@+id/undo"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_toStartOf="@+id/redo"
+                    style="@style/Widget.AppCompat.ActionButton"
+                    android:src="@drawable/undo" />
+                <ImageButton
+                    android:id="@+id/redo"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    style="@style/Widget.AppCompat.ActionButton"
+                    android:src="@drawable/redo" />
+            </RelativeLayout>
             <androidx.viewpager2.widget.ViewPager2
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_below="@id/tab_layout"
+                android:layout_below="@id/tabs_undo_redo"
                 android:id="@+id/view_pager" />
+            <include
+                android:id="@+id/empty_editor"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/toolbar"
+                layout="@layout/empty_editor_layout" />
 
         </RelativeLayout>
 
@@ -70,7 +98,7 @@
                 android:layout_toEndOf="@+id/nav_rail"
                 android:layout_below="@+id/title"
                 android:id="@+id/nav_content"
-                android:padding="8dp"/>
+                android:padding="8dp" />
         </RelativeLayout>
     </com.google.android.material.navigation.NavigationView>
 
