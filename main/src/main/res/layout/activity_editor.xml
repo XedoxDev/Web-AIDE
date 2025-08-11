@@ -1,76 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:id="@+id/drawer_layout">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/main_content"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:title="@string/app_name"
-            android:id="@+id/toolbar" />
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name" />
 
         <RelativeLayout
-            android:layout_height="match_parent"
+            android:id="@+id/tabs_pager"
             android:layout_width="match_parent"
-            android:layout_below="@id/toolbar"
-            android:id="@+id/tabs_pager">
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
 
             <com.google.android.material.tabs.TabLayout
-                android:layout_height="wrap_content"
+                android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:id="@+id/tab_layout" />
+                android:layout_height="wrap_content" />
 
             <androidx.viewpager2.widget.ViewPager2
-                android:layout_height="match_parent"
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_below="@id/tab_layout"
-                android:id="@+id/view_pager" />
+                android:layout_height="match_parent"
+                android:layout_below="@id/tab_layout" />
 
         </RelativeLayout>
 
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:layout_height="match_parent"
+        android:id="@+id/nav"
         android:layout_width="wrap_content"
-        android:layout_gravity="start"
-        android:id="@+id/nav">
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
 
         <RelativeLayout
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
             <com.google.android.material.navigationrail.NavigationRailView
-                android:layout_height="match_parent"
+                android:id="@+id/nav_rail"
                 android:layout_width="60dp"
+                android:layout_height="match_parent"
                 app:menu="@menu/navigation_rail"
-                app:menuGravity="bottom"
-                android:id="@+id/nav_rail" />
+                app:menuGravity="bottom" />
 
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_toEndOf="@+id/nav_rail"
-                android:layout_margin="16dp"
-                android:textSize="25sp"
                 android:id="@+id/title"
-                android:text="Title" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_toEndOf="@+id/nav_rail"
+                android:text="Title"
+                android:textSize="25sp" />
 
             <FrameLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_toEndOf="@+id/nav_rail"
-                android:layout_below="@+id/title"
                 android:id="@+id/nav_content"
-                android:padding="8dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/title"
+                android:layout_toEndOf="@+id/nav_rail"
+                android:padding="8dp" />
         </RelativeLayout>
     </com.google.android.material.navigation.NavigationView>
 

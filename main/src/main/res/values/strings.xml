@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Web Android IDE</string>
-    <string name="you_no_have_projects">You no have projects</string>
+    <string name="you_no_have_projects">You have no projects</string>
     <string name="new_project">New project</string>
     <string name="create_project">Create project</string>
     <string name="project_name">Project name</string>
-    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="project_name_cannot_be_empty">Project name can\'t be empty</string>
     <string name="project_successful_created">Project successful created</string>
     <string name="failed_to_create_project">Failed to create project</string>
     <string name="project_already_exists">Project already exists</string>
     <string name="cancel">Cancel</string>
     <string name="more">More</string>
     <string name="remove">Remove</string>
-     <string name="create">Create</string>
+    <string name="create">Create</string>
     <string name="invalid_filename">Invalid name</string>
     <string name="new_file_folder">New File/Folder</string>
     <string name="file">File</string>
@@ -21,8 +21,8 @@
     <string name="create_file">Create file</string>
     <string name="rename_file">Rename file</string>
     <string name="rename_folder">Rename folder</string>
-    <string name="folder_name_cannot_be_empty">Folder name cannot be empty</string>
-    <string name="file_name_cannot_be_empty">File name cannot be empty</string>
+    <string name="folder_name_cannot_be_empty">Folder name can\'t be empty</string>
+    <string name="file_name_cannot_be_empty">File name can\'t be empty</string>
     <string name="folder_name">Folder name</string>
     <string name="folder">Folder</string>
     <string name="file_already_exists">File already exists</string>

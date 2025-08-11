@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,26 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_below="@id/toolbar"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="end|center_vertical">
+        android:padding="8dp">
 
         <ImageButton
             android:id="@+id/new_project"
+            style="@style/Widget.AppCompat.ActionButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/plus"
-            style="@style/Widget.AppCompat.ActionButton"
-            android:contentDescription="@string/new_project" />
+            android:contentDescription="@string/new_project"
+            android:src="@drawable/plus" />
     </LinearLayout>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
         android:layout_below="@id/actions"
-android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/projects_recycler_view"

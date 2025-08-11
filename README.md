@@ -38,4 +38,4 @@ We welcome contributions! Please follow these steps:
 
 ## 📜 License
 
-Distributed under the Apache License 2.0. See [LICENSE](LICENSE) for more information.
+Distributed under the GNU GPL-3.0. See [LICENSE](LICENSE) for more information.
