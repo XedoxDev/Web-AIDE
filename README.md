@@ -33,7 +33,7 @@ A mobile web development environment for Android devices with Git integration an
   - [ ] Extract CSS from HTML
 - [ ] Code editor (SoraEditor)
   - [ ] Tree sitter
-  - [ ] Syntax hightlight
+  - [x] Syntax hightlight
   - [ ] Code format
     - [ ] JavaScript
     - [ ] HTML

@@ -12,6 +12,7 @@ import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.webaide.dialog.CreateProjectDialog;
+import org.xedox.webaide.editor.sora.SoraEditorManager;
 import org.xedox.webaide.project.Project;
 import org.xedox.webaide.project.ProjectsAdapter;
 
@@ -23,6 +24,8 @@ public class MainActivity extends BaseActivity {
     private ProjectsAdapter projectsAdapter;
     private View emptyProjectsRecycler;
     private ImageButton newProject;
+
+    public static boolean initialize = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,10 @@ public class MainActivity extends BaseActivity {
         projectsAdapter.setOnChangeListener(
                 hasItems ->
                         emptyProjectsRecycler.setVisibility(hasItems ? View.GONE : View.VISIBLE));
+        if (!initialize) {
+            SoraEditorManager.initialize(this);
+            initialize = true;
+        }
     }
 
     @Override

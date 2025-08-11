@@ -6,7 +6,7 @@
 	],
 	"version": "https://github.com/textmate/html.tmbundle/commit/0c3d5ee54de3a993f747f54186b73a4d2d3c44a2",
 	"name": "HTML",
-	"scopeName": "text.html.basic",
+	"scopeName": "source.html",
 	"injections": {
 		"R:text.html - (comment.block, text.html meta.embedded, meta.tag.*.*.html, meta.tag.*.*.*.html, meta.tag.*.*.*.*.html)": {
 			"comment": "Uses R: to ensure this matches after any other injections.",

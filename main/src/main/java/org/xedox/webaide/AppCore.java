@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication;
 import java.io.File;
 import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
+import org.xedox.webaide.editor.sora.SoraEditorManager;
 
 public class AppCore extends MultiDexApplication {
 
