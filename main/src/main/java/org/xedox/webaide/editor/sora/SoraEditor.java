@@ -65,7 +65,7 @@ public class SoraEditor extends CodeEditor {
     public static class PrintStream extends java.io.PrintStream {
         private final SoraEditor editor;
         private final StringBuilder buffer = new StringBuilder();
-        private static final int FLUSH_LIMIT = 1024;
+        private static final int FLUSH_LIMIT = 20;
 
         public PrintStream(SoraEditor editor) {
             super(System.out);

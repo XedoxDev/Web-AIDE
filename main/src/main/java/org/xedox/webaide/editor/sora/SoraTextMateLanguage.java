@@ -9,12 +9,6 @@ import java.util.Map;
 
 public class SoraTextMateLanguage extends TextMateLanguage {
 
-    private static final Map<String, String> SCOPE_MAPPING = new HashMap<>();
-
-    static {
-        SCOPE_MAPPING.put("source.txt", "text");
-    }
-
     private final String scope;
     private final Context context;
 

@@ -1,5 +1,7 @@
 # Web Android IDE (Web-AIDE)
 
+> Now project rewriting...
+
 [![Version](https://img.shields.io/badge/Version-v0.0.5-blue)](https://github.com/XedoxDev/Web-Android-IDE/releases)
 [![Status](https://img.shields.io/badge/Status-Alpha_Testing-orange)](https://github.com/XedoxDev/Web-Android-IDE/wiki/Development-Roadmap)
 [![License](https://img.shields.io/github/license/XedoxDev/Web-AIDE)](LICENSE)
@@ -21,6 +23,26 @@ A mobile web development environment for Android devices with Git integration an
 - [**AndroidIDE**](https://github.com/AndroidIDEOfficial/AndroidIDE)
 - [**jaredrummler/TwoDScrollView**](https://github.com/jaredrummler/TwoDScrollView.git)
 
+## Features
+
+- [ ] Realtime site preview
+- [ ] Git manager
+- [ ] DevTools
+  - [ ] Parse HTML layout from page
+  - [ ] Extract JavaScript from HTML
+  - [ ] Extract CSS from HTML
+- [ ] Code editor (SoraEditor)
+  - [ ] Tree sitter
+  - [ ] Syntax hightlight
+  - [ ] Code format
+    - [ ] JavaScript
+    - [ ] HTML
+    - [ ] CSS
+  - [ ] Language Servers
+    - [ ] JavaScript
+    - [ ] CSS
+    - [ ] HTML  
+ 
 ## 🤝 Contributing
 
 We welcome contributions! Please follow these steps:

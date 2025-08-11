@@ -1,11 +1,108 @@
 package org.xedox.webaide.editor;
 
+import android.view.View;
+import android.widget.ImageButton;
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import org.xedox.filetree.utils.Node;
+import org.xedox.utils.BaseFragment;
+import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.webaide.EditorActivity;
+import org.xedox.webaide.R;
 
 public class EditorManager {
+
     private EditorActivity context;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private TabLayoutMediator tabLayoutMediator;
+    private EditorStateAdapter editorStateAdapter;
+    private ImageButton undo, redo;
+    private View emptyPager;
 
     public EditorManager(EditorActivity context) {
         this.context = context;
+        viewPager = context.getViewPager();
+        tabLayout = context.getTabLayout();
+        undo = context.findViewById(R.id.undo);
+        redo = context.findViewById(R.id.redo);
+        emptyPager = context.findViewById(R.id.empty_editor);
+        editorStateAdapter = new EditorStateAdapter(context);
+        editorStateAdapter.setOnChangeListener(
+                (hasItems) -> {
+                    viewPager.setVisibility(hasItems ? View.VISIBLE : View.GONE);
+                    tabLayout.setVisibility(hasItems ? View.VISIBLE : View.GONE);
+                    undo.setVisibility(hasItems ? View.VISIBLE : View.GONE);
+                    redo.setVisibility(hasItems ? View.VISIBLE : View.GONE);
+                    emptyPager.setVisibility(hasItems ? View.GONE : View.VISIBLE);
+                });
+        viewPager.setAdapter(editorStateAdapter);
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, this::handleMediator);
+        tabLayoutMediator.attach();
+
+        tabLayout.addOnTabSelectedListener(
+                new TabLayout.OnTabSelectedListener() {
+
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        int pos = viewPager.getCurrentItem();
+                        BaseFragment f = editorStateAdapter.get(pos);
+                        boolean isFile = f instanceof FileFragment;
+                        undo.setEnabled(isFile);
+                        redo.setEnabled(isFile);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {}
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {}
+                });
+        undo.setOnClickListener(
+                v -> {
+                    BaseFragment f = editorStateAdapter.get(viewPager.getCurrentItem());
+                    if (f instanceof FileFragment) {
+                        FileFragment ff = (FileFragment) f;
+                        ff.getEditor().undo();
+                    }
+                });
+        redo.setOnClickListener(
+                v -> {
+                    BaseFragment f = editorStateAdapter.get(viewPager.getCurrentItem());
+                    if (f instanceof FileFragment) {
+                        FileFragment ff = (FileFragment) f;
+                        ff.getEditor().redo();
+                    }
+                });
+    }
+
+    private void handleMediator(TabLayout.Tab tab, int position) {
+        BaseFragment fragment = editorStateAdapter.get(position);
+        if (fragment != null) {
+            fragment.setOnTitleChanged(tab::setText);
+        }
+    }
+
+    public void openFile(Node file) {
+        try {
+            editorStateAdapter.add(FileFragment.newInstance(file));
+        } catch (Exception err) {
+            ErrorDialog.show(context, err);
+        }
+    }
+
+    public void closeFile(Node file) {
+        try {
+            editorStateAdapter.removeByFile(file);
+        } catch (Exception err) {
+            ErrorDialog.show(context, err);
+        }
+    }
+
+    public void onDestroy() {
+        tabLayoutMediator.detach();
+        editorStateAdapter.setOnChangeListener(null);
+        context = null;
     }
 }

@@ -41,23 +41,23 @@ public class EditorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
-        toolbar = findViewById(R.id.toolbar);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
-        navRail = findViewById(R.id.nav_rail);
-        navContent = findViewById(R.id.nav_content);
-        navTitle = findViewById(R.id.title);
-        nav = findViewById(R.id.nav);
-        setSupportActionBar(toolbar);
-
-        Intent intent = getIntent();
-        project = Project.getProject(intent.getStringExtra("projectName"));
-        getSupportActionBar().setSubtitle(project.getName());
         try {
-            drawerManager = new DrawerManager(this);
+            setContentView(R.layout.activity_editor);
+            toolbar = findViewById(R.id.toolbar);
+            drawerLayout = findViewById(R.id.drawer_layout);
+            tabLayout = findViewById(R.id.tab_layout);
+            viewPager = findViewById(R.id.view_pager);
+            navRail = findViewById(R.id.nav_rail);
+            navContent = findViewById(R.id.nav_content);
+            navTitle = findViewById(R.id.title);
+            nav = findViewById(R.id.nav);
+            setSupportActionBar(toolbar);
+
+            Intent intent = getIntent();
+            project = Project.getProject(intent.getStringExtra("projectName"));
+            getSupportActionBar().setSubtitle(project.getName());
             editorManager = new EditorManager(this);
+            drawerManager = new DrawerManager(this);
         } catch (Exception err) {
             ErrorDialog.show(this, err);
         }
@@ -113,6 +113,7 @@ public class EditorActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         if (drawerManager != null) drawerManager.onDestroy();
+        if (editorManager != null) editorManager.onDestroy();
         super.onDestroy();
     }
 }
