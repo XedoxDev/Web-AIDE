@@ -74,28 +74,11 @@ public class Project {
     }
 
     public static Project createProject(Context context, String name) throws IOException {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Project name cannot be empty or null");
-        }
-
-        if (name.contains("/") || name.contains("\\") || name.contains(":")) {
-            throw new IllegalArgumentException("Project name contains invalid characters");
-        }
-
         File projectsDir = new File(AppCore.dir("projects"));
         File projectDir = new File(projectsDir, name);
-
-        if (projectDir.exists()) {
-            throw new IOException(
-                    "Project directory already exists: " + projectDir.getAbsolutePath());
-        }
-
-        if (!projectDir.mkdirs()) {
-            throw new IOException(
-                    "Failed to create project directory: " + projectDir.getAbsolutePath());
-        }
+        projectDir.mkdirs();
         try (Assets ass = Assets.from(context)) {
-            ass.copyAssetsRecursive("project/", projectDir);
+            ass.copyFile("project/index.html", new File(projectDir, "index.html"));
         } catch (Exception err) {
             err.printStackTrace();
         }

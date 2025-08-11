@@ -18,7 +18,7 @@ import org.xedox.filetree.adapter.FileTreeAdapter;
 
 public class FileTreeView extends RecyclerView {
 
-    public FileTreeAdapter adapter;
+    private FileTreeAdapter adapter;
 
     public FileTreeView(Context context) {
         super(context);
@@ -41,13 +41,123 @@ public class FileTreeView extends RecyclerView {
         setAdapter(adapter);
         setHasFixedSize(false);
     }
-    
+
     public void loadPath(String path) {
-    	adapter.loadPath(path);
+        adapter.loadPath(path);
+    }
+
+    public void loadPath(File path) {
+        adapter.loadFile(path);
+    }
+
+    public void addNode(Node node) {
+        adapter.add(node);
+    }
+
+    public void addNode(int position, Node node) {
+        adapter.add(position, node);
+    }
+
+    public void addNodes(List<Node> nodes) {
+        adapter.addAll(nodes);
+    }
+
+    public void removeNode(Node node) {
+        adapter.remove(node);
+    }
+
+    public void removeNode(int position) {
+        adapter.remove(position);
+    }
+
+    public void updateNode(Node node) {
+        adapter.update(node);
     }
     
-    public void loadPath(File path) {
-    	adapter.loadFile(path);
+    public void updateNode(Node node, Node newNode) {
+        adapter.update(node, newNode);
+    }
+
+    public void clearNodes() {
+        adapter.clear();
+    }
+
+    public Node getNode(int position) {
+        return adapter.getNode(position);
+    }
+
+    public int getNodePosition(Node node) {
+        return adapter.indexOf(node);
+    }
+
+    public List<Node> getAllNodes() {
+        return adapter.getNodes();
+    }
+
+    public void setNodes(List<Node> nodes) {
+        adapter.setNodes(nodes);
+    }
+
+    public void moveNode(int fromPosition, int toPosition) {
+        adapter.move(fromPosition, toPosition);
+    }
+
+    public void openFolder(Node node) {
+        adapter.openFolder(node);
+    }
+
+    public void closeFolder(Node node) {
+        adapter.closeFolder(node);
+    }
+
+    public void toggleFolder(Node node) {
+        if (node.isOpen()) {
+            closeFolder(node);
+        } else {
+            openFolder(node);
+        }
+    }
+
+    public void setOnFileClickListener(OnFileClickListener listener) {
+        adapter.setOnFileClickListener(listener);
+    }
+
+    public void setOnFileLongClickListener(OnFileLongClickListener listener) {
+        adapter.setOnFileLongClickListener(listener);
+    }
+
+    public void setFileItemLayout(int layoutResId) {
+        adapter.setFileItemLayout(layoutResId);
+    }
+
+    public void setIndent(int indentPx) {
+        adapter.setIndent(indentPx);
+    }
+
+    public void setIcon(String endsWith, int iconResId) {
+        adapter.setIcon(endsWith, iconResId);
+    }
+
+    public void refresh() {
+        adapter.refresh();
+    }
+    
+    public int indexOfNode(Node node) {
+    	return adapter.indexOf(node);
+    }
+
+    public void scrollToNode(Node node) {
+        int position = adapter.indexOf(node);
+        if (position != -1) {
+            scrollToPosition(position);
+        }
+    }
+
+    public void smoothScrollToNode(Node node) {
+        int position = adapter.indexOf(node);
+        if (position != -1) {
+            smoothScrollToPosition(position);
+        }
     }
 
     @Override

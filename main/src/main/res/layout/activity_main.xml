@@ -15,11 +15,11 @@
     <LinearLayout
         android:id="@+id/actions"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_below="@id/toolbar"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:gravity="center">
+        android:gravity="end|center_vertical">
 
         <ImageButton
             android:id="@+id/new_project"
@@ -35,7 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        android:layout_below="@id/actions" />
+        android:layout_below="@id/actions"
+android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/projects_recycler_view"

@@ -26,7 +26,6 @@ public class FileTreeFragment extends BaseFragment {
     private static final String ARG_PATH = "file_tree_path";
 
     private FileTreeView fileTree;
-    private FileTreeAdapter adapter;
     private SwipeRefreshLayout swipeRefresh;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private String currentPath;
@@ -46,16 +45,19 @@ public class FileTreeFragment extends BaseFragment {
         currentPath = getArguments().getString(ARG_PATH);
         fileTree = view.findViewById(R.id.file_tree);
         swipeRefresh = view.findViewById(R.id.swipe_refresh);
-        fileTree.loadPath(currentPath);
-        adapter = fileTree.adapter;
         swipeRefresh.setOnRefreshListener(this::refreshFileTree);
+        setupTree();
         return view;
+    }
+    
+    private void setupTree() {
+    	fileTree.loadPath(currentPath);
     }
 
     private void refreshFileTree() {
         handler.post(
                 () -> {
-                    adapter.notifyDataSetChanged();
+                    fileTree.refresh();
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
                     }
@@ -70,11 +72,7 @@ public class FileTreeFragment extends BaseFragment {
         return fragment;
     }
 
-    public RecyclerView getFileTree() {
+    public FileTreeView getFileTree() {
         return fileTree;
-    }
-
-    public FileTreeAdapter getAdapter() {
-        return adapter;
     }
 }

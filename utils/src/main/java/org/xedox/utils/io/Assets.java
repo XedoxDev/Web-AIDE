@@ -41,6 +41,7 @@ public final class Assets implements AutoCloseable, Closeable {
                 is = assetManager.open(childAssetPath);
                 copyStreamToFile(is, childTargetFile);
             } catch (IOException e) {
+                e.printStackTrace();
                 copyAssetsRecursive(childAssetPath, childTargetFile);
             } finally {
                 if (is != null) {

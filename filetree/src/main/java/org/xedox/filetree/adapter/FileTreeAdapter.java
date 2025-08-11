@@ -60,11 +60,6 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         holder.item.setX(node.getLevel() * indent);
         if (node.isFile()) {
             holder.item.setOnClickListener((v) -> onFileClick(holder, node));
-            holder.item.setOnLongClickListener(
-                    (v) -> {
-                        onFileLongClick(holder, node);
-                        return true;
-                    });
             boolean findIcon = false;
             for (String endsWith : iconMapping.keySet()) {
                 if (node.getName().endsWith(endsWith)) {
@@ -88,8 +83,13 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
                 holder.icon.setImageResource(iconMapping.get("folder"));
             }
         }
+        holder.item.setOnLongClickListener(
+                (v) -> {
+                    onFileLongClick(holder, node);
+                    return true;
+                });
     }
-    
+
     @Override
     public int getItemCount() {
         return nodes.size();
@@ -131,11 +131,12 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
     }
 
     private void onFileClick(VH holder, Node node) {
-        if (onFileClickListener != null) onFileClickListener.onFileClick(node);
+        if (onFileClickListener != null) onFileClickListener.onFileClick(holder.item, node);
     }
 
     private void onFileLongClick(VH holder, Node node) {
-        if (onFileLongClickListener != null) onFileLongClickListener.onFileLongClick(node);
+        if (onFileLongClickListener != null)
+            onFileLongClickListener.onFileLongClick(holder.item, node);
     }
 
     private void onFolderClick(VH holder, Node node) {
@@ -170,14 +171,14 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
                         if (!n1.isDirectory() && n2.isDirectory()) return 1;
                         return n1.getName().compareToIgnoreCase(n2.getName());
                     });
-                    for(Node n : toAdd) {
-                    	n.setLevel(node.getLevel()+1);
-                    }
+            for (Node n : toAdd) {
+                n.setLevel(node.getLevel() + 1);
+            }
         }
 
         if (!toAdd.isEmpty()) {
             nodes.addAll(start + 1, toAdd);
-            notifyItemRangeInserted(start+1, toAdd.size());
+            notifyItemRangeInserted(start + 1, toAdd.size());
         }
     }
 
@@ -198,16 +199,16 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
 
         if (end > start + 1) {
             nodes.subList(start + 1, end).clear();
-            notifyItemRangeRemoved(start+1, end - start - 1);
+            notifyItemRangeRemoved(start + 1, end - start - 1);
         }
     }
 
     public interface OnFileClickListener {
-        void onFileClick(Node node);
+        void onFileClick(View view, Node node);
     }
 
     public interface OnFileLongClickListener {
-        void onFileLongClick(Node node);
+        void onFileLongClick(View view, Node node);
     }
 
     public OnFileClickListener getOnFileClickListener() {
@@ -241,5 +242,109 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         nodes.clear();
         nodes.add(new Node(file));
         notifyDataSetChanged();
+    }
+
+    public void add(int position, Node node) {
+        nodes.add(position, node);
+        notifyItemInserted(position);
+    }
+
+    public void remove(int position) {
+        Node node = getNode(position);
+        if (node.isFile()) {
+            nodes.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            int start = nodes.indexOf(node);
+            if (start == -1) return;
+
+            int end = start + 1;
+            String parentPath = node.getAbsolutePath();
+
+            while (end < nodes.size()) {
+                Node child = nodes.get(end);
+                if (!child.getAbsolutePath().startsWith(parentPath)) break;
+                end++;
+            }
+
+            nodes.subList(start, end).clear();
+            notifyItemRangeRemoved(start, end - start);
+        }
+    }
+
+    public void remove(Node node) {
+        remove(indexOf(node));
+    }
+
+    public void update(Node node) {
+        int position = nodes.indexOf(node);
+        if (position != -1) {
+            notifyItemChanged(position);
+        }
+    }
+    
+    public void update(Node node, Node newNode) {
+        int position = nodes.indexOf(node);
+        nodes.set(position, newNode);
+        if (position != -1) {
+            notifyItemChanged(position);
+        }
+    }
+
+    public void clear() {
+        int size = nodes.size();
+        nodes.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
+    public Node getNode(int position) {
+        if (position >= 0 && position < nodes.size()) {
+            return nodes.get(position);
+        }
+        return null;
+    }
+
+    public int indexOf(Node node) {
+        return nodes.indexOf(node);
+    }
+
+    public List<Node> getNodes() {
+        return new ArrayList<>(nodes);
+    }
+
+    public void setNodes(List<Node> newNodes) {
+        nodes.clear();
+        nodes.addAll(newNodes);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Node> nodesToAdd) {
+        int start = nodes.size();
+        nodes.addAll(nodesToAdd);
+        notifyItemRangeInserted(start, nodesToAdd.size());
+    }
+
+    public void addAll(int position, List<Node> nodesToAdd) {
+        nodes.addAll(position, nodesToAdd);
+        notifyItemRangeInserted(position, nodesToAdd.size());
+    }
+
+    public void move(int fromPosition, int toPosition) {
+        if (fromPosition >= 0
+                && fromPosition < nodes.size()
+                && toPosition >= 0
+                && toPosition < nodes.size()) {
+            Node node = nodes.remove(fromPosition);
+            nodes.add(toPosition, node);
+            notifyItemMoved(fromPosition, toPosition);
+        }
+    }
+
+    public void refresh() {
+        notifyDataSetChanged();
+    }
+
+    public void refreshRange(int start, int count) {
+        notifyItemRangeChanged(start, count);
     }
 }
