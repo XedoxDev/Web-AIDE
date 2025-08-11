@@ -6,7 +6,7 @@
     <string name="create_project">Create project</string>
     <string name="project_name">Project name</string>
     <string name="project_name_cannot_be_empty">Project name can\'t be empty</string>
-    <string name="project_successful_created">Project successful created</string>
+    <string name="project_successful_created">Project successfully created</string>
     <string name="failed_to_create_project">Failed to create project</string>
     <string name="project_already_exists">Project already exists</string>
     <string name="cancel">Cancel</string>
