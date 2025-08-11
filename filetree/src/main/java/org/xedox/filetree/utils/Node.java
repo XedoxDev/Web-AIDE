@@ -20,8 +20,8 @@ public class Node extends File {
         super(parent, child);
     }
 
-    private boolean isOpen;
-    private int level;
+    private boolean isOpen = false;
+    private int level = 0;
 
     public boolean isOpen() {
         return this.isOpen;

@@ -57,8 +57,7 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
     public void onBindViewHolder(VH holder, int position) {
         Node node = nodes.get(position);
         holder.name.setText(node.getName());
-        holder.itemView.setX(node.getLevel() * indent);
-
+        holder.item.setX(node.getLevel() * indent);
         if (node.isFile()) {
             holder.item.setOnClickListener((v) -> onFileClick(holder, node));
             holder.item.setOnLongClickListener(
@@ -66,16 +65,21 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
                         onFileLongClick(holder, node);
                         return true;
                     });
+            boolean findIcon = false;
             for (String endsWith : iconMapping.keySet()) {
                 if (node.getName().endsWith(endsWith)) {
-                    // user icon
                     holder.icon.setImageResource(iconMapping.get(endsWith));
+                    findIcon = true;
                 } else if (node.getName().startsWith(".")) {
-                    // hidded file
                     holder.icon.setImageResource(iconMapping.get("base_file_hidded"));
+                    findIcon = true;
                 }
             }
+            if (!findIcon) {
+                holder.icon.setImageResource(iconMapping.get("base_file"));
+            }
         } else {
+            holder.item.setOnClickListener((v) -> onFolderClick(holder, node));
             if (node.isOpen()) {
                 holder.icon.setImageResource(iconMapping.get("folder_open"));
             } else if (node.getName().startsWith(".")) {
@@ -85,7 +89,7 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
             }
         }
     }
-
+    
     @Override
     public int getItemCount() {
         return nodes.size();
@@ -137,33 +141,48 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
     private void onFolderClick(VH holder, Node node) {
         int position = nodes.indexOf(node);
         if (!node.isOpen()) {
-            closeFolder(node);
-        } else {
             openFolder(node);
+        } else {
+            closeFolder(node);
         }
+        notifyItemChanged(position);
     }
 
     public void openFolder(Node node) {
+        node.setOpen(true);
         if (!node.isDirectory() || node.list() == null || node.list().length == 0) {
             return;
         }
 
         int start = nodes.indexOf(node);
         if (start == -1) return;
+
         List<Node> toAdd = new ArrayList<>();
         File[] files = node.listFiles();
         if (files != null) {
             for (File file : files) {
                 toAdd.add(new Node(file));
             }
+            Collections.sort(
+                    toAdd,
+                    (n1, n2) -> {
+                        if (n1.isDirectory() && !n2.isDirectory()) return -1;
+                        if (!n1.isDirectory() && n2.isDirectory()) return 1;
+                        return n1.getName().compareToIgnoreCase(n2.getName());
+                    });
+                    for(Node n : toAdd) {
+                    	n.setLevel(node.getLevel()+1);
+                    }
         }
+
         if (!toAdd.isEmpty()) {
             nodes.addAll(start + 1, toAdd);
-            notifyItemRangeInserted(start + 1, toAdd.size());
+            notifyItemRangeInserted(start+1, toAdd.size());
         }
     }
 
     public void closeFolder(Node node) {
+        node.setOpen(false);
         if (node.list().length == 0) return;
         int start = nodes.indexOf(node);
         if (start == -1) return;
@@ -179,7 +198,7 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
 
         if (end > start + 1) {
             nodes.subList(start + 1, end).clear();
-            notifyItemRangeRemoved(start + 1, end - start - 1);
+            notifyItemRangeRemoved(start+1, end - start - 1);
         }
     }
 
@@ -212,7 +231,13 @@ public class FileTreeAdapter extends RecyclerView.Adapter<FileTreeAdapter.VH> {
         nodes.add(new Node(file));
         notifyDataSetChanged();
     }
-public void loadPath(String file) {
+
+    public void add(Node node) {
+        nodes.add(node);
+        notifyItemInserted(nodes.indexOf(node));
+    }
+
+    public void loadPath(String file) {
         nodes.clear();
         nodes.add(new Node(file));
         notifyDataSetChanged();

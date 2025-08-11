@@ -27,14 +27,13 @@ public class DrawerManager
 
     private final EditorActivity context;
     private final NavigationRailView navRail;
-    private final ViewPager2 navContent;
+    private final FrameLayout navContent;
     private final FileTreeFragment fileTreeFragment;
     private final Project project;
     private final TextView title;
     private final ActionBarDrawerToggle drawerToggle;
     private final DrawerLayout drawerLayout;
     private final MaterialToolbar toolbar;
-    private final DrawerStateAdapter drawerAdapter;
     private BaseFragment currentFragment;
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -50,8 +49,7 @@ public class DrawerManager
         title = context.getNavTitle();
         drawerLayout = context.getDrawerLayout();
         toolbar = context.getToolbar();
-        drawerAdapter = new DrawerStateAdapter(context);
-
+        
         if (navRail == null
                 || navContent == null
                 || project == null
@@ -66,19 +64,16 @@ public class DrawerManager
 
         navRail.setOnItemSelectedListener(this);
         navRail.setOnItemReselectedListener(this);
-        navContent.setAdapter(drawerAdapter);
-        // fileTreeFragment = FileTreeFragment.newInstance(project.getAbsolutePath());
-        navContent.setUserInputEnabled(false);
         fileTreeFragment = FileTreeFragment.newInstance(AppCore.dir("files"));
-        drawerAdapter.addFragment(fileTreeFragment);
         drawerLayout.addDrawerListener(drawerToggle);
+        setFragment(fileTreeFragment);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_file_tree) {
-            // setFragment(fileTreeFragment);
+             setFragment(fileTreeFragment);
             return true;
         } else if (id == R.id.action_exit) {
             Intent intent = new Intent(context, MainActivity.class);
@@ -87,9 +82,17 @@ public class DrawerManager
         }
         return false;
     }
+    
+    public void setFragment(BaseFragment fragment) {
+    	FragmentManager fm = context.getSupportFragmentManager();
+        fm.beginTransaction().replace(navContent.getId(), fragment).commit();
+        title.setText(fragment.getTitle());
+    }
 
     @Override
-    public void onNavigationItemReselected(@NonNull MenuItem item) {}
+    public void onNavigationItemReselected(@NonNull MenuItem item) {
+        onNavigationItemSelected(item);
+    }
 
     public void onDestroy() {
         drawerLayout.removeDrawerListener(drawerToggle);

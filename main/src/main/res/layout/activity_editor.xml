@@ -64,12 +64,13 @@
                 android:id="@+id/title"
                 android:text="Title" />
 
-            <androidx.viewpager2.widget.ViewPager2
+            <FrameLayout
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:layout_toEndOf="@+id/nav_rail"
                 android:layout_below="@+id/title"
-                android:id="@+id/nav_content"/>
+                android:id="@+id/nav_content"
+                android:padding="8dp"/>
         </RelativeLayout>
     </com.google.android.material.navigation.NavigationView>
 

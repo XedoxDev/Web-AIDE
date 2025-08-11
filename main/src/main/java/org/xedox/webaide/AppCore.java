@@ -16,7 +16,7 @@ public class AppCore extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        filesDir = "/data/data/org.xedox.webaide/files/";
+        filesDir = getExternalFilesDir(null).getAbsolutePath() + "/";
         projectsDir = filesDir + "projects/";
         mkdirs(projectsDir);
     }

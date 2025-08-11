@@ -33,7 +33,7 @@ public class EditorActivity extends BaseActivity {
     private EditorManager editorManager;
 
     private NavigationRailView navRail;
-    private ViewPager2 navContent;
+    private FrameLayout navContent;
     private View nav;
     private TextView navTitle;
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -98,7 +98,7 @@ public class EditorActivity extends BaseActivity {
         return this.navRail;
     }
 
-    public ViewPager2 getNavContent() {
+    public FrameLayout getNavContent() {
         return this.navContent;
     }
 

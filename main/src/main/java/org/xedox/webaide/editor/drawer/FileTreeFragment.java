@@ -6,11 +6,16 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.xedox.filetree.adapter.FileTreeAdapter;
+import org.xedox.filetree.utils.Node;
 import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseFragment;
 import org.xedox.webaide.AppCore;
@@ -41,12 +46,8 @@ public class FileTreeFragment extends BaseFragment {
         currentPath = getArguments().getString(ARG_PATH);
         fileTree = view.findViewById(R.id.file_tree);
         swipeRefresh = view.findViewById(R.id.swipe_refresh);
-
-        adapter = new FileTreeAdapter(requireActivity());
-        fileTree.setAdapter(adapter);
-
-        fileTree.adapter.loadPath(currentPath);
-
+        fileTree.loadPath(currentPath);
+        adapter = fileTree.adapter;
         swipeRefresh.setOnRefreshListener(this::refreshFileTree);
         return view;
     }
@@ -54,6 +55,7 @@ public class FileTreeFragment extends BaseFragment {
     private void refreshFileTree() {
         handler.post(
                 () -> {
+                    adapter.notifyDataSetChanged();
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
                     }
@@ -68,7 +70,7 @@ public class FileTreeFragment extends BaseFragment {
         return fragment;
     }
 
-    public FileTreeView getFileTree() {
+    public RecyclerView getFileTree() {
         return fileTree;
     }
 

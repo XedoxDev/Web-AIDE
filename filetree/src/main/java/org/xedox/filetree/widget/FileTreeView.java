@@ -39,5 +39,20 @@ public class FileTreeView extends RecyclerView {
         adapter = new FileTreeAdapter(context);
         setLayoutManager(new LinearLayoutManager(context));
         setAdapter(adapter);
+        setHasFixedSize(false);
+    }
+    
+    public void loadPath(String path) {
+    	adapter.loadPath(path);
+    }
+    
+    public void loadPath(File path) {
+    	adapter.loadFile(path);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        adapter.shutdown();
     }
 }

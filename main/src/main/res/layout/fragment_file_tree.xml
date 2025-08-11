@@ -5,18 +5,9 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/swipe_refresh">
-    <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
 
-        <org.xedox.utils.view.TwoDScrollView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:fillViewport="true">
-            <org.xedox.filetree.widget.FileTreeView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:id="@+id/file_tree" />
-        </org.xedox.utils.view.TwoDScrollView>
-    </RelativeLayout>
+    <org.xedox.filetree.widget.FileTreeView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/file_tree" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
