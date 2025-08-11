@@ -47,11 +47,28 @@ public class EditorStateAdapter extends FragmentStateAdapter {
         notifyChange();
     }
 
+    public boolean existsFile(File file) {
+        for (FileFragment fragment : getAllByClass(FileFragment.class)) {
+            if (file.getAbsolutePath().equals(fragment.getFile().getAbsolutePath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public BaseFragment remove(int position) {
+        if (get(position) instanceof FileFragment) ((FileFragment) get(position)).save();
         BaseFragment removed = fragments.remove(position);
         notifyItemRemoved(position);
         notifyChange();
         return removed;
+    }
+
+    public void removeOther(int position) {
+        for (int i = getItemCount() - 1; i >= 0; ++i) {
+            if (i == position) continue;
+            remove(i);
+        }
     }
 
     public int indexOf(BaseFragment fragment) {
@@ -89,6 +106,7 @@ public class EditorStateAdapter extends FragmentStateAdapter {
     }
 
     public void clear() {
+        saveAll();
         fragments.clear();
         notifyDataSetChanged();
         notifyChange();
@@ -108,8 +126,24 @@ public class EditorStateAdapter extends FragmentStateAdapter {
         void onChange(boolean hasItems);
     }
 
+    @Override
+    public boolean containsItem(long itemId) {
+        for (BaseFragment fragment : fragments) {
+            if (fragment.hashCode() == itemId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setOnChangeListener(OnChangeListener onChangeListener) {
         this.onChangeListener = onChangeListener;
         notifyChange();
+    }
+
+    public void saveAll() {
+        for (FileFragment ff : getAllByClass(FileFragment.class)) {
+            ff.save();
+        }
     }
 }

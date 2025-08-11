@@ -35,7 +35,7 @@ capability.
     - [ ] Extract CSS from HTML
 - [ ] Code editor (SoraEditor)
     - [ ] Tree sitter
-    - [ ] Syntax highlight
+    - [x] Syntax highlight
     - [ ] Code format
         - [ ] JavaScript
         - [ ] HTML

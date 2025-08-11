@@ -7,6 +7,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import org.xedox.filetree.utils.Node;
 import org.xedox.utils.BaseFragment;
+import org.xedox.utils.OverflowMenu;
 import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.webaide.EditorActivity;
 import org.xedox.webaide.R;
@@ -29,6 +30,7 @@ public class EditorManager {
         redo = context.findViewById(R.id.redo);
         emptyPager = context.findViewById(R.id.empty_editor);
         editorStateAdapter = new EditorStateAdapter(context);
+        viewPager.setUserInputEnabled(false);
         editorStateAdapter.setOnChangeListener(
                 (hasItems) -> {
                     viewPager.setVisibility(hasItems ? View.VISIBLE : View.GONE);
@@ -82,11 +84,29 @@ public class EditorManager {
         if (fragment != null) {
             fragment.setOnTitleChanged(tab::setText);
         }
+        tab.view.setOnClickListener(
+                v -> {
+                    if (position != viewPager.getCurrentItem()) return;
+                    OverflowMenu.show(
+                            v,
+                            R.menu.tab,
+                            item -> {
+                                int id = item.getItemId();
+                                if (id == R.id.close_it) {
+                                    editorStateAdapter.remove(viewPager.getCurrentItem());
+                                } else if (id == R.id.close_other) {
+                                    editorStateAdapter.removeOther(viewPager.getCurrentItem());
+                                } else if (id == R.id.close_all) {
+                                    editorStateAdapter.clear();
+                                }
+                            });
+                });
     }
 
     public void openFile(Node file) {
         try {
-            editorStateAdapter.add(FileFragment.newInstance(file));
+            if (!editorStateAdapter.existsFile(file))
+                editorStateAdapter.add(FileFragment.newInstance(file));
         } catch (Exception err) {
             ErrorDialog.show(context, err);
         }
