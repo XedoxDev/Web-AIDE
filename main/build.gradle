@@ -54,17 +54,13 @@ dependencies {
     
     implementation "com.google.android.material:material:$material"
     implementation "com.google.code.gson:gson:$gson"
-    implementation "com.google.javascript:closure-compiler:$closure_compiler"
     
     implementation "io.github.Rosemoe.sora-editor:editor"
     implementation "io.github.Rosemoe.sora-editor:language-textmate"
     implementation "io.noties.markwon:core:${markwonVersion}"
     
-    implementation "org.eclipse.jgit:org.eclipse.jgit:$jgit"
-    implementation "org.jsoup:jsoup:$jsoup"
-    
     implementation project(":filetree")
-    //implementation project(":colorpicker")
+    implementation project(":colorpicker")
     implementation project(":utils")
     implementation platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     implementation fileTree(dir: 'libs', include: ['*.jar'])

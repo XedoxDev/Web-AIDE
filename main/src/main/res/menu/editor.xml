@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu 
+<menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/save_all"
-        android:title="@+id/save_all" />
-
     <item
         android:id="@+id/run"
         android:title="@+id/run"
-        android:icon="@drawable/run" 
-app:showAsAction="always"/>
-
+        android:icon="@drawable/run"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/save_all"
+        android:title="@+id/save_all"
+        android:icon="@drawable/save"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/color_picker"
+        android:title="@+id/color_picker"
+        android:icon="@drawable/palette"
+        app:showAsAction="ifRoom" />
 </menu>

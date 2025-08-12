@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textSize="16sp"
-                android:maxLength="7"
+                android:maxLength="6"
                 android:inputType="textCapCharacters"
                 android:id="@+id/hex_value" />
 

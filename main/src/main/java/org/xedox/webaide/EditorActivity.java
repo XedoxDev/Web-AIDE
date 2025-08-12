@@ -20,6 +20,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.Map;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.webaide.dialog.ColorPickerDialog;
 import org.xedox.webaide.editor.EditorManager;
 import org.xedox.webaide.editor.drawer.DrawerManager;
 import org.xedox.webaide.project.Project;
@@ -80,6 +81,8 @@ public class EditorActivity extends BaseActivity {
             Intent intent = new Intent(this, PreviewActivity.class);
             intent.putExtra("index.html", project.file("index.html"));
             startActivity(intent);
+        } else if(item.getItemId() == R.id.color_picker) {
+            ColorPickerDialog.show(this);
         }
         return super.onOptionsItemSelected(item);
     }
