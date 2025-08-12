@@ -1,5 +1,6 @@
 package org.xedox.webaide.editor;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.viewpager2.widget.ViewPager2;
@@ -38,6 +39,7 @@ public class EditorManager {
                     undo.setVisibility(hasItems ? View.VISIBLE : View.GONE);
                     redo.setVisibility(hasItems ? View.VISIBLE : View.GONE);
                     emptyPager.setVisibility(hasItems ? View.GONE : View.VISIBLE);
+                    context.updateItemVisibility(R.id.save_all, hasItems);
                 });
         viewPager.setAdapter(editorStateAdapter);
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, this::handleMediator);
@@ -53,6 +55,7 @@ public class EditorManager {
                         boolean isFile = f instanceof FileFragment;
                         undo.setEnabled(isFile);
                         redo.setEnabled(isFile);
+                        context.updateItemEnabled(R.id.save_all, isFile);
                     }
 
                     @Override
@@ -101,6 +104,15 @@ public class EditorManager {
                                 }
                             });
                 });
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	int id = item.getItemId();
+        if(id == R.id.save_all) {
+            editorStateAdapter.saveAll();
+            return true;
+        }
+        return false;
     }
 
     public void openFile(Node file) {

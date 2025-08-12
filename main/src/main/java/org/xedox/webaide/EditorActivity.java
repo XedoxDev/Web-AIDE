@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.google.android.material.navigationrail.NavigationRailView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.appbar.MaterialToolbar;
+import java.util.Map;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.webaide.editor.EditorManager;
@@ -37,7 +40,7 @@ public class EditorActivity extends BaseActivity {
     private View nav;
     private TextView navTitle;
     private Handler handler = new Handler(Looper.getMainLooper());
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,17 @@ public class EditorActivity extends BaseActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return editorManager.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return onCreateOptionsMenu(R.menu.editor, menu);
     }
 
     public MaterialToolbar getToolbar() {

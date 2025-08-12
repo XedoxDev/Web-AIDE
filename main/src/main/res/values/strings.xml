@@ -34,6 +34,7 @@
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
     <string name="close_it">Close this</string>
+    <string name="save_all">Save all</string>
     <string name="close_other">Close others</string>
     <string name="close_all">Close all</string>
     <string name="you_no_have_open_files">You have no open files</string>
