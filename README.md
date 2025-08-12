@@ -7,11 +7,13 @@
 [![License](https://img.shields.io/github/license/XedoxDev/Web-AIDE)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-100%25-blue)](https://java.com)
 
-A mobile web development environment for Android devices with Git integration and live preview capability.
+A mobile web development environment for Android devices with Git integration and live preview
+capability.
 
 ## 📋 Project Overview
 
 **Technical Specifications:**
+
 - Development Language: `Java`
 - Minimum Android Version: `8.0 (API 26)`
 - Target SDK Version: `36`
@@ -25,24 +27,24 @@ A mobile web development environment for Android devices with Git integration an
 
 ## Features
 
-- [ ] Realtime site preview
+- [ ] Realtime website preview
 - [ ] Git manager
 - [ ] DevTools
-  - [ ] Parse HTML layout from page
-  - [ ] Extract JavaScript from HTML
-  - [ ] Extract CSS from HTML
+    - [ ] Parse HTML layout from page
+    - [ ] Extract JavaScript from HTML
+    - [ ] Extract CSS from HTML
 - [ ] Code editor (SoraEditor)
-  - [ ] Tree sitter
-  - [x] Syntax hightlight
-  - [ ] Code format
-    - [ ] JavaScript
-    - [ ] HTML
-    - [ ] CSS
-  - [ ] Language Servers
-    - [ ] JavaScript
-    - [ ] CSS
-    - [ ] HTML  
- 
+    - [ ] Tree sitter
+    - [x] Syntax highlight
+    - [ ] Code format
+        - [ ] JavaScript
+        - [ ] HTML
+        - [ ] CSS
+    - [ ] Language Servers
+        - [ ] JavaScript
+        - [ ] CSS
+        - [ ] HTML
+
 ## 🤝 Contributing
 
 We welcome contributions! Please follow these steps:
