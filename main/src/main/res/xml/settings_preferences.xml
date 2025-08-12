@@ -2,7 +2,7 @@
     <PreferenceCategory android:title="@string/general">
         <org.xedox.utils.preference.MaterialListPreference
             android:key="app_theme"
-            android:title="@string/app_name"
+            android:title="@string/app_theme"
             android:summary="@string/app_theme_summary"
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"

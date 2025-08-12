@@ -63,7 +63,6 @@ public class PreviewActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
     
-    
     @Override
     public void handleBackPressed() {
     	finish();

@@ -45,5 +45,6 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="android:tint">@drawable/icon_tint</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
