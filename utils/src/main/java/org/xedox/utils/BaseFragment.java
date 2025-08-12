@@ -15,6 +15,12 @@ public abstract class BaseFragment extends Fragment {
             onTitleChanged.onTitleChanged(title);
         }
     }
+    
+    public void changeTitle() {
+        if (onTitleChanged != null) {
+            onTitleChanged.onTitleChanged(getTitle());
+        }
+    }
 
     public interface OnTitleChangedListener {
         void onTitleChanged(String newTitle);

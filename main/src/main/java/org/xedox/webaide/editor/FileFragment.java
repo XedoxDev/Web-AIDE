@@ -21,8 +21,7 @@ public class FileFragment extends BaseFragment {
     private SoraEditor editor;
     private FileX file;
     private boolean isModified = false;
-    private String title;
-    
+
     private SubscriptionReceipt contentChangeEvent;
 
     private FileFragment() {}
@@ -41,7 +40,7 @@ public class FileFragment extends BaseFragment {
         }
         editor.setEditorLanguage(
                 new SoraTextMateLanguage(requireActivity(), "source" + file.getExtension()));
-        
+
         if (!file.exists()) {
             ErrorDialog.show(requireActivity(), new FileNotFoundException(file.getPath()));
             return editor;
@@ -53,16 +52,17 @@ public class FileFragment extends BaseFragment {
             ErrorDialog.show(requireActivity(), err);
         }
 
-        contentChangeEvent = editor.subscribeEvent(
-                ContentChangeEvent.class,
-                (s, event) -> {
-                    if (!isModified) {
-                        isModified = true;
-                        updateTitle();
-                    }
-                });
+        contentChangeEvent =
+                editor.subscribeEvent(
+                        ContentChangeEvent.class,
+                        (s, event) -> {
+                            if (!isModified) {
+                                isModified = true;
+                                changeTitle();
+                            }
+                        });
 
-        updateTitle();
+        changeTitle();
         return editor;
     }
 
@@ -73,15 +73,10 @@ public class FileFragment extends BaseFragment {
         }
         super.onDestroyView();
     }
-    
+
     @Override
     public String getTitle() {
-        return title;
-    }
-
-    private void updateTitle() {
-        title = file.getName() + (isModified ? "*" : "");
-        changeTitle(title);
+        return file.getName() + (isModified ? "*" : "");
     }
 
     public static FileFragment newInstance(File file) {
@@ -112,16 +107,10 @@ public class FileFragment extends BaseFragment {
         try {
             file.write(editor.getText().toString());
             isModified = false;
-            updateTitle();
+            changeTitle();
         } catch (Exception err) {
             ErrorDialog.show(requireActivity(), err);
         }
-    }
-
-    @Override
-    public void changeTitle(String title) {
-        this.title = title;
-        super.changeTitle(title);
     }
 
     public void saveAs(File newFile) {

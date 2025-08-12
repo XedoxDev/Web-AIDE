@@ -87,6 +87,7 @@ public class EditorManager {
         if (fragment != null) {
             fragment.setOnTitleChanged(tab::setText);
         }
+        tab.setText(fragment.getTitle());
         tab.view.setOnClickListener(
                 v -> {
                     if (position != viewPager.getCurrentItem()) return;
