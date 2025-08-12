@@ -27,7 +27,7 @@ capability.
 
 ## Features
 
-- [ ] Realtime website preview
+- [x] Realtime website preview
 - [ ] Git manager
 - [ ] DevTools
     - [ ] Parse HTML layout from page

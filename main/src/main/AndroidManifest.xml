@@ -29,5 +29,18 @@
         <activity
             android:name=".EditorActivity"
             android:exported="false" />
+        <activity
+            android:name=".PreviewActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="text/html" />
+                <data android:pathPattern=".*\\.html" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

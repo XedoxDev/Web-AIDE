@@ -75,7 +75,13 @@ public class EditorActivity extends BaseActivity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return editorManager.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        if(editorManager.onOptionsItemSelected(item)) return true;
+        if(item.getItemId() == R.id.run) {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            intent.putExtra("index.html", project.file("index.html"));
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
     
     
