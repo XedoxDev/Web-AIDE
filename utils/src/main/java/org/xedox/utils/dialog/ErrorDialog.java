@@ -5,6 +5,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import org.xedox.utils.Clipboard;
 import org.xedox.utils.R;
 
 public class ErrorDialog {
@@ -31,7 +32,11 @@ public class ErrorDialog {
                     showFullError = isChecked;
                     updateErrorMessage(errorMessage, err, isChecked);
                 });
-
+        builder.setNegativeButton(
+                "Copy",
+                (d, w) -> {
+                    Clipboard.copy(context, errorMessage.getText().toString());
+                });
         builder.show();
     }
 

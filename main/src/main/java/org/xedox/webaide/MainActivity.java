@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
     private RecyclerView projectsRecycler;
     private ProjectsAdapter projectsAdapter;
     private View emptyProjectsRecycler;
-    private ImageButton newProject;
+    private ImageButton newProject, settings;
 
     public static boolean initialize = false;
 
@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity {
         emptyProjectsRecycler = findViewById(R.id.empty_projects_recycler_layout);
 
         newProject = findViewById(R.id.new_project);
+        settings = findViewById(R.id.settings);
 
         setSupportActionBar(toolbar);
 
@@ -51,6 +52,10 @@ public class MainActivity extends BaseActivity {
                     finish();
                 });
         newProject.setOnClickListener((v) -> CreateProjectDialog.show(this, projectsAdapter));
+        settings.setOnClickListener((v) -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        });
         projectsAdapter.setOnChangeListener(
                 hasItems ->
                         emptyProjectsRecycler.setVisibility(hasItems ? View.GONE : View.VISIBLE));

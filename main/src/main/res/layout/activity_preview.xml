@@ -18,11 +18,14 @@
         android:layout_below="@+id/toolbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:progressDrawable="@drawable/progress" />
-
-    <org.xedox.utils.view.WebViewX
-        android:id="@+id/web_view"
+    <android.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_below="@+id/progress" />
-
+        android:layout_below="@+id/progress" >
+        <org.xedox.utils.view.WebViewX
+            android:id="@+id/web_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </android.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

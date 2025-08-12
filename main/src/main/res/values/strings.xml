@@ -40,4 +40,12 @@
     <string name="close_other">Close others</string>
     <string name="close_all">Close all</string>
     <string name="you_no_have_open_files">You have no open files</string>
+
+    <!-- Settings -->
+    <string name="general">General</string>
+    <string name="app_theme">Application theme</string>
+    <string name="app_theme_summary">Select theme for application</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="light_theme">Light theme</string>
+    <string name="system_theme">System theme</string>
 </resources>

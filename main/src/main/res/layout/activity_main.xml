@@ -28,6 +28,13 @@
             android:src="@drawable/plus"
             style="@style/Widget.AppCompat.ActionButton"
             android:contentDescription="@string/new_project" />
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/settings"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:contentDescription="@string/settings" />
     </LinearLayout>
 
     <View
@@ -36,7 +43,7 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         android:layout_below="@id/actions"
-android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/projects_recycler_view"
