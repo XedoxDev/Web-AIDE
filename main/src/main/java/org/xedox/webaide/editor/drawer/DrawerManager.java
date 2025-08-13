@@ -14,23 +14,27 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigationrail.NavigationRailView;
 import org.xedox.filetree.utils.Node;
+import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseFragment;
 import org.xedox.utils.FileX;
 import org.xedox.utils.OverflowMenu;
 import org.xedox.webaide.EditorActivity;
 import org.xedox.webaide.MainActivity;
 import org.xedox.webaide.R;
+import org.xedox.webaide.SettingsActivity;
 import org.xedox.webaide.dialog.NewFileDialog;
 import org.xedox.webaide.dialog.RenameFileDialog;
 import org.xedox.webaide.editor.EditorManager;
 import org.xedox.webaide.project.Project;
 
-public class DrawerManager implements NavigationRailView.OnItemSelectedListener, NavigationRailView.OnItemReselectedListener {
+public class DrawerManager
+        implements NavigationRailView.OnItemSelectedListener,
+                NavigationRailView.OnItemReselectedListener {
 
     private final EditorActivity context;
     private final NavigationRailView navigationRail;
     private final FrameLayout navigationContent;
-    private final FileTreeFragment fileTreeFragment;
+    private FileTreeFragment fileTreeFragment;
     private final TextView titleView;
     private final DrawerLayout drawerLayout;
     private final MaterialToolbar toolbar;
@@ -49,34 +53,39 @@ public class DrawerManager implements NavigationRailView.OnItemSelectedListener,
         this.editorManager = context.getEditorManager();
 
         Project project = context.getProject();
-        this.fileTreeFragment = FileTreeFragment.newInstance(project.getAbsolutePath());
         this.drawerToggle = new ActionBarDrawerToggle(context, drawerLayout, toolbar, 0, 0);
         drawerToggle.syncState();
 
         navigationRail.setOnItemSelectedListener(this);
         navigationRail.setOnItemReselectedListener(this);
         drawerLayout.addDrawerListener(drawerToggle);
-        showFragment(fileTreeFragment);
+        this.fileTreeFragment = FileTreeFragment.newInstance(project.getAbsolutePath());
 
-        mainHandler.post(() -> {
-            fileTreeFragment.getFileTree().setOnFileLongClickListener(this::handleFileLongClick);
-            fileTreeFragment.getFileTree().setOnFileClickListener(this::handleFileClick);
-        });
+        showFragment(fileTreeFragment);
+        mainHandler.postDelayed(
+                () -> {
+                    FileTreeView ft = fileTreeFragment.getFileTree();
+                    ft.setOnFileLongClickListener(this::handleFileLongClick);
+                    ft.setOnFileClickListener(this::handleFileClick);
+                }, 500);
     }
 
     private void handleFileLongClick(View view, Node node) {
         int menuRes = node.isFile() ? R.menu.file : R.menu.folder;
-        OverflowMenu.show(view, menuRes, item -> {
-            if (item.getItemId() == R.id.delete) {
-                if (node.isFile()) node.delete();
-                else FileX.deleteDirectory(node);
-                fileTreeFragment.getFileTree().removeNode(node);
-            } else if (item.getItemId() == R.id.rename) {
-                RenameFileDialog.show(context, fileTreeFragment.getFileTree(), node);
-            } else if (item.getItemId() == R.id.new_file_folder && node.isDirectory()) {
-                NewFileDialog.show(context, fileTreeFragment.getFileTree(), node);
-            }
-        });
+        OverflowMenu.show(
+                view,
+                menuRes,
+                item -> {
+                    if (item.getItemId() == R.id.delete) {
+                        if (node.isFile()) node.delete();
+                        else FileX.deleteDirectory(node);
+                        fileTreeFragment.getFileTree().removeNode(node);
+                    } else if (item.getItemId() == R.id.rename) {
+                        RenameFileDialog.show(context, fileTreeFragment.getFileTree(), node);
+                    } else if (item.getItemId() == R.id.new_file_folder && node.isDirectory()) {
+                        NewFileDialog.show(context, fileTreeFragment.getFileTree(), node);
+                    }
+                });
     }
 
     private void handleFileClick(View view, Node node) {
@@ -92,15 +101,25 @@ public class DrawerManager implements NavigationRailView.OnItemSelectedListener,
             Intent intent = new Intent(context, MainActivity.class);
             context.finish();
             context.startActivity(intent);
-            return true;
+            return false;
+        } else if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(context, SettingsActivity.class);
+            context.startActivity(intent);
+            return false;
         }
         return false;
     }
 
     private void showFragment(BaseFragment fragment) {
-        FragmentManager fragmentManager = context.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(navigationContent.getId(), fragment).commit();
-        titleView.setText(fragment.getTitle());
+        mainHandler.post(
+                () -> {
+                    FragmentManager fragmentManager = context.getSupportFragmentManager();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(navigationContent.getId(), fragment)
+                            .commit();
+                    titleView.setText(fragment.getTitle());
+                });
     }
 
     @Override

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        app:title="@string/app_name"
+        app:titleCentered="true"
+        android:id="@+id/toolbar" />
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_height="5dp"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/progress" 
+        android:visibility="gone"/>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/progress">
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/preview"
+            android:text="@string/preview" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/source"
+            android:text="@string/source" />
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/content"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tab_layout" />
+
+</RelativeLayout>

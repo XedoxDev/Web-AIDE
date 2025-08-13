@@ -29,8 +29,11 @@
         <activity
             android:name=".EditorActivity"
             android:exported="false" />
-             <activity
+        <activity
             android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DevToolsActivity"
             android:exported="false" />
         <activity
             android:name=".PreviewActivity"
