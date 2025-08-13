@@ -59,11 +59,8 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public void onCreatePreferences(Bundle extraArgs, String root) {
             setPreferencesFromResource(R.xml.settings_preferences, root);
-            Preference appThemePref = findPreference("app_theme");
             Preference appDialogTypePref = findPreference("app_dialog_type");
-            if (appThemePref != null) {
-                appThemePref.setOnPreferenceChangeListener(this);
-            }
+            
             if (appDialogTypePref != null) {
                 appDialogTypePref.setOnPreferenceChangeListener(this);
             }
@@ -75,10 +72,7 @@ public class SettingsActivity extends BaseActivity {
             SharedPreferences sp =
                         PreferenceManager.getDefaultSharedPreferences(requireContext());
                         sp.edit().putString(key, newValue.toString()).apply();
-            if (key.equals("app_theme")) {
-                AppCore.setAppDelegate(newValue.toString());
-                return true;
-            } else if (key.equals("app_dialog_type")) {
+            if (key.equals("app_dialog_type")) {
                 AppCore.setDialogType(newValue.toString());
                 return true;
             }

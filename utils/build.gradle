@@ -32,6 +32,9 @@ dependencies {
     api "androidx.preference:preference:$preference"
     api "org.eclipse.jgit:org.eclipse.jgit:$jgit"
     api "com.google.android.material:material:$material"
+    api "io.github.Rosemoe.sora-editor:editor"
+    api "io.github.Rosemoe.sora-editor:language-textmate"
+    api platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     implementation "io.noties.markwon:core:$markwonVersion"
     implementation("net.lingala.zip4j:zip4j:$zip4j")
 }

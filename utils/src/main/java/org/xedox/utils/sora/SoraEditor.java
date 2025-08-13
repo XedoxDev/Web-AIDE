@@ -1,4 +1,4 @@
-package org.xedox.webaide.editor.sora;
+package org.xedox.utils.sora;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,7 +14,7 @@ import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import java.util.Set;
 import java.util.HashSet;
-import org.xedox.webaide.R;
+import org.xedox.utils.R;
 
 public class SoraEditor extends CodeEditor {
 

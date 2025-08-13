@@ -13,8 +13,8 @@ import java.io.FileNotFoundException;
 import org.xedox.utils.BaseFragment;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.ErrorDialog;
-import org.xedox.webaide.editor.sora.SoraEditor;
-import org.xedox.webaide.editor.sora.SoraTextMateLanguage;
+import org.xedox.utils.sora.SoraEditor;
+import org.xedox.utils.sora.SoraTextMateLanguage;
 
 public class FileFragment extends BaseFragment {
 
@@ -28,6 +28,7 @@ public class FileFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle extraArgs) {
+        if(editor != null) return editor;
         if (file == null) {
             throw new IllegalStateException("File must be set via newInstance()");
         }

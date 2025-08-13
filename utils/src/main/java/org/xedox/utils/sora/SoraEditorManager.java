@@ -1,4 +1,4 @@
-package org.xedox.webaide.editor.sora;
+package org.xedox.utils.sora;
 
 import android.content.Context;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;

@@ -11,8 +11,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.utils.sora.SoraEditorManager;
 import org.xedox.webaide.dialog.CreateProjectDialog;
-import org.xedox.webaide.editor.sora.SoraEditorManager;
 import org.xedox.webaide.project.Project;
 import org.xedox.webaide.project.ProjectsAdapter;
 

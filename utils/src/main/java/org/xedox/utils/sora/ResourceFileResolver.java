@@ -1,4 +1,4 @@
-package org.xedox.webaide.editor.sora;
+package org.xedox.utils.sora;
 
 import io.github.rosemoe.sora.langs.textmate.registry.provider.FileResolver;
 import java.io.FileInputStream;
