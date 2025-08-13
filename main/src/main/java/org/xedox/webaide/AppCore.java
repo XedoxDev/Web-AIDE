@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.DialogBuilder;
-import org.xedox.utils.dialog.NeoAlertDialog;
+import org.xedox.utils.dialog.NeoAlertDialogBuilder;
 import org.xedox.webaide.editor.sora.SoraEditorManager;
 import static androidx.appcompat.app.AppCompatDelegate.*;
 
@@ -72,7 +72,7 @@ public class AppCore extends MultiDexApplication {
         if("ANDROIDX".equals(type)) {
             DialogBuilder.builderType = AlertDialog.Builder.class;
         } else if("NEO".equals(type)) {
-            DialogBuilder.builderType = NeoAlertDialog.class;
+            DialogBuilder.builderType = NeoAlertDialogBuilder.class;
         } else {
             DialogBuilder.builderType = MaterialAlertDialogBuilder.class;
         }

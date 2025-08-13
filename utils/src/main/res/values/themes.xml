@@ -1,0 +1,11 @@
+<resources>
+    <style name="NeoAlertDialogStyle" parent="@style/ThemeOverlay.Material3.Dialog.Alert">
+    <item name="shapeAppearanceOverlay">@style/NeoDialogShape</item>
+</style>
+
+<style name="NeoDialogShape">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">12dp</item>
+    <item name="android:background">@drawable/neo_dialog_background</item>
+</style>
+</resources>
