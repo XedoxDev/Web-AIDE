@@ -9,4 +9,15 @@
         <item>DARK</item>
         <item>LIGHT</item>
     </string-array>
+    
+    <string-array name="app_dialog_type_entries">
+        <item>@string/app_dialog_type_material</item>
+        <item>@string/app_dialog_type_androidx</item>
+        <item>@string/app_dialog_type_neo</item>
+    </string-array>
+    <string-array name="app_dialog_type_values">
+        <item>MATERIAL</item>
+        <item>ANDROIDX</item>
+        <item>NEO</item>
+    </string-array>
 </resources>

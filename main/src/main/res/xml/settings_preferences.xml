@@ -6,6 +6,13 @@
             android:summary="@string/app_theme_summary"
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"
-            android:defaultValue="1" />
+            android:defaultValue="SYSTEM" />
+        <org.xedox.utils.preference.MaterialListPreference
+            android:key="app_dialog_type"
+            android:title="@string/app_dialog_type"
+            android:summary="@string/app_dialog_type_summary"
+            android:entries="@array/app_dialog_type_entries"
+            android:entryValues="@array/app_dialog_type_values"
+            android:defaultValue="MATERIAL" />
     </PreferenceCategory>
 </PreferenceScreen>

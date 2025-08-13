@@ -48,4 +48,10 @@
     <string name="dark_theme">Dark theme</string>
     <string name="light_theme">Light theme</string>
     <string name="system_theme">System theme</string>
+    
+    <string name="app_dialog_type">Application dialog type</string>
+    <string name="app_dialog_type_summary">Select dialog type for application</string>
+    <string name="app_dialog_type_material">Material3 dialog</string>
+    <string name="app_dialog_type_androidx">AndroidX dialog</string>
+    <string name="app_dialog_type_neo">Neo dialog</string>
 </resources>

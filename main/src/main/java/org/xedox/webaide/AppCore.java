@@ -1,12 +1,16 @@
 package org.xedox.webaide;
 
 import android.content.SharedPreferences;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
+import org.xedox.utils.dialog.DialogBuilder;
+import org.xedox.utils.dialog.NeoAlertDialog;
 import org.xedox.webaide.editor.sora.SoraEditorManager;
 import static androidx.appcompat.app.AppCompatDelegate.*;
 
@@ -26,6 +30,7 @@ public class AppCore extends MultiDexApplication {
         mkdirs(projectsDir);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         AppCore.setAppDelegate(sp.getString("app_theme", "SYSTEM"));
+        AppCore.setDialogType(sp.getString("app_dialog_type", "MATERIAL"));
     }
 
     private void mkdirs(String... paths) {
@@ -55,11 +60,21 @@ public class AppCore extends MultiDexApplication {
 
     public static void setAppDelegate(String newValue) {
         int mode = MODE_NIGHT_FOLLOW_SYSTEM;
-        if("DARK".equals(newValue)) {
-             mode = MODE_NIGHT_YES;
-        } else if("LIGHT".equals(newValue)) {
-             mode = MODE_NIGHT_NO;
+        if ("DARK".equals(newValue)) {
+            mode = MODE_NIGHT_YES;
+        } else if ("LIGHT".equals(newValue)) {
+            mode = MODE_NIGHT_NO;
         }
         AppCompatDelegate.setDefaultNightMode(mode);
+    }
+
+    public static void setDialogType(String type) {
+        if("ANDROIDX".equals(type)) {
+            DialogBuilder.builderType = AlertDialog.Builder.class;
+        } else if("NEO".equals(type)) {
+            DialogBuilder.builderType = NeoAlertDialog.class;
+        } else {
+            DialogBuilder.builderType = MaterialAlertDialogBuilder.class;
+        }
     }
 }
