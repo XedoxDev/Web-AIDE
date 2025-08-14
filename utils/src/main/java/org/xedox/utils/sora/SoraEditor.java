@@ -38,6 +38,14 @@ public class SoraEditor extends CodeEditor {
                 Typeface.createFromAsset(getContext().getAssets(), "JetBrainsMono-Regular.ttf");
         setTypefaceText(typeface);
         setTypefaceLineNumber(typeface);
+        EditorTextActionWindow actionWindow = getComponent(EditorTextActionWindow.class);
+        if (actionWindow != null) {
+            ViewGroup view = actionWindow.getView();
+            if (view != null) {
+                view.setBackground(
+                        getContext().getDrawable(R.drawable.sora_action_window));
+            }
+        }
     }
 
     public void append(CharSequence txt) {

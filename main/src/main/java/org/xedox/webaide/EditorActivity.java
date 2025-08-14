@@ -41,7 +41,7 @@ public class EditorActivity extends BaseActivity {
     private View nav;
     private TextView navTitle;
     private Handler handler = new Handler(Looper.getMainLooper());
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,21 +73,24 @@ public class EditorActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(editorManager.onOptionsItemSelected(item)) return true;
-        if(item.getItemId() == R.id.run) {
-            Intent intent = new Intent(this, PreviewActivity.class);
-            intent.putExtra("index.html", project.file("index.html"));
-            startActivity(intent);
-        } else if(item.getItemId() == R.id.color_picker) {
+        if (editorManager.onOptionsItemSelected(item)) return true;
+        if (item.getItemId() == R.id.run) {
+            try {
+                Intent intent = new Intent(this, PreviewActivity.class);
+                intent.putExtra("index.html", project.file("index.html"));
+                startActivity(intent);
+            } catch (Throwable err) {
+                ErrorDialog.show(getApplicationContext(), err);
+            }
+        } else if (item.getItemId() == R.id.color_picker) {
             ColorPickerDialog.show(this);
         }
         return super.onOptionsItemSelected(item);
     }
-    
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return onCreateOptionsMenu(R.menu.editor, menu);

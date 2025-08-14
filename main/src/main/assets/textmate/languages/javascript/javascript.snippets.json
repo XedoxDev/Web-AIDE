@@ -1,0 +1,113 @@
+[{
+  "Console log": {
+    "prefix": "cl",
+    "body": "console.log('${1:message}', ${2:value});${0}",
+    "description": "Console log with message"
+  },
+  "Function declaration": {
+    "prefix": "fn",
+    "body": [
+      "/**",
+      " * ${3:Function description}",
+      " * @param {${4:type}} ${5:param} - ${6:parameter description}",
+      " * @returns {${7:returnType}} ${8:return description}",
+      " */",
+      "function ${1:functionName}(${2:params}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Documented function declaration"
+  },
+  "Arrow function": {
+    "prefix": "af",
+    "body": [
+      "const ${1:functionName} = (${2:params}) => {",
+      "    ${0}",
+      "};"
+    ],
+    "description": "Arrow function"
+  },
+  "Async function": {
+    "prefix": "async",
+    "body": [
+      "async function ${1:functionName}(${2:params}) {",
+      "    try {",
+      "        ${0}",
+      "    } catch (error) {",
+      "        console.error('${3:Error in ${1:functionName}}', error);",
+      "        throw error;",
+      "    }",
+      "}"
+    ],
+    "description": "Async function with error handling"
+  },
+  "Class declaration": {
+    "prefix": "class",
+    "body": [
+      "class ${1:ClassName} {",
+      "    constructor(${2:params}) {",
+      "        ${3}",
+      "    }",
+      "",
+      "    ${4:methodName}(${5:params}) {",
+      "        ${0}",
+      "    }",
+      "}"
+    ],
+    "description": "Class with constructor and method"
+  },
+  "Promise": {
+    "prefix": "prom",
+    "body": [
+      "new Promise((resolve, reject) => {",
+      "    ${1:// async operation}",
+      "    ${2:success} ? resolve(${3:result}) : reject(new Error('${4:Error message}'));",
+      "}).then(${5:result} => {",
+      "    ${0}",
+      "}).catch(error => {",
+      "    console.error('${6:Promise error}', error);",
+      "});"
+    ],
+    "description": "Promise with then/catch"
+  },
+  "If statement": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "For loop": {
+    "prefix": "for",
+    "body": [
+      "for (let ${1:i} = 0; ${1:i} < ${2:array}.length; ${1:i}++) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "For loop"
+  },
+  "Import statement": {
+    "prefix": "imp",
+    "body": "import { ${1:module} } from '${2:module-path}';${0}",
+    "description": "ES6 import"
+  },
+  "Export default": {
+    "prefix": "expd",
+    "body": "export default ${1:value};${0}",
+    "description": "ES6 export default"
+  },
+  "Object literal": {
+    "prefix": "obj",
+    "body": [
+      "const ${1:objectName} = {",
+      "    ${2:key}: ${3:value},",
+      "    ${4:method}(${5:params}) {",
+      "        ${0}",
+      "    }",
+      "};"
+    ],
+    "description": "Object with method"
+  }
+}]

@@ -29,7 +29,7 @@ public class SoraTextMateLanguage extends TextMateLanguage {
 
     private final String scope;
     private final Context context;
-    private static final String SNIPPET_FILE_FORMAT = "textmate/languages/%s/%s-snippets.json";
+    private static final String SNIPPET_FILE_FORMAT = "textmate/languages/%s/%s.snippets.json";
 
     private static final Map<String, String> SCOPE_MAPPING = new HashMap<>();
 
@@ -48,10 +48,6 @@ public class SoraTextMateLanguage extends TextMateLanguage {
                 true);
         this.scope = scopeName;
         this.context = context;
-        String lang = SCOPE_MAPPING.get(scope);
-        if (lang != null) {
-            getSnippets(String.format(SNIPPET_FILE_FORMAT, lang, lang));
-        }
     }
 
     @Override
@@ -68,11 +64,7 @@ public class SoraTextMateLanguage extends TextMateLanguage {
         List<Snippet> snippets = getSnippets(String.format(SNIPPET_FILE_FORMAT, lang, lang));
         for (Snippet s : snippets) {
             if (s.getPrefix().startsWith(prefix) && !prefix.isEmpty()) {
-                publisher.addItem(
-                        new SimpleSnippetCompletionItem(
-                                s.getPrefix(),
-                                s.getDescription(),
-                                new SnippetDescription(prefix.length(), s.getBuildedBody(), true)));
+                publisher.addItem(s.getComplectionItem());
             }
         }
     }
@@ -123,6 +115,13 @@ public class SoraTextMateLanguage extends TextMateLanguage {
 
         public void setBuildedBody(CodeSnippet body) {
             this.buildedBody = body;
+        }
+
+        public SnippetCompletionItem getComplectionItem() {
+            return new SnippetCompletionItem(
+                    prefix,
+                    description,
+                    new SnippetDescription(prefix.length(), getBuildedBody(), true));
         }
     }
 }

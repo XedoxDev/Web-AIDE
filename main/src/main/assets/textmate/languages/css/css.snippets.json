@@ -1,0 +1,124 @@
+[{
+  "Flexbox container": {
+    "prefix": "flex",
+    "body": [
+      "display: flex;",
+      "flex-direction: ${1:row};",
+      "justify-content: ${2:flex-start};",
+      "align-items: ${3:stretch};",
+      "flex-wrap: ${4:nowrap};",
+      "gap: ${5:0};",
+      "${0}"
+    ],
+    "description": "Flexbox container properties"
+  },
+  "Grid container": {
+    "prefix": "grid",
+    "body": [
+      "display: grid;",
+      "grid-template-columns: ${1:1fr};",
+      "grid-template-rows: ${2:auto};",
+      "gap: ${3:1rem};",
+      "align-items: ${4:stretch};",
+      "justify-items: ${5:stretch};",
+      "${0}"
+    ],
+    "description": "CSS Grid container"
+  },
+  "Centering block": {
+    "prefix": "center",
+    "body": [
+      "display: ${1:block};",
+      "margin: ${2:0 auto};",
+      "max-width: ${3:1200px};",
+      "width: ${4:100%};",
+      "${0}"
+    ],
+    "description": "Center a block element"
+  },
+  "Position absolute": {
+    "prefix": "abs",
+    "body": [
+      "position: absolute;",
+      "top: ${1:0};",
+      "left: ${2:0};",
+      "right: ${3:0};",
+      "bottom: ${4:0};",
+      "${0}"
+    ],
+    "description": "Absolute positioning"
+  },
+  "Media query": {
+    "prefix": "media",
+    "body": [
+      "@media (${1:max-width}: ${2:768px}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Media query"
+  },
+  "Animation": {
+    "prefix": "anim",
+    "body": [
+      "animation: ${1:name} ${2:1s} ${3:ease} ${4:0s} ${5:1} ${6:normal} ${7:none} ${8:running};",
+      "${0}"
+    ],
+    "description": "Animation shorthand"
+  },
+  "Transition": {
+    "prefix": "trans",
+    "body": [
+      "transition: ${1:all} ${2:0.3s} ${3:ease};",
+      "${0}"
+    ],
+    "description": "Transition shorthand"
+  },
+  "Box shadow": {
+    "prefix": "shadow",
+    "body": [
+      "box-shadow: ${1:0} ${2:2px} ${3:4px} rgba(0, 0, 0, ${4:0.1});",
+      "${0}"
+    ],
+    "description": "Box shadow"
+  },
+  "Border radius": {
+    "prefix": "radius",
+    "body": [
+      "border-radius: ${1:4px};",
+      "${0}"
+    ],
+    "description": "Border radius"
+  },
+  "Pseudo-classes": {
+    "prefix": "pseudo",
+    "body": [
+      "&:${1|hover,focus,active,visited,first-child,last-child,nth-child(2)|} {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "CSS pseudo-classes"
+  },
+  "Keyframes": {
+    "prefix": "keyframes",
+    "body": [
+      "@keyframes ${1:name} {",
+      "    from {",
+      "        ${2}",
+      "    }",
+      "    to {",
+      "        ${3}",
+      "    }",
+      "}",
+      "${0}"
+    ],
+    "description": "CSS keyframes animation"
+  },
+  "Custom properties": {
+    "prefix": "vars",
+    "body": [
+      "--${1:variable-name}: ${2:value};",
+      "${0}"
+    ],
+    "description": "CSS custom properties (variables)"
+  }
+}]

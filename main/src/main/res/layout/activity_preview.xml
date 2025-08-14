@@ -18,7 +18,7 @@
         android:layout_below="@+id/toolbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:progressDrawable="@drawable/progress" />
-    <android.swiperefreshlayout.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -27,5 +27,5 @@
             android:id="@+id/web_view"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
-    </android.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -1,11 +1,15 @@
 package org.xedox.webaide.editor;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import io.github.rosemoe.sora.event.ContentChangeEvent;
+import io.github.rosemoe.sora.event.SubscriptionReceipt;
 import org.xedox.filetree.utils.Node;
 import org.xedox.utils.BaseFragment;
 import org.xedox.utils.OverflowMenu;
@@ -22,6 +26,8 @@ public class EditorManager {
     private EditorStateAdapter editorStateAdapter;
     private ImageButton undo, redo;
     private View emptyPager;
+    private SubscriptionReceipt contentChangeEvent;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public EditorManager(EditorActivity context) {
         this.context = context;
@@ -53,9 +59,27 @@ public class EditorManager {
                         int pos = viewPager.getCurrentItem();
                         BaseFragment f = editorStateAdapter.get(pos);
                         boolean isFile = f instanceof FileFragment;
-                        undo.setEnabled(isFile);
-                        redo.setEnabled(isFile);
+                        undo.setVisibility(isFile ? View.VISIBLE : View.GONE);
+                        redo.setVisibility(isFile ? View.VISIBLE : View.GONE);
                         context.updateItemEnabled(R.id.save_all, isFile);
+                        if (contentChangeEvent != null) contentChangeEvent.unsubscribe();
+                        if (isFile) {
+                            FileFragment ff = (FileFragment) f;
+                            handler.post(
+                                    () ->
+                                            contentChangeEvent =
+                                                    ff.getEditor()
+                                                            .subscribeEvent(
+                                                                    ContentChangeEvent.class,
+                                                                    (s, event) -> {
+                                                                        undo.setEnabled(
+                                                                                ff.getEditor()
+                                                                                        .canUndo());
+                                                                        redo.setEnabled(
+                                                                                ff.getEditor()
+                                                                                        .canRedo());
+                                                                    }));
+                        }
                     }
 
                     @Override
@@ -106,10 +130,10 @@ public class EditorManager {
                             });
                 });
     }
-    
+
     public boolean onOptionsItemSelected(MenuItem item) {
-    	int id = item.getItemId();
-        if(id == R.id.save_all) {
+        int id = item.getItemId();
+        if (id == R.id.save_all) {
             editorStateAdapter.saveAll();
             return true;
         }
