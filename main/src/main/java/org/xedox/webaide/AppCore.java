@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.DialogBuilder;
 import org.xedox.utils.dialog.NeoAlertDialogBuilder;
-import org.xedox.webaide.editor.sora.SoraEditorManager;
+import org.xedox.utils.sora.SoraEditorManager;
 import static androidx.appcompat.app.AppCompatDelegate.*;
 
 public class AppCore extends MultiDexApplication {

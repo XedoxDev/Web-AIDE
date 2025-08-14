@@ -78,6 +78,7 @@ public class SourceFragment extends Fragment implements TabLayout.OnTabSelectedL
         this.html = newHtml;
         if (htmlFragment != null && htmlFragment.getEditor() != null) {
             htmlFragment.getEditor().setText(html);
+           // scriptsFragment.setItems(webManager.extractJsScripts(html));
         }
     }
 

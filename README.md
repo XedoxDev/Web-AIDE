@@ -30,20 +30,17 @@ capability.
 - [x] Realtime website preview
 - [ ] Git manager
 - [ ] DevTools
-    - [ ] Parse HTML layout from page
+    - [x] Parse HTML layout from page
     - [ ] Extract JavaScript from HTML
     - [ ] Extract CSS from HTML
 - [ ] Code editor (SoraEditor)
     - [ ] Tree sitter
     - [x] Syntax highlight
+    - [ ] JavaScript LSP
     - [ ] Code format
         - [ ] JavaScript
         - [ ] HTML
         - [ ] CSS
-    - [ ] Language Servers
-        - [ ] JavaScript
-        - [ ] CSS
-        - [ ] HTML
 
 ## 🤝 Contributing
 

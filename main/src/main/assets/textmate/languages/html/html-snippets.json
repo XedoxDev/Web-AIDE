@@ -1,0 +1,105 @@
+[
+  {
+    "prefix": "html5",
+    "description": "HTML5 document structure",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"en\">",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <title>Document</title>",
+      "</head>",
+      "<body>",
+      "    $0",
+      "</body>",
+      "</html>"
+    ]
+  },
+  {
+    "prefix": "div",
+    "description": "Div element",
+    "body": [
+      "<div$1>$0</div>"
+    ]
+  },
+  {
+    "prefix": "a",
+    "description": "Anchor element",
+    "body": [
+      "<a href=\"$1\">$0</a>"
+    ]
+  },
+  {
+    "prefix": "img",
+    "description": "Image element",
+    "body": [
+      "<img src=\"$1\" alt=\"$2\">$0"
+    ]
+  },
+  {
+    "prefix": "ul",
+    "description": "Unordered list",
+    "body": [
+      "<ul>",
+      "    <li>$1</li>",
+      "    <li>$2</li>",
+      "    $0",
+      "</ul>"
+    ]
+  },
+  {
+    "prefix": "table",
+    "description": "HTML table",
+    "body": [
+      "<table>",
+      "    <thead>",
+      "        <tr>",
+      "            <th>$1</th>",
+      "            <th>$2</th>",
+      "        </tr>",
+      "    </thead>",
+      "    <tbody>",
+      "        <tr>",
+      "            <td>$3</td>",
+      "            <td>$4</td>",
+      "        </tr>",
+      "    </tbody>",
+      "</table>",
+      "$0"
+    ]
+  },
+  {
+    "prefix": "form",
+    "description": "HTML form",
+    "body": [
+      "<form action=\"$1\" method=\"$2\">",
+      "    <label for=\"$3\">$4</label>",
+      "    <input type=\"text\" id=\"$3\" name=\"$3\">",
+      "    $0",
+      "    <button type=\"submit\">Submit</button>",
+      "</form>"
+    ]
+  },
+  {
+    "prefix": "input",
+    "description": "Input element",
+    "body": [
+      "<input type=\"$1\" name=\"$2\" id=\"$2\"$3>$0"
+    ]
+  },
+  {
+    "prefix": "button",
+    "description": "Button element",
+    "body": [
+      "<button type=\"$1\">$0</button>"
+    ]
+  },
+  {
+    "prefix": "meta",
+    "description": "Meta element",
+    "body": [
+      "<meta name=\"$1\" content=\"$2\">$0"
+    ]
+  }
+]

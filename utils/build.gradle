@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdk mMinSDK
         targetSdk mTargetSDK
-        versionCode 4
-        versionName "0.0.4a"
+        versionCode 5
+        versionName "0.0.5a"
         multiDexEnabled true
     }
     
@@ -22,6 +22,7 @@ android {
     }
     
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -30,11 +31,18 @@ android {
 dependencies {
     api "androidx.appcompat:appcompat:$app_compat"
     api "androidx.preference:preference:$preference"
-    api "org.eclipse.jgit:org.eclipse.jgit:$jgit"
     api "com.google.android.material:material:$material"
     api "io.github.Rosemoe.sora-editor:editor"
     api "io.github.Rosemoe.sora-editor:language-textmate"
+    api "io.github.Rosemoe.sora-editor:editor-lsp"
+    api "io.github.Rosemoe.sora-editor:tree-sitter"
     api platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
+    api "com.google.code.gson:gson:$gson"
+    
+    api("org.eclipse.lsp4j:org.eclipse.lsp4j:$lsp4j")
+    api("org.jsoup:jsoup:$jsoup")
+    
     implementation "io.noties.markwon:core:$markwonVersion"
     implementation("net.lingala.zip4j:zip4j:$zip4j")
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
 }

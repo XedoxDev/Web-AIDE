@@ -16,9 +16,10 @@ allprojects {
         multidex = "2.0.1"
         preference = "1.2.1"
         closure_compiler = "v20230206"
-        jsoup = "1.17.2"
+        jsoup = "1.21.1"
         swiperefreshlayout = "1.1.0"
         recyclerview = "1.3.2"
+        lsp4j = "0.24.0"
         
         mCompileSDK = 36
         mMinSDK = 26

@@ -7,7 +7,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_width="match_parent"
         app:tabMode="fixed"
         app:tabGravity="fill">
