@@ -11,8 +11,9 @@ import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.DialogBuilder;
 import org.xedox.utils.dialog.NeoAlertDialogBuilder;
-import org.xedox.utils.sora.SoraEditorManager;
+import org.xedox.webaide.sora.SoraEditorManager;
 import static androidx.appcompat.app.AppCompatDelegate.*;
+import org.xedox.webaide.dialog.CopyAssetsDialog;
 
 public class AppCore extends MultiDexApplication {
 
@@ -20,14 +21,17 @@ public class AppCore extends MultiDexApplication {
 
     private String filesDir;
     private String projectsDir;
+    private String textmateDir;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        filesDir = getExternalFilesDir(null).getAbsolutePath() + "/";
+        filesDir = instance.getExternalFilesDir(null).getAbsolutePath() + "/";
+        //filesDir = "/storage/emulated/0/Android/data/org.xedox.webaide/files/";
         projectsDir = filesDir + "projects/";
-        mkdirs(projectsDir);
+        textmateDir = filesDir + "textmate/";
+        mkdirs(projectsDir, textmateDir);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         AppCore.setAppDelegate(sp.getString("app_theme", "SYSTEM"));
         AppCore.setDialogType(sp.getString("app_dialog_type", "MATERIAL"));
@@ -46,6 +50,7 @@ public class AppCore extends MultiDexApplication {
         return switch (name) {
             case "files" -> instance.filesDir;
             case "projects" -> instance.projectsDir;
+            case "textmate" -> instance.textmateDir;
             default -> throw new NoSuchElementException("No exists directory: " + name);
         };
     }
@@ -69,9 +74,9 @@ public class AppCore extends MultiDexApplication {
     }
 
     public static void setDialogType(String type) {
-        if("ANDROIDX".equals(type)) {
+        if ("ANDROIDX".equals(type)) {
             DialogBuilder.builderType = AlertDialog.Builder.class;
-        } else if("NEO".equals(type)) {
+        } else if ("NEO".equals(type)) {
             DialogBuilder.builderType = NeoAlertDialogBuilder.class;
         } else {
             DialogBuilder.builderType = MaterialAlertDialogBuilder.class;

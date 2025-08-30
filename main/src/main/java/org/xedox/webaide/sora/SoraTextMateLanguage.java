@@ -1,4 +1,4 @@
-package org.xedox.utils.sora;
+package org.xedox.webaide.sora;
 
 import android.content.Context;
 import com.google.gson.Gson;
@@ -24,12 +24,13 @@ import android.util.Log;
 import java.util.HashMap;
 import com.google.gson.annotations.SerializedName;
 import java.util.Map;
+import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.webaide.sora.snippet.Snippet;
 
 public class SoraTextMateLanguage extends TextMateLanguage {
 
     private final String scope;
     private final Context context;
-    private static final String SNIPPET_FILE_FORMAT = "textmate/languages/%s/%s.snippets.json";
 
     private static final Map<String, String> SCOPE_MAPPING = new HashMap<>();
 
@@ -60,12 +61,17 @@ public class SoraTextMateLanguage extends TextMateLanguage {
                 CompletionHelper.computePrefix(content, pos, MyCharacter::isJavaIdentifierPart);
         String lang = SCOPE_MAPPING.getOrDefault(scope, null);
         if (lang == null) return;
-
-        List<Snippet> snippets = getSnippets(String.format(SNIPPET_FILE_FORMAT, lang, lang));
-        for (Snippet s : snippets) {
-            if (s.getPrefix().startsWith(prefix) && !prefix.isEmpty()) {
-                publisher.addItem(s.getComplectionItem());
+        try {
+            String path = SoraEditorManager.getLanguageByScopeName(scope).snippets;
+            if (path == null) return;
+            List<Snippet> snippets = getSnippets(path);
+            for (Snippet s : snippets) {
+                if (s.getPrefix().startsWith(prefix) && !prefix.isEmpty()) {
+                    publisher.addItem(s.getComplectionItem());
+                }
             }
+        } catch (Exception err) {
+            ErrorDialog.show(context, err);
         }
     }
 
@@ -80,48 +86,7 @@ public class SoraTextMateLanguage extends TextMateLanguage {
             List<Snippet> result = Arrays.asList(arr);
             return result;
         } catch (Exception e) {
-            Log.e("TML", "Error loading snippets: " + path, e);
-            return Collections.emptyList();
-        }
-    }
-
-    private static class Snippet {
-        @SerializedName("prefix")
-        private String prefix;
-
-        @SerializedName("description")
-        private String description;
-
-        @SerializedName("body")
-        private String[] body;
-
-        private CodeSnippet buildedBody;
-
-        public String getPrefix() {
-            return prefix;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String[] getBody() {
-            return body;
-        }
-
-        public CodeSnippet getBuildedBody() {
-            return buildedBody;
-        }
-
-        public void setBuildedBody(CodeSnippet body) {
-            this.buildedBody = body;
-        }
-
-        public SnippetCompletionItem getComplectionItem() {
-            return new SnippetCompletionItem(
-                    prefix,
-                    description,
-                    new SnippetDescription(prefix.length(), getBuildedBody(), true));
+            throw new RuntimeException(e);
         }
     }
 }

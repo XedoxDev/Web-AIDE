@@ -8,13 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
+import io.github.rosemoe.sora.langs.textmate.TextMateLanguage;
+import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
-import org.xedox.utils.sora.SoraEditor;
-import org.xedox.utils.sora.SoraTextMateLanguage;
+import io.github.rosemoe.sora.widget.CodeEditor;
 
 public class TextFragment extends Fragment {
+    
     private static final String ARG_SCOPE_NAME = "scope_name";
-    private SoraEditor editor;
+    private CodeEditor editor;
 
     public static TextFragment newInstance(String scopeName) {
         TextFragment f = new TextFragment();
@@ -31,9 +33,9 @@ public class TextFragment extends Fragment {
             throw new IllegalStateException("Scope name must not be null");
         }
 
-        editor = new SoraEditor(requireActivity());
+        editor = new CodeEditor(requireActivity());
         try {
-            editor.setEditorLanguage(new SoraTextMateLanguage(requireActivity(), scopeName));
+            editor.setEditorLanguage(TextMateLanguage.create(scopeName, GrammarRegistry.getInstance(), false));
             editor.setColorScheme(TextMateColorScheme.create(ThemeRegistry.getInstance()));
         } catch (Exception err) {
             err.printStackTrace();
@@ -42,7 +44,7 @@ public class TextFragment extends Fragment {
         return editor;
     }
 
-    public SoraEditor getEditor() {
+    public CodeEditor getEditor() {
         return this.editor;
     }
 }

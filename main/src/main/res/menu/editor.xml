@@ -17,4 +17,9 @@
         android:title="@+id/color_picker"
         android:icon="@drawable/palette"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/dev_tools"
+        android:title="@+id/dev_tools"
+        android:icon="@drawable/dev"
+        app:showAsAction="ifRoom" />
 </menu>

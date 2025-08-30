@@ -63,8 +63,8 @@ public class DevToolsActivity extends BaseActivity
         sourceFragment = SourceFragment.newInstance();
 
         fm.beginTransaction()
-                .add(R.id.content, previewFragment)
                 .add(R.id.content, sourceFragment)
+                .add(R.id.content, previewFragment)
                 .commit();
         fm.beginTransaction().hide(sourceFragment);
     }

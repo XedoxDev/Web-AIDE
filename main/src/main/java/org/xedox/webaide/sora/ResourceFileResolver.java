@@ -1,4 +1,4 @@
-package org.xedox.utils.sora;
+package org.xedox.webaide.sora;
 
 import io.github.rosemoe.sora.langs.textmate.registry.provider.FileResolver;
 import java.io.FileInputStream;
@@ -14,7 +14,7 @@ public class ResourceFileResolver implements FileResolver {
         try {
             return new FileInputStream(path);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("File not found: " + path, e);
+            throw new RuntimeException(e);
         }
     }
 }

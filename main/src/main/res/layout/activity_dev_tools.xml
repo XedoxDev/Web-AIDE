@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        app:title="@string/app_name"
+        app:title="@string/dev_tools"
         app:titleCentered="true"
         android:id="@+id/toolbar" />
     <ProgressBar

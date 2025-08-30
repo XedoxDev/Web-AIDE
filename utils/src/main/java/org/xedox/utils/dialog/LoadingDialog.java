@@ -3,7 +3,6 @@ package org.xedox.utils.dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,29 +10,55 @@ import org.xedox.utils.R;
 
 public class LoadingDialog {
 
-    private DialogBuilder dialog;
-    private TextView infoText;
-    private ProgressBar progressBar;
-    private boolean isShowing = false;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    protected DialogBuilder builder;
+    protected TextView infoText;
+    protected ProgressBar progressBar;
+    protected boolean isShowing = false;
+    protected Handler handler = new Handler(Looper.getMainLooper());
+    protected Context context;
+    protected Runnable runnable;
 
     public LoadingDialog(Context context, String title, Runnable run) {
-        dialog = new DialogBuilder(context);
-        dialog.setView(R.layout.dialog_loading_layout);
-        dialog.setTitle(title);
-        dialog.setCancelable(false);
+        this.context = context;
+        this.runnable = run;
+        builder = new DialogBuilder(context);
+        builder.setView(R.layout.dialog_loading_layout);
+        builder.setTitle(title);
+        builder.setCancelable(false);
 
-        infoText = dialog.findViewById(R.id.loading_info);
-        progressBar = dialog.findViewById(R.id.progress);
-        new Thread(run).start();
+        infoText = builder.findViewById(R.id.loading_info);
+        progressBar = builder.findViewById(R.id.progress);
+
+        if (runnable != null) {
+            startBackgroundTask();
+        }
+    }
+
+    public LoadingDialog(Context context, int title, Runnable run) {
+        this(context, context.getString(title), run);
+    }
+
+    public void setRunnable(Runnable runnable) {
+        this.runnable = runnable;
+        if (isShowing && runnable != null) {
+            startBackgroundTask();
+        }
+    }
+
+    private void startBackgroundTask() {
+        runnable.run();
+        dismiss();
     }
 
     public void show() {
         handler.post(
                 () -> {
                     if (!isShowing) {
-                        dialog.show();
+                        builder.show();
                         isShowing = true;
+                        if (runnable != null) {
+                            startBackgroundTask();
+                        }
                     }
                 });
     }
@@ -42,7 +67,7 @@ public class LoadingDialog {
         handler.post(
                 () -> {
                     if (isShowing) {
-                        dialog.dialog.dismiss();
+                        builder.dialog.dismiss();
                         isShowing = false;
                     }
                 });
@@ -72,11 +97,15 @@ public class LoadingDialog {
                 });
     }
 
-    public static LoadingDialog create(Context context, String title,  Runnable run) {
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public static LoadingDialog create(Context context, String title, Runnable run) {
         return new LoadingDialog(context, title, run);
     }
 
-    public static LoadingDialog create(Context context, int title,  Runnable run) {
+    public static LoadingDialog create(Context context, int title, Runnable run) {
         return create(context, context.getString(title), run);
     }
 }

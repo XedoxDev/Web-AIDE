@@ -33,19 +33,27 @@ public final class Assets implements AutoCloseable, Closeable {
         }
 
         for (String asset : assets) {
-            String childAssetPath = assetPath.isEmpty() ? asset : assetPath + "/" + asset;
+            String childAssetPath =
+                    assetPath.isEmpty()
+                            ? asset
+                            : assetPath + (assetPath.endsWith("/") ? "" : "/") + asset;
             File childTargetFile = new File(targetDir, asset);
 
-            InputStream is = null;
-            try {
-                is = assetManager.open(childAssetPath);
-                copyStreamToFile(is, childTargetFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+            String[] childAssets = assetManager.list(childAssetPath);
+            if (childAssets != null && childAssets.length > 0) {
+                if (!childTargetFile.exists() && !childTargetFile.mkdirs()) {
+                    throw new IOException("Cannot create directory: " + childTargetFile);
+                }
                 copyAssetsRecursive(childAssetPath, childTargetFile);
-            } finally {
-                if (is != null) {
-                    is.close();
+            } else {
+                try (InputStream is = assetManager.open(childAssetPath);
+                        OutputStream os = new FileOutputStream(childTargetFile)) {
+
+                    byte[] buffer = new byte[8192];
+                    int length;
+                    while ((length = is.read(buffer)) > 0) {
+                        os.write(buffer, 0, length);
+                    }
                 }
             }
         }
@@ -205,6 +213,6 @@ public final class Assets implements AutoCloseable, Closeable {
 
     @Override
     public void close() throws IOException {
-        assetManager.close();
+        //assetManager.close();
     }
 }

@@ -1,17 +1,21 @@
 package org.xedox.webaide;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
+import java.io.File;
 import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
-import org.xedox.utils.sora.SoraEditorManager;
+import org.xedox.webaide.sora.SoraEditorManager;
+import org.xedox.webaide.dialog.CopyAssetsDialog;
 import org.xedox.webaide.dialog.CreateProjectDialog;
 import org.xedox.webaide.project.Project;
 import org.xedox.webaide.project.ProjectsAdapter;
@@ -24,8 +28,6 @@ public class MainActivity extends BaseActivity {
     private ProjectsAdapter projectsAdapter;
     private View emptyProjectsRecycler;
     private ImageButton newProject, settings, devTools;
-
-    public static boolean initialize = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,25 @@ public class MainActivity extends BaseActivity {
                     finish();
                 });
         newProject.setOnClickListener((v) -> CreateProjectDialog.show(this, projectsAdapter));
-        settings.setOnClickListener((v) -> {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-        });
-        devTools.setOnClickListener((v) -> {
-            Intent intent = new Intent(this, DevToolsActivity.class);
-            startActivity(intent);
-        });
+        settings.setOnClickListener(
+                (v) -> {
+                    Intent intent = new Intent(this, SettingsActivity.class);
+                    startActivity(intent);
+                });
+        devTools.setOnClickListener(
+                (v) -> {
+                    Intent intent = new Intent(this, DevToolsActivity.class);
+                    startActivity(intent);
+                });
         projectsAdapter.setOnChangeListener(
                 hasItems ->
                         emptyProjectsRecycler.setVisibility(hasItems ? View.GONE : View.VISIBLE));
-        if (!initialize) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sp.getBoolean("isCopyedAssets", false)
+                || !new File(AppCore.dir("files"), "textmate").exists()) {
+            CopyAssetsDialog.show(this);
+        } else {
             SoraEditorManager.initialize(this);
-            initialize = true;
         }
     }
 

@@ -87,6 +87,9 @@ public class EditorActivity extends BaseActivity {
             }
         } else if (item.getItemId() == R.id.color_picker) {
             ColorPickerDialog.show(this);
+        } else if (item.getItemId() == R.id.dev_tools) {
+            Intent intent = new Intent(this, DevToolsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

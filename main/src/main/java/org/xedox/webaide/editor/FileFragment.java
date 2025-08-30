@@ -13,8 +13,8 @@ import java.io.FileNotFoundException;
 import org.xedox.utils.BaseFragment;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.ErrorDialog;
-import org.xedox.utils.sora.SoraEditor;
-import org.xedox.utils.sora.SoraTextMateLanguage;
+import org.xedox.webaide.sora.SoraEditor;
+import org.xedox.webaide.sora.SoraTextMateLanguage;
 
 public class FileFragment extends BaseFragment {
 

@@ -1,4 +1,4 @@
-package org.xedox.utils.sora;
+package org.xedox.webaide.sora.snippet;
 
 import android.graphics.drawable.Drawable;
 

@@ -1,78 +1,77 @@
 package org.xedox.utils.dialog;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.xedox.utils.Clipboard;
 import org.xedox.utils.R;
 
 public class ErrorDialog {
-    private static final String TAG = "ErrorDialog";
-    private static boolean showFullError = false;
 
-    public static void show(Context context, Throwable err) {
-        err.printStackTrace();
-        DialogBuilder builder =
-                new DialogBuilder(context)
-                        .setTitle("Runtime error")
-                        .setView(R.layout.dialog_error_layout)
-                        .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
-                        .setCancelable(true);
+    public static void show(Context context, Throwable error) {
+        show(context, "Runtime error", buildError(error));
+    }
+
+    public static void show(Context context, String error) {
+        show(context, "Runtime error", error);
+    }
+
+    public static void show(Context context, String title, String error) {
+        if (error == null) return;
+
+        DialogBuilder builder = new DialogBuilder(context);
+        builder.setTitle(title);
+        builder.setView(R.layout.dialog_error_layout);
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
         builder.setCancelable(false);
 
         TextView errorMessage = builder.findViewById(R.id.errorMessage);
-        CheckBox errorDetailToggle = builder.findViewById(R.id.errorDetailToggle);
-        errorDetailToggle.setChecked(showFullError);
-        updateErrorMessage(errorMessage, err, showFullError);
+        errorMessage.setText(error);
+        errorMessage.setTypeface(Typeface.MONOSPACE);
+        errorMessage.setMovementMethod(new ScrollingMovementMethod());
         errorMessage.setHorizontalScrollBarEnabled(true);
-        errorDetailToggle.setOnCheckedChangeListener(
-                (buttonView, isChecked) -> {
-                    showFullError = isChecked;
-                    updateErrorMessage(errorMessage, err, isChecked);
-                });
         builder.setNegativeButton(
-                "Copy",
-                (d, w) -> {
-                    Clipboard.copy(context, errorMessage.getText().toString());
-                });
+                R.string.copy,
+                (dialog, which) -> Clipboard.copy(context, errorMessage.getText().toString()));
+
         builder.show();
     }
 
-    private static void updateErrorMessage(
-            TextView errorMessage, Throwable err, boolean fullError) {
-        if (err == null) {
-            errorMessage.setText("UnknownError");
-            return;
+    public static String buildError(Throwable throwable) {
+        if (throwable == null) {
+            return "NO ERROR";
         }
 
-        if (fullError) {
-            StringBuilder sb = new StringBuilder();
-            Throwable current = err;
-            int level = 0;
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
 
-            while (current != null) {
-                if (level > 0) {
-                    sb.append("\n\nCaused by (").append(level).append("): ");
-                }
+        printThrowable(pw, throwable, 0);
 
-                sb.append(current.getClass().getSimpleName())
-                        .append(": ")
-                        .append(current.getMessage());
+        Throwable cause = throwable.getCause();
+        int depth = 1;
+        while (cause != null && cause != throwable) {
+            pw.println("\nCaused by:");
+            printThrowable(pw, cause, depth);
+            cause = cause.getCause();
+            depth++;
+        }
 
-                sb.append("\n\nStack trace:\n");
-                for (StackTraceElement element : current.getStackTrace()) {
-                    sb.append("    ").append(element.toString()).append("\n");
-                }
+        return sw.toString();
+    }
 
-                current = current.getCause();
-                level++;
-            }
+    private static void printThrowable(PrintWriter pw, Throwable throwable, int depth) {
+        String indent = "  ".repeat(depth);
 
-            errorMessage.setText(sb.toString());
-        } else {
-            errorMessage.setText(err.getClass().getSimpleName() + ": " + err.getMessage());
+        pw.println(indent + "Type: " + throwable.getClass().getSimpleName());
+        pw.println(indent + "Message: " + throwable.getMessage());
+        pw.println(indent + "StackTrace:");
+
+        for (StackTraceElement element : throwable.getStackTrace()) {
+            pw.println(indent + "    at " + element);
         }
     }
 }

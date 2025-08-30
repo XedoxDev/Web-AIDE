@@ -10,7 +10,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class DialogBuilder {
-    public static Class<? extends AlertDialog.Builder> builderType = MaterialAlertDialogBuilder.class;
+    public static Class<? extends AlertDialog.Builder> builderType =
+            MaterialAlertDialogBuilder.class;
     public AlertDialog.Builder builder;
     private OnButtonClickListener positiveListener;
     private OnButtonClickListener negativeListener;
@@ -22,7 +23,7 @@ public class DialogBuilder {
         try {
             this.builder = builderType.getConstructor(Context.class).newInstance(context);
         } catch (Exception err) {
-            err.printStackTrace();
+            throw new RuntimeException(err);
         }
     }
 
@@ -89,17 +90,19 @@ public class DialogBuilder {
 
     private void setupButton(int whichButton, OnButtonClickListener listener) {
         if (listener != null && dialog != null) {
-            dialog.getButton(whichButton).setOnClickListener(view -> listener.onClick(dialog, whichButton));
+            dialog.getButton(whichButton)
+                    .setOnClickListener(view -> listener.onClick(dialog, whichButton));
         }
     }
 
     public AlertDialog create() {
         dialog = builder.create();
-        dialog.setOnShowListener(dialogInterface -> {
-            setupButton(AlertDialog.BUTTON_POSITIVE, positiveListener);
-            setupButton(AlertDialog.BUTTON_NEGATIVE, negativeListener);
-            setupButton(AlertDialog.BUTTON_NEUTRAL, neutralListener);
-        });
+        dialog.setOnShowListener(
+                dialogInterface -> {
+                    setupButton(AlertDialog.BUTTON_POSITIVE, positiveListener);
+                    setupButton(AlertDialog.BUTTON_NEGATIVE, negativeListener);
+                    setupButton(AlertDialog.BUTTON_NEUTRAL, neutralListener);
+                });
         return dialog;
     }
 
