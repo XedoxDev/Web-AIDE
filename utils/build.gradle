@@ -34,13 +34,11 @@ dependencies {
     api "com.google.android.material:material:$material"
     api "io.github.Rosemoe.sora-editor:editor"
     api "io.github.Rosemoe.sora-editor:language-textmate"
-    //api "io.github.Rosemoe.sora-editor:editor-lsp"
-    //api "io.github.Rosemoe.sora-editor:tree-sitter"
     api platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     api "com.google.code.gson:gson:$gson"
     
-    //api("org.eclipse.lsp4j:org.eclipse.lsp4j:$lsp4j")
-    //api("org.jsoup:jsoup:$jsoup")
+    api("org.jsoup:jsoup:$jsoup")
+    implementation "com.google.javascript:closure-compiler:$closure_compiler"
     
     implementation "io.noties.markwon:core:$markwonVersion"
     implementation("net.lingala.zip4j:zip4j:$zip4j")

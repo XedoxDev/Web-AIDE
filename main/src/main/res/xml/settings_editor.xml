@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/editor">
+        <PreferenceCategory
+            android:title="@string/format">
+            <androidx.preference.SwitchPreference
+                android:key="editor_use_tab"
+                android:title="@string/use_tabs"
+                android:defaultValue="false"
+                android:icon="@drawable/tab" />
+            <org.xedox.utils.preference.MaterialEditTextPreference
+                android:key="editor_indent_size"
+                android:title="@string/indent_size"
+                android:defaultValue="4"
+                android:inputType="number"
+                android:disableDependentsState="true"
+                android:icon="@drawable/indent" />
+        </PreferenceCategory>
+    </PreferenceCategory>
+</PreferenceScreen>

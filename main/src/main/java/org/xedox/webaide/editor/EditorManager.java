@@ -14,6 +14,7 @@ import org.xedox.filetree.utils.Node;
 import org.xedox.utils.BaseFragment;
 import org.xedox.utils.OverflowMenu;
 import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.utils.format.HtmlFormat;
 import org.xedox.webaide.EditorActivity;
 import org.xedox.webaide.R;
 
@@ -46,6 +47,7 @@ public class EditorManager {
                     redo.setVisibility(hasItems ? View.VISIBLE : View.GONE);
                     emptyPager.setVisibility(hasItems ? View.GONE : View.VISIBLE);
                     context.updateItemVisibility(R.id.save_all, hasItems);
+                    context.updateItemVisibility(R.id.format, hasItems);
                 });
         viewPager.setAdapter(editorStateAdapter);
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, this::handleMediator);
@@ -62,23 +64,27 @@ public class EditorManager {
                         undo.setVisibility(isFile ? View.VISIBLE : View.GONE);
                         redo.setVisibility(isFile ? View.VISIBLE : View.GONE);
                         context.updateItemEnabled(R.id.save_all, isFile);
+
                         if (contentChangeEvent != null) contentChangeEvent.unsubscribe();
+                        context.updateItemEnabled(R.id.format, isFile);
                         if (isFile) {
                             FileFragment ff = (FileFragment) f;
+                            context.updateItemEnabled(R.id.format, ff.canFormat());
                             handler.post(
-                                    () ->
-                                            contentChangeEvent =
-                                                    ff.getEditor()
-                                                            .subscribeEvent(
-                                                                    ContentChangeEvent.class,
-                                                                    (s, event) -> {
-                                                                        undo.setEnabled(
-                                                                                ff.getEditor()
-                                                                                        .canUndo());
-                                                                        redo.setEnabled(
-                                                                                ff.getEditor()
-                                                                                        .canRedo());
-                                                                    }));
+                                    () -> {
+                                        contentChangeEvent =
+                                                ff.getEditor()
+                                                        .subscribeEvent(
+                                                                ContentChangeEvent.class,
+                                                                (s, event) -> {
+                                                                    undo.setEnabled(
+                                                                            ff.getEditor()
+                                                                                    .canUndo());
+                                                                    redo.setEnabled(
+                                                                            ff.getEditor()
+                                                                                    .canRedo());
+                                                                });
+                                    });
                         }
                     }
 
@@ -136,14 +142,26 @@ public class EditorManager {
         if (id == R.id.save_all) {
             editorStateAdapter.saveAll();
             return true;
+        } else if (id == R.id.format) {
+            BaseFragment f = editorStateAdapter.get(viewPager.getCurrentItem());
+            if (f instanceof FileFragment) {
+                FileFragment ff = (FileFragment) f;
+                ff.format();
+            }
+            return true;
         }
         return false;
     }
 
     public void openFile(Node file) {
         try {
-            if (!editorStateAdapter.existsFile(file))
-                editorStateAdapter.add(FileFragment.newInstance(file));
+            if (!editorStateAdapter.existsFile(file)) {
+                FileFragment frag = FileFragment.newInstance(file);
+                editorStateAdapter.add(frag);
+                if (file.getName().endsWith(".html")) {
+                    frag.setFormat(HtmlFormat.class);
+                }
+            }
         } catch (Exception err) {
             ErrorDialog.show(context, err);
         }

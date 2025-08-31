@@ -9,7 +9,7 @@ START:
 - Nothing
 
 ### 🐛 Bug Fixes 
-- Fix edgeToEdge support 
+- Fix edgeToEdge support
 END
 
 

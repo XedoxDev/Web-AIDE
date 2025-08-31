@@ -36,19 +36,22 @@
     <string name="run">Run</string>
     <string name="link">Link</string>
     <string name="copy">Copy</string>
+    <string name="indent_size">Indent size</string>
+    <string name="use_tabs">Using tab</string>
     <string name="search_hint">Search...</string>
     <string name="preview">Preview</string>
     <string name="source">Source</string>
     <string name="dev_tools">Dev tools</string>
+    <string name="format">Format</string>
     <string name="color_picker">Color picker</string>
     <string name="close_it">Close this</string>
+    <string name="editor">Code editor</string>
     <string name="save_all">Save all</string>
     <string name="close_other">Close others</string>
     <string name="close_all">Close all</string>
     <string name="you_no_have_open_files">You have no open files</string>
     <string name="copying_assets">Copying assets...</string>
 
-    <!-- Settings -->
     <string name="general">General</string>
     <string name="app_theme">Application theme</string>
     <string name="app_theme_summary">Select theme for application. Restart app after change theme!</string>
@@ -63,5 +66,12 @@
     <string name="app_dialog_type_neo">Neo dialog</string>
 
     <string name="downloading_page_content">Downloading page content...</string>
-
+    
+    <string name="settings_categories">Categories</string>
+    <string name="general_settings_summary">Appearance and behavior settings</string>
+    <string name="editor_settings_summary">Code editor preferences</string>
+    <string name="editor_use_tab">Use tabs for indentation</string>
+    <string name="editor_use_tab_summary">Use tab characters instead of spaces for indentation</string>
+    <string name="editor_indent_size">Indentation size</string>
+    <string name="editor_indent_size_summary">Number of spaces for indentation (if tabs are disabled)</string>
 </resources>

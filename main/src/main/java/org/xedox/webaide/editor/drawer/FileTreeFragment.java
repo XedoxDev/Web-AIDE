@@ -52,6 +52,13 @@ public class FileTreeFragment extends BaseFragment {
     
     private void setupTree() {
     	fileTree.loadPath(currentPath);
+        fileTree.setIcon(".css", R.drawable.css);
+        fileTree.setIcon(".html", R.drawable.html);
+        fileTree.setIcon(".png", R.drawable.image);
+        fileTree.setIcon(".js", R.drawable.javascript);
+        fileTree.setIcon(".jpg", R.drawable.image);
+        fileTree.setIcon(".jpeg", R.drawable.image);
+        fileTree.setIcon(".json", R.drawable.json);
     }
 
     private void refreshFileTree() {

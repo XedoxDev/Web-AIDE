@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
 import org.xedox.utils.FileX;
 import org.xedox.utils.dialog.DialogBuilder;
 import org.xedox.utils.dialog.NeoAlertDialogBuilder;
+import org.xedox.utils.format.FormatConfig;
+import org.xedox.utils.format.IFormat;
 import org.xedox.webaide.sora.SoraEditorManager;
 import static androidx.appcompat.app.AppCompatDelegate.*;
 import org.xedox.webaide.dialog.CopyAssetsDialog;
@@ -28,13 +30,15 @@ public class AppCore extends MultiDexApplication {
         super.onCreate();
         instance = this;
         filesDir = instance.getExternalFilesDir(null).getAbsolutePath() + "/";
-        //filesDir = "/storage/emulated/0/Android/data/org.xedox.webaide/files/";
         projectsDir = filesDir + "projects/";
         textmateDir = filesDir + "textmate/";
         mkdirs(projectsDir, textmateDir);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         AppCore.setAppDelegate(sp.getString("app_theme", "SYSTEM"));
         AppCore.setDialogType(sp.getString("app_dialog_type", "MATERIAL"));
+        
+        FormatConfig.getInstance().setUseTab(sp.getBoolean("editor_use_tab", false));
+        FormatConfig.getInstance().setIndentSize(Integer.parseInt(sp.getString("editor_indent_size", "4")));
     }
 
     private void mkdirs(String... paths) {
