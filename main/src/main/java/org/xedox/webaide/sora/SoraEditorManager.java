@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
@@ -31,6 +32,7 @@ public class SoraEditorManager {
     public static final Handler handler = new Handler(Looper.getMainLooper());
     public static String font;
     public static boolean initialized = false;
+    public static List<SoraEditor> editors = new ArrayList<>();
 
     public static void initialize(Context context) {
         SoraEditorManager.context = context;
@@ -38,10 +40,14 @@ public class SoraEditorManager {
         FileProviderRegistry.getInstance().addFileProvider(new ResourceFileResolver());
         try {
             for (Theme theme : getThemesList()) {
-                loadTheme(theme.fullPath, theme.name);
+                try {
+                    loadTheme(theme.fullPath, theme.name);
+                } catch (Exception err) {
+                    // ErrorDialog.show(context, err);
+                }
             }
         } catch (Exception err) {
-            //ErrorDialog.show(context, err);
+            // ErrorDialog.show(context, err);
         }
         try {
             FileX langsJson = new FileX(dir("textmate"), "languages.json");
@@ -67,6 +73,7 @@ public class SoraEditorManager {
 
     public static void updateTheme(String name) {
         try {
+
             ThemeRegistry.getInstance().setTheme(name);
         } catch (Throwable e) {
             ErrorDialog.show(context, e);

@@ -42,6 +42,13 @@
             android:src="@drawable/dev"
             style="@style/Widget.AppCompat.ActionButton"
             android:contentDescription="@string/dev_tools" />
+        <ImageButton
+            android:id="@+id/whats_new"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/info"
+            style="@style/Widget.AppCompat.ActionButton"
+        />
     </LinearLayout>
 
     <View

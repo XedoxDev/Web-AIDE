@@ -36,7 +36,7 @@ public class AppCore extends MultiDexApplication {
         textmateDir = filesDir + "textmate/";
         fontsDir = filesDir + "fonts/";
         themesDir = textmateDir + "themes/";
-        mkdirs(projectsDir, textmateDir, themesDir);
+        mkdirs(projectsDir, textmateDir, themesDir, fontsDir);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         AppCore.setAppDelegate(sp.getString("app_theme", "SYSTEM"));
         AppCore.setDialogType(sp.getString("app_dialog_type", "MATERIAL"));
@@ -45,7 +45,7 @@ public class AppCore extends MultiDexApplication {
         FormatConfig.getInstance()
                 .setIndentSize(Integer.parseInt(sp.getString("editor_indent_size", "4")));
         SoraEditorManager.font =
-                sp.getString("editor_font", AppCore.dir("fonts") + "SourceCodePro-Regular.ttf");
+                sp.getString("editor_font", fontsDir + "SourceCodePro-Regular.ttf");
     }
 
     private void mkdirs(String... paths) {

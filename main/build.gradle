@@ -22,13 +22,6 @@ android {
         }
     }
     
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
@@ -41,13 +34,29 @@ android {
             def version = variant.versionName
             def buildNumber = variant.versionCode
             def variantName = variant.name
-            outputFileName = "${projectName}-v${version}-build.${buildNumber}.apk"
+            outputFileName = "${projectName}-v${version}-build-${buildNumber}.apk"
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains:annotations:24.0.1'
+        force 'org.jetbrains:annotations-java5:24.0.1'
+        eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains' && 
+                (details.requested.name == 'annotations' || details.requested.name == 'annotations-java5')) {
+                details.useVersion '24.0.1'
+            }
         }
     }
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:$app_compat"
+    implementation("androidx.appcompat:appcompat:$app_compat") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
     implementation "androidx.multidex:multidex:$multidex"
     implementation "androidx.preference:preference:$preference"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
@@ -55,9 +64,71 @@ dependencies {
     implementation "com.google.android.material:material:$material"
     implementation "com.google.code.gson:gson:$gson"
     
-    implementation "io.github.Rosemoe.sora-editor:editor"
-    implementation "io.github.Rosemoe.sora-editor:language-textmate"
-    implementation "io.noties.markwon:core:${markwonVersion}"
+    implementation("io.github.Rosemoe.sora-editor:editor") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.github.Rosemoe.sora-editor:language-textmate") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    
+    implementation("io.noties.markwon:core:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:ext-tables:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:ext-tasklist:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:html:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:image:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:image-coil:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:image-glide:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:image-picasso:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:inline-parser:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:linkify:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:recycler:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:recycler-table:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:simple-ext:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
+    implementation("io.noties.markwon:syntax-highlight:${markwonVersion}") {
+        exclude group: 'org.jetbrains', module: 'annotations'
+        exclude group: 'org.jetbrains', module: 'annotations-java5'
+    }
     
     implementation project(":filetree")
     implementation project(":colorpicker")
@@ -65,4 +136,6 @@ dependencies {
     implementation platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs"
+    
+    implementation 'org.jetbrains:annotations:24.0.1'
 }

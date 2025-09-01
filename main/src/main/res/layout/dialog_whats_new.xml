@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:padding="16dp">
+
+    <org.xedox.utils.view.TwoDScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_toLeftOf="@+id/actions"
+        android:id="@+id/scroll">
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/content" />
+
+    </org.xedox.utils.view.TwoDScrollView>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/actions">
+
+        <ImageButton
+            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:id="@+id/previous"
+            android:src="@drawable/arrow_up" />
+
+        <ImageButton
+            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:id="@+id/next"
+            android:src="@drawable/arrow_down" />
+
+    </LinearLayout>
+
+</RelativeLayout>

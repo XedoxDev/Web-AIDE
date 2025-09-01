@@ -181,6 +181,7 @@ public class SettingsActivity extends BaseActivity {
 
                 fontsPref.setEntries(entries);
                 fontsPref.setEntryValues(values);
+                fontsPref.setDefaultValue("SourceCodePro-Regular.tff");
             } catch (Exception err) {
                 ErrorDialog.show(requireActivity(), err);
             }
@@ -194,8 +195,15 @@ public class SettingsActivity extends BaseActivity {
                 }
                 themesPref.setEntries(names);
                 themesPref.setEntryValues(names);
+                themesPref.setDefaultValue("Darcula");
             } catch (Exception err) {
                 ErrorDialog.show(requireActivity(), err);
+            }
+            if (themesPref != null) {
+                themesPref.setOnPreferenceChangeListener(this);
+            }
+            if (fontsPref != null) {
+                fontsPref.setOnPreferenceChangeListener(this);
             }
         }
 

@@ -51,6 +51,7 @@ public class SoraEditor extends CodeEditor {
                 view.setBackground(getContext().getDrawable(R.drawable.sora_action_window));
             }
         }
+        SoraEditorManager.editors.add(this);
     }
 
     public void append(CharSequence txt) {
@@ -74,6 +75,13 @@ public class SoraEditor extends CodeEditor {
     public void clear() {
         getText().replace(0, getText().length(), "");
     }
+    
+    @Override
+    public void release() {
+        super.release();
+        SoraEditorManager.editors.remove(this);
+    }
+    
 
     public static class PrintStream extends java.io.PrintStream {
         private final SoraEditor editor;

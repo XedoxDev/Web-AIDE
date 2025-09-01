@@ -14,6 +14,7 @@ import java.io.File;
 import org.xedox.filetree.widget.FileTreeView;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.webaide.dialog.WhatsNewDialog;
 import org.xedox.webaide.sora.SoraEditorManager;
 import org.xedox.webaide.dialog.CopyAssetsDialog;
 import org.xedox.webaide.dialog.CreateProjectDialog;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseActivity {
     private RecyclerView projectsRecycler;
     private ProjectsAdapter projectsAdapter;
     private View emptyProjectsRecycler;
-    private ImageButton newProject, settings, devTools;
+    private ImageButton newProject, settings, devTools, whatsNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,8 @@ public class MainActivity extends BaseActivity {
         newProject = findViewById(R.id.new_project);
         settings = findViewById(R.id.settings);
         devTools = findViewById(R.id.dev_tools);
-
+        whatsNew = findViewById(R.id.whats_new);
+        
         setSupportActionBar(toolbar);
 
         projectsAdapter = new ProjectsAdapter(this);
@@ -64,6 +66,10 @@ public class MainActivity extends BaseActivity {
                 (v) -> {
                     Intent intent = new Intent(this, DevToolsActivity.class);
                     startActivity(intent);
+                });
+        whatsNew.setOnClickListener(
+                (v) -> {
+                    WhatsNewDialog.show(this);
                 });
         projectsAdapter.setOnChangeListener(
                 hasItems ->
