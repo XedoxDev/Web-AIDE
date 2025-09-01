@@ -3,8 +3,7 @@
         <Preference
             android:key="general_settings"
             android:title="@string/general"
-            android:summary="@string/general_settings_summary"
-        />
+            android:summary="@string/general_settings_summary"/>
         <Preference
             android:key="editor_settings"
             android:title="@string/editor"

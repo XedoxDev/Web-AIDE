@@ -1,5 +1,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/general">
+        <Preference
+        android:key="recopy_assets"
+        android:title="@string/recopy_assets"/>
         <org.xedox.utils.preference.MaterialListPreference
             android:key="app_theme"
             android:title="@string/app_theme"

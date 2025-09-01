@@ -1,6 +1,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/editor">
+        <org.xedox.utils.preference.MaterialListPreference
+            android:key="editor_font"
+            android:title="@string/editor_font"
+            android:summary="@string/editor_font_summary"
+            android:defaultValue="SourceCodePro-Regular.ttf" />
+        <org.xedox.utils.preference.MaterialListPreference
+            android:key="editor_theme"
+            android:title="@string/editor_theme"
+            android:summary="@string/editor_theme_summary"
+            android:defaultValue="Darcula" 
+            android:icon="@drawable/palette"/>
         <PreferenceCategory
             android:title="@string/format">
             <androidx.preference.SwitchPreference

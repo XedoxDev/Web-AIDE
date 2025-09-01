@@ -6,14 +6,21 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.CheckBoxPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.appbar.MaterialToolbar;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import org.xedox.utils.BaseActivity;
 import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.utils.format.FormatConfig;
 import org.xedox.utils.format.IFormat;
+import org.xedox.utils.preference.MaterialListPreference;
+import org.xedox.webaide.dialog.CopyAssetsDialog;
+import org.xedox.webaide.sora.SoraEditorManager;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -28,7 +35,7 @@ public class SettingsActivity extends BaseActivity {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            
+
             if (savedInstanceState == null) {
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -44,28 +51,19 @@ public class SettingsActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                getSupportFragmentManager().popBackStack();
-            } else {
-                finish();
-            }
+            handleBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed() {
+    public void handleBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+            finish();
         }
-    }
-
-    @Override
-    public void handleBackPressed() {
-        onBackPressed();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat
@@ -76,10 +74,10 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public void onCreatePreferences(Bundle extraArgs, String root) {
             setPreferencesFromResource(R.xml.settings_preferences, root);
-            
+
             Preference generalPref = findPreference("general_settings");
             Preference editorPref = findPreference("editor_settings");
-            
+
             if (generalPref != null) {
                 generalPref.setOnPreferenceClickListener(this);
             }
@@ -91,7 +89,7 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             String key = preference.getKey();
-            
+
             if (key.equals("general_settings")) {
                 navigateToFragment(new GeneralFragment());
                 return true;
@@ -99,12 +97,13 @@ public class SettingsActivity extends BaseActivity {
                 navigateToFragment(new EditorFragment());
                 return true;
             }
-            
+
             return false;
         }
 
         private void navigateToFragment(PreferenceFragmentCompat fragment) {
-            requireActivity().getSupportFragmentManager()
+            requireActivity()
+                    .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content, fragment)
                     .addToBackStack(null)
@@ -122,7 +121,12 @@ public class SettingsActivity extends BaseActivity {
             setPreferencesFromResource(R.xml.settings_general, root);
 
             Preference appDialogTypePref = findPreference("app_dialog_type");
-
+            Preference recopyAssetsPref = findPreference("recopy_assets");
+            recopyAssetsPref.setOnPreferenceClickListener(
+                    (v) -> {
+                        CopyAssetsDialog.show(requireActivity());
+                        return true;
+                    });
             if (appDialogTypePref != null) {
                 appDialogTypePref.setOnPreferenceChangeListener(this);
             }
@@ -152,15 +156,46 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public void onCreatePreferences(Bundle extraArgs, String root) {
             setPreferencesFromResource(R.xml.settings_editor, root);
-            
+
             Preference useTabPref = findPreference("editor_use_tab");
             Preference indentSizePref = findPreference("editor_indent_size");
-            
             if (useTabPref != null) {
                 useTabPref.setOnPreferenceChangeListener(this);
             }
             if (indentSizePref != null) {
                 indentSizePref.setOnPreferenceChangeListener(this);
+            }
+            MaterialListPreference fontsPref = findPreference("editor_font");
+            try {
+                List<File> fontSources = Arrays.asList(AppCore.fontList());
+                String[] entries = new String[fontSources.size()];
+                String[] values = new String[fontSources.size()];
+
+                for (int i = 0; i < fontSources.size(); i++) {
+                    File fontSource = fontSources.get(i);
+
+                    File fontFile = fontSource;
+                    entries[i] = fontFile.getName();
+                    values[i] = fontFile.getAbsolutePath();
+                }
+
+                fontsPref.setEntries(entries);
+                fontsPref.setEntryValues(values);
+            } catch (Exception err) {
+                ErrorDialog.show(requireActivity(), err);
+            }
+            MaterialListPreference themesPref = findPreference("editor_theme");
+            try {
+                SoraEditorManager.Theme[] themes = SoraEditorManager.getThemesList();
+                String[] names = new String[themes.length];
+                for (int i = 0; i < themes.length; i++) {
+                    SoraEditorManager.Theme theme = themes[i];
+                    names[i] = theme.name;
+                }
+                themesPref.setEntries(names);
+                themesPref.setEntryValues(names);
+            } catch (Exception err) {
+                ErrorDialog.show(requireActivity(), err);
             }
         }
 
@@ -169,16 +204,24 @@ public class SettingsActivity extends BaseActivity {
             String key = preference.getKey();
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
             SharedPreferences.Editor editor = sp.edit();
-
+            String value = newValue.toString();
             if (key.equals("editor_use_tab")) {
                 boolean useTab = (Boolean) newValue;
                 editor.putBoolean(key, useTab).apply();
                 FormatConfig.getInstance().setUseTab(useTab);
                 return true;
+            } else if (key.equals("editor_font")) {
+                editor.putString(key, value).apply();
+                SoraEditorManager.updateFont(value);
+                return true;
+            } else if (key.equals("editor_theme")) {
+                editor.putString(key, value).apply();
+                SoraEditorManager.updateTheme(value);
+                return true;
             } else if (key.equals("editor_indent_size")) {
                 try {
-                    int indentSize = Integer.parseInt(newValue.toString());
-                    editor.putString(key, newValue.toString()).apply();
+                    int indentSize = Integer.parseInt(value);
+                    editor.putString(key, value).apply();
                     FormatConfig.getInstance().setIndentSize(indentSize);
                 } catch (Exception e) {
                     ErrorDialog.show(requireActivity(), e);

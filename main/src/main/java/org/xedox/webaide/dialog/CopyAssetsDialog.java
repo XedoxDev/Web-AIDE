@@ -36,6 +36,11 @@ public class CopyAssetsDialog extends LoadingDialog {
         }
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         sp.edit().putBoolean("isCopyedAssets", true).apply();
+        try {
+            ass.copyAssetsRecursive("fonts", AppCore.file("fonts"));
+        } catch (Exception err) {
+            getHandler().post(() -> ErrorDialog.show(mContext, err));
+        }
         dismiss();
     }
 }

@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
         if (!sp.getBoolean("isCopyedAssets", false)
                 || !new File(AppCore.dir("files"), "textmate").exists()) {
             CopyAssetsDialog.show(this);
-        } else {
+        } else if(!SoraEditorManager.initialized){
             SoraEditorManager.initialize(this);
         }
     }

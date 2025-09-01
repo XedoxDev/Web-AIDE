@@ -32,7 +32,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false" 
+            android:title="@string/settings"/>
         <activity
             android:name=".DevToolsActivity"
             android:exported="false" />

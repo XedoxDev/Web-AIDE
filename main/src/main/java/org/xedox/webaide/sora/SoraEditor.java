@@ -6,14 +6,18 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.preference.PreferenceManager;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.text.Content;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
+import java.io.File;
 import java.util.Set;
 import java.util.HashSet;
+import org.xedox.utils.dialog.ErrorDialog;
+import org.xedox.webaide.AppCore;
 import org.xedox.webaide.R;
 
 public class SoraEditor extends CodeEditor {
@@ -32,16 +36,19 @@ public class SoraEditor extends CodeEditor {
     }
 
     protected void init() {
-        Typeface typeface =
-                Typeface.createFromAsset(getContext().getAssets(), "JetBrainsMono-Regular.ttf");
-        setTypefaceText(typeface);
-        setTypefaceLineNumber(typeface);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        try {
+            Typeface typeface = Typeface.createFromFile(new File(SoraEditorManager.font));
+            setTypefaceText(typeface);
+            setTypefaceLineNumber(typeface);
+        } catch (Exception err) {
+            ErrorDialog.show(getContext(), err);
+        }
         EditorTextActionWindow actionWindow = getComponent(EditorTextActionWindow.class);
         if (actionWindow != null) {
             ViewGroup view = actionWindow.getView();
             if (view != null) {
-                view.setBackground(
-                        getContext().getDrawable(R.drawable.sora_action_window));
+                view.setBackground(getContext().getDrawable(R.drawable.sora_action_window));
             }
         }
     }
@@ -58,7 +65,7 @@ public class SoraEditor extends CodeEditor {
     public String getStringText() {
         return getText().toString();
     }
-    
+
     protected void scrollToEnd() {
         int lastLine = getText().getLineCount() - 1;
         ensurePositionVisible(lastLine, 0);
@@ -129,5 +136,4 @@ public class SoraEditor extends CodeEditor {
             flush();
         }
     }
-
 }

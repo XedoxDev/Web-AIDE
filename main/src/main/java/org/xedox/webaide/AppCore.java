@@ -24,6 +24,8 @@ public class AppCore extends MultiDexApplication {
     private String filesDir;
     private String projectsDir;
     private String textmateDir;
+    private String fontsDir;
+    private String themesDir;
 
     @Override
     public void onCreate() {
@@ -32,13 +34,18 @@ public class AppCore extends MultiDexApplication {
         filesDir = instance.getExternalFilesDir(null).getAbsolutePath() + "/";
         projectsDir = filesDir + "projects/";
         textmateDir = filesDir + "textmate/";
-        mkdirs(projectsDir, textmateDir);
+        fontsDir = filesDir + "fonts/";
+        themesDir = textmateDir + "themes/";
+        mkdirs(projectsDir, textmateDir, themesDir);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         AppCore.setAppDelegate(sp.getString("app_theme", "SYSTEM"));
         AppCore.setDialogType(sp.getString("app_dialog_type", "MATERIAL"));
-        
+
         FormatConfig.getInstance().setUseTab(sp.getBoolean("editor_use_tab", false));
-        FormatConfig.getInstance().setIndentSize(Integer.parseInt(sp.getString("editor_indent_size", "4")));
+        FormatConfig.getInstance()
+                .setIndentSize(Integer.parseInt(sp.getString("editor_indent_size", "4")));
+        SoraEditorManager.font =
+                sp.getString("editor_font", AppCore.dir("fonts") + "SourceCodePro-Regular.ttf");
     }
 
     private void mkdirs(String... paths) {
@@ -55,6 +62,8 @@ public class AppCore extends MultiDexApplication {
             case "files" -> instance.filesDir;
             case "projects" -> instance.projectsDir;
             case "textmate" -> instance.textmateDir;
+            case "fonts" -> instance.fontsDir;
+            case "themes" -> instance.themesDir;
             default -> throw new NoSuchElementException("No exists directory: " + name);
         };
     }
@@ -65,6 +74,10 @@ public class AppCore extends MultiDexApplication {
 
     public static FileX file(String name) {
         return new FileX(dir(name));
+    }
+
+    public static File[] fontList() {
+        return new File(dir("fonts")).listFiles();
     }
 
     public static void setAppDelegate(String newValue) {

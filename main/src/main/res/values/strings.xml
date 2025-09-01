@@ -42,6 +42,8 @@
     <string name="preview">Preview</string>
     <string name="source">Source</string>
     <string name="dev_tools">Dev tools</string>
+    <string name="editor_font">Editor font</string>
+    <string name="editor_font_summary">Font for code editor. (Reccomended restart app after change)</string>
     <string name="format">Format</string>
     <string name="color_picker">Color picker</string>
     <string name="close_it">Close this</string>
@@ -51,7 +53,8 @@
     <string name="close_all">Close all</string>
     <string name="you_no_have_open_files">You have no open files</string>
     <string name="copying_assets">Copying assets...</string>
-
+    <string name="recopy_assets">Recopy assets</string>
+    
     <string name="general">General</string>
     <string name="app_theme">Application theme</string>
     <string name="app_theme_summary">Select theme for application. Restart app after change theme!</string>
@@ -74,4 +77,6 @@
     <string name="editor_use_tab_summary">Use tab characters instead of spaces for indentation</string>
     <string name="editor_indent_size">Indentation size</string>
     <string name="editor_indent_size_summary">Number of spaces for indentation (if tabs are disabled)</string>
+    <string name="editor_theme">Editor color scheme</string>
+    <string name="editor_theme_summary">Editor color scheme for code editor. (Reccomended restart app after change)</string>
 </resources>

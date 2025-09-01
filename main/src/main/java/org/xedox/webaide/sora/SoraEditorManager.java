@@ -1,9 +1,11 @@
 package org.xedox.webaide.sora;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.eclipse.tm4e.core.registry.IThemeSource;
 import org.xedox.utils.FileX;
@@ -26,17 +29,20 @@ import static org.xedox.webaide.AppCore.*;
 public class SoraEditorManager {
     private static Context context;
     public static final Handler handler = new Handler(Looper.getMainLooper());
+    public static String font;
+    public static boolean initialized = false;
 
     public static void initialize(Context context) {
-        SoraEditorManager.context = context.getApplicationContext();
-        try {
-            FileProviderRegistry.getInstance().addFileProvider(new ResourceFileResolver());
-            loadTheme(dir("textmate") + "themes/darcula.json", "darcula");
-            ThemeRegistry.getInstance().setTheme("darcula");
-        } catch (Exception err) {
-            ErrorDialog.show(context, err);
-        }
+        SoraEditorManager.context = context;
 
+        FileProviderRegistry.getInstance().addFileProvider(new ResourceFileResolver());
+        try {
+            for (Theme theme : getThemesList()) {
+                loadTheme(theme.fullPath, theme.name);
+            }
+        } catch (Exception err) {
+            //ErrorDialog.show(context, err);
+        }
         try {
             FileX langsJson = new FileX(dir("textmate"), "languages.json");
             if (!langsJson.exists()) {
@@ -48,6 +54,23 @@ public class SoraEditorManager {
         } catch (Exception err) {
             ErrorDialog.show(context, err);
         }
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        font = sp.getString("editor_font", AppCore.dir("fonts") + "SourceCodePro-Regular.ttf");
+
+        updateTheme(sp.getString("editor_theme", "Darcula"));
+        initialized = true;
+    }
+
+    public static void updateFont(String path) {
+        font = path;
+    }
+
+    public static void updateTheme(String name) {
+        try {
+            ThemeRegistry.getInstance().setTheme(name);
+        } catch (Throwable e) {
+            ErrorDialog.show(context, e);
+        }
     }
 
     public static void loadTheme(String themePath, String name) {
@@ -58,23 +81,23 @@ public class SoraEditorManager {
             ErrorDialog.show(context, err);
         }
     }
-    
+
     public static Language getLanguageByScopeName(String scopeName) throws IOException {
-        List<Language> langs = getLanguagesList(dir("textmate") + "languages/");
-        for(Language lang : langs) {
-        	if(lang.scopeName.equals(scopeName)) return lang;
+        Language[] langs = getLanguagesList(dir("textmate") + "languages/");
+        for (Language lang : langs) {
+            if (lang.scopeName.equals(scopeName)) return lang;
         }
         return null;
     }
 
-    public static List<Language> getLanguagesList(String languagesPath) throws IOException {
+    public static Language[] getLanguagesList(String languagesPath) throws IOException {
         List<Language> languages = new ArrayList<>();
         Gson gson = new Gson();
 
         File languagesDirectory = new File(languagesPath);
         File[] languageDirectories = languagesDirectory.listFiles();
         if (languageDirectories == null) {
-            return languages;
+            return languages.toArray(new Language[0]);
         }
 
         for (File languageDir : languageDirectories) {
@@ -91,7 +114,7 @@ public class SoraEditorManager {
             }
 
             File grammarFile = grammarFiles[0];
-            
+
             try {
                 String grammarContent = FileX.read(grammarFile);
                 JsonObject jsonObject = gson.fromJson(grammarContent, JsonObject.class);
@@ -125,16 +148,50 @@ public class SoraEditorManager {
                 }
 
                 languages.add(language);
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return languages;
+        return languages.toArray(new Language[0]);
+    }
+
+    public static Theme getThemeByName(String name) throws IOException {
+        for (Theme theme : getThemesList(dir("themes"))) {
+            if (name.equals(theme.name)) return theme;
+        }
+        return null;
+    }
+
+    public static Theme[] getThemesList() throws IOException {
+        return getThemesList(dir("themes"));
+    }
+
+    public static Theme[] getThemesList(String themesPath) throws IOException {
+        List<Theme> themes = new ArrayList<>();
+        Gson gson = new Gson();
+
+        File themesDirectory = new File(themesPath);
+        File[] themeFiles = themesDirectory.listFiles((dir, name) -> name.endsWith(".json"));
+        if (themeFiles == null) {
+            return themes.toArray(new Theme[0]);
+        }
+
+        for (File themeFile : themeFiles) {
+            if (themeFile.isDirectory()) continue;
+
+            String themeContent = FileX.read(themeFile);
+            JsonObject jsonObject = gson.fromJson(themeContent, JsonObject.class);
+            Theme theme = new Theme();
+            theme.fullPath = themeFile.getAbsolutePath();
+            theme.name = jsonObject.get("name").getAsString();
+            themes.add(theme);
+        }
+        return themes.toArray(new Theme[0]);
     }
 
     public static String generateLanguagesJson(String languagesPath) throws IOException {
-        List<Language> languages = getLanguagesList(languagesPath);
+        Language[] languages = getLanguagesList(languagesPath);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject root = new JsonObject();
         JsonArray langsArr = new JsonArray();
@@ -160,5 +217,10 @@ public class SoraEditorManager {
         public String scopeName;
         public String languageConfiguration;
         public String snippets;
+    }
+
+    public static class Theme {
+        public String fullPath;
+        public String name;
     }
 }
