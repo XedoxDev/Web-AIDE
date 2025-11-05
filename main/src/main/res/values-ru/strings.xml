@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Web Android IDE</string>
+<string name="you_no_have_projects">У вас нет проектов</string>
+<string name="new_project">Новый проект</string>
+<string name="create_project">Создать проект</string>
+<string name="project_name">Название проекта</string>
+<string name="project_name_cannot_be_empty">Название проекта не может быть пустым</string>
+<string name="project_successful_created">Проект успешно создан</string>
+<string name="failed_to_create_project">Не удалось создать проект</string>
+<string name="project_already_exists">Проект уже существует</string>
+<string name="cancel">Отмена</string>
+<string name="more">Ещё</string>
+<string name="remove">Удалить</string>
+<string name="create">Создать</string>
+<string name="invalid_filename">Недопустимое имя</string>
+<string name="new_file_folder">Новый файл/папка</string>
+<string name="file">Файл</string>
+<string name="file_name">Имя файла</string>
+<string name="mkdir">Создать папку</string>
+<string name="create_file">Создать файл</string>
+<string name="rename_file">Переименовать файл</string>
+<string name="rename_folder">Переименовать папку</string>
+<string name="folder_name_cannot_be_empty">Имя папки не может быть пустым</string>
+<string name="file_name_cannot_be_empty">Имя файла не может быть пустым</string>
+<string name="folder_name">Имя папки</string>
+<string name="folder">Папка</string>
+<string name="file_already_exists">Файл уже существует</string>
+<string name="folder_already_exists">Папка уже существует</string>
+<string name="delete">Удалить</string>
+<string name="rename">Переименовать</string>
+<string name="rename_project">Переименовать проект</string>
+<string name="file_tree">Дерево файлов</string>
+<string name="settings">Настройки</string>
+<string name="exit">Выход</string>
+<string name="run">Запустить</string>
+<string name="link">Ссылка</string>
+<string name="copy">Копировать</string>
+<string name="indent_size">Размер отступа</string>
+<string name="use_tabs">Использовать табуляцию</string>
+<string name="search_hint">Поиск...</string>
+<string name="preview">Предпросмотр</string>
+<string name="source">Исходник</string>
+<string name="dev_tools">Инструменты разработчика</string>
+<string name="editor_font">Шрифт редактора</string>
+<string name="editor_font_summary">Шрифт для редактора кода. (Рекомендуется перезапустить приложение после изменения)</string>
+<string name="format">Форматировать</string>
+<string name="color_picker">Выбор цвета</string>
+<string name="close_it">Закрыть</string>
+<string name="editor">Редактор кода</string>
+<string name="save_all">Сохранить всё</string>
+<string name="close_other">Закрыть другие</string>
+<string name="close_all">Закрыть все</string>
+<string name="you_no_have_open_files">У вас нет открытых файлов</string>
+<string name="copying_assets">Копирование ресурсов...</string>
+<string name="recopy_assets">Перекопировать ресурсы</string>
+
+<string name="general">Общие</string>
+<string name="app_theme">Тема приложения</string>
+<string name="app_theme_summary">Выберите тему для приложения. Перезапустите приложение после изменения темы!</string>
+<string name="dark_theme">Тёмная тема</string>
+<string name="light_theme">Светлая тема</string>
+<string name="system_theme">Системная тема</string>
+
+<string name="app_dialog_type">Тип диалогов приложения</string>
+<string name="app_dialog_type_summary">Выберите тип диалогов для приложения</string>
+<string name="app_dialog_type_material">Диалог Material3</string>
+<string name="app_dialog_type_androidx">Диалог AndroidX</string>
+<string name="app_dialog_type_neo">Диалог Neo</string>
+
+<string name="downloading_page_content">Загрузка содержимого страницы...</string>
+
+<string name="settings_categories">Категории</string>
+<string name="general_settings_summary">Настройки внешнего вида и поведения</string>
+<string name="editor_settings_summary">Настройки редактора кода</string>
+<string name="editor_use_tab">Использовать табуляцию для отступов</string>
+<string name="editor_use_tab_summary">Использовать символы табуляции вместо пробелов для отступов</string>
+<string name="editor_indent_size">Размер отступа</string>
+<string name="editor_indent_size_summary">Количество пробелов для отступа (если табы отключены)</string>
+<string name="editor_theme">Цветовая схема редактора</string>
+<string name="editor_theme_summary">Цветовая схема редактора кода. (Рекомендуется перезапустить приложение после изменения)</string>
+</resources>
