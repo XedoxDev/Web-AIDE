@@ -20,4 +20,13 @@
         <item>ANDROIDX</item>
         <item>NEO</item>
     </string-array>
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>Rusia</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>ru</item>
+    </string-array>
 </resources>
