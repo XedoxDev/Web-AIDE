@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_toggle_mode"
+        android:title="Switch to Desktop"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_open_browser"
+        android:title="Open in Browser"
+        android:showAsAction="never" />
+</menu>
