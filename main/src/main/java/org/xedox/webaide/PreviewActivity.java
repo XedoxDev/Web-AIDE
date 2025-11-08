@@ -98,7 +98,7 @@ public class PreviewActivity extends AppCompatActivity {
             getSupportActionBar().setSubtitle(currentUrl);
         }
 
-        swipeRefresh.setOnRefreshListener(webView::reload);
+        swipeRefresh.setOnRefreshListener(()->webView.loadUrl(webView.getUrl()));
 
         setWebViewMode(false);
     }
