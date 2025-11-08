@@ -22,7 +22,7 @@ public class OverflowMenu {
             return false;
         });
 
-        try {
+        try { // Turn on icons
             java.lang.reflect.Field field = menu.getClass().getDeclaredField("mPopup");
             field.setAccessible(true);
             Object menuPopupHelper = field.get(menu);

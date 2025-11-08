@@ -17,7 +17,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
     
@@ -36,6 +36,7 @@ dependencies {
     api "io.github.Rosemoe.sora-editor:language-textmate"
     api platform("io.github.Rosemoe.sora-editor:bom:$sora_editor")
     api "com.google.code.gson:gson:$gson"
+    api "org.nanohttpd:nanohttpd:$nanohttpd"
     
     api("org.jsoup:jsoup:$jsoup")
     implementation "com.google.javascript:closure-compiler:$closure_compiler"

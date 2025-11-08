@@ -73,8 +73,10 @@ public class SoraEditorManager {
 
     public static void updateTheme(String name) {
         try {
-
             ThemeRegistry.getInstance().setTheme(name);
+            for(SoraEditor editor : editors) {
+                editor.invalidate();
+            }
         } catch (Throwable e) {
             ErrorDialog.show(context, e);
         }

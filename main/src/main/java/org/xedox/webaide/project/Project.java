@@ -84,9 +84,9 @@ public class Project {
         }
         return new Project(projectDir);
     }
-    
+
     public String file(String path) {
-    	return new File(projectPath, path).getAbsolutePath();
+        return new File(projectPath, path).getAbsolutePath();
     }
 
     public static void renameProject(Project project, String newName) {

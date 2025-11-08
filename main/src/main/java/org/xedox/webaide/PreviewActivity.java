@@ -17,11 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import fi.iki.elonen.NanoHTTPD;
+import org.xedox.utils.LocalWebServer;
 import org.xedox.utils.dialog.ErrorDialog;
 import org.xedox.utils.view.WebViewX;
 
@@ -33,9 +32,9 @@ public class PreviewActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefresh;
 
     private boolean isDesktopMode = false;
-    private String currentUrl = null;
-    private LocalWebServer localServer = null;
-    private String localServerUrl = null;
+    private String currentUrl;
+    private LocalWebServer localServer;
+    private String localServerUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +57,34 @@ public class PreviewActivity extends AppCompatActivity {
             settings.setAllowFileAccess(true);
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    currentUrl = url;
-                    progress.setVisibility(ProgressBar.VISIBLE);
-                }
+            webView.setWebViewClient(
+                    new WebViewClient() {
+                        @Override
+                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                            currentUrl = url;
+                            progress.setVisibility(ProgressBar.VISIBLE);
+                        }
 
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    currentUrl = url;
-                    progress.setVisibility(ProgressBar.GONE);
-                }
-            });
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            currentUrl = url;
+                            progress.setVisibility(ProgressBar.GONE);
+                            swipeRefresh.setRefreshing(false);
+                        }
+                    });
 
-            webView.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    progress.setProgress(newProgress);
-                    if (newProgress >= 100) {
-                        progress.setVisibility(ProgressBar.GONE);
-                    } else {
-                        progress.setVisibility(ProgressBar.VISIBLE);
-                    }
-                }
-            });
+            webView.setWebChromeClient(
+                    new WebChromeClient() {
+                        @Override
+                        public void onProgressChanged(WebView view, int newProgress) {
+                            progress.setProgress(newProgress);
+                            if (newProgress >= 100) {
+                                progress.setVisibility(ProgressBar.GONE);
+                            } else {
+                                progress.setVisibility(ProgressBar.VISIBLE);
+                            }
+                        }
+                    });
 
             Intent intent = getIntent();
             String indexHtml = intent.getStringExtra("index.html");
@@ -107,10 +109,10 @@ public class PreviewActivity extends AppCompatActivity {
                 }
             }
 
-            swipeRefresh.setOnRefreshListener(() -> {
-                webView.reload();
-                swipeRefresh.setRefreshing(false);
-            });
+            swipeRefresh.setOnRefreshListener(
+                    () -> {
+                        webView.reload();
+                    });
 
             setWebViewMode(false);
 
@@ -161,15 +163,15 @@ public class PreviewActivity extends AppCompatActivity {
         WebSettings settings = webView.getSettings();
         if (desktopMode) {
             settings.setUserAgentString(
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
-                            "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                            + "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
             settings.setUseWideViewPort(true);
             settings.setLoadWithOverviewMode(true);
             webView.setInitialScale(100);
         } else {
             settings.setUserAgentString(
-                    "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 " +
-                            "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36");
+                    "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 "
+                            + "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36");
             settings.setUseWideViewPort(false);
             settings.setLoadWithOverviewMode(false);
             webView.setInitialScale(0);
@@ -178,7 +180,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void loadHtmlFromUri(Uri uri) {
         try (InputStream is = getContentResolver().openInputStream(uri);
-             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             StringBuilder buffer = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
@@ -210,94 +212,6 @@ public class PreviewActivity extends AppCompatActivity {
         if (localServer != null) {
             localServer.stop();
             localServer = null;
-        }
-    }
-
-    public static class LocalWebServer extends NanoHTTPD {
-        private final File rootDir;
-
-        public LocalWebServer(int port, File rootDir) {
-            super(port);
-            this.rootDir = rootDir;
-        }
-
-        @Override
-        public Response serve(IHTTPSession session) {
-            try {
-                String uri = session.getUri();
-                File file = new File(rootDir, uri);
-                if (!file.exists()) {
-                    return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "404 Not Found");
-                }
-                FileInputStream fis = new FileInputStream(file);
-                String mime = getMimeTypeForFile(uri);
-                return newChunkedResponse(Response.Status.OK, mime, fis);
-            } catch (Exception e) {
-                return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Error: " + e.getMessage());
-            }
-        }
-    }
-    }            webView = findViewById(R.id.web_view);
-            progress = findViewById(R.id.progress);
-            swipeRefresh = findViewById(R.id.refresh_layout);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            webView.setProgressBar(progress);
-            webView.addOnPageStartedListener(
-                    (v, url, ic) -> {
-                        
-                        String str = url.substring(url.lastIndexOf("/")+1, url.length());
-                        getSupportActionBar().setSubtitle(str);
-                    });
-
-            Intent intent = getIntent();
-            String indexHtml = intent.getStringExtra("index.html");
-
-            if (indexHtml != null && !indexHtml.isBlank()) {
-                webView.loadUrl("file://" + indexHtml);
-            } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-                Uri data = intent.getData();
-                if (data != null) {
-                    loadHtmlFromUri(data);
-                } else {
-                    webView.loadData("File found'n", "text/html", "UTF-8");
-                }
-            }
-            swipeRefresh.setOnRefreshListener(
-                    () -> {
-                        webView.reload();
-                        swipeRefresh.setRefreshing(false);
-                    });
-        } catch (Exception err) {
-            ErrorDialog.show(this, err);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void handleBackPressed() {
-        finish();
-    }
-
-    private void loadHtmlFromUri(Uri uri) {
-        try (InputStream is = getContentResolver().openInputStream(uri);
-                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-            StringBuilder buffer = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                buffer.append(line).append("\n");
-            }
-            webView.loadData(buffer.toString(), "text/html", "UTF-8");
-        } catch (Exception e) {
-            webView.loadData("Ошибка загрузки: " + e.getMessage(), "text/html", "UTF-8");
         }
     }
 }
