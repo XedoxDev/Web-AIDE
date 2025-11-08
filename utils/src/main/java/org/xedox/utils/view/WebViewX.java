@@ -18,9 +18,7 @@ import java.util.List;
 public class WebViewX extends WebView {
 
     private ProgressBar progress;
-    private final List<OnPageStartedListener> pageStartedListeners = new ArrayList<>();
-    private final List<OnPageFinishedListener> pageFinishedListeners = new ArrayList<>();
-    private final List<OnProgressChangedListener> progressChangedListeners = new ArrayList<>();
+    private final List<WebViewListener> webViewListeners = new ArrayList<>();
     private final List<ShouldOverrideUrlListener> shouldOverrideUrlListeners = new ArrayList<>();
 
     public WebViewX(Context context) {
@@ -54,6 +52,7 @@ public class WebViewX extends WebView {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -78,7 +77,7 @@ public class WebViewX extends WebView {
                             progress.setVisibility(View.VISIBLE);
                             progress.setProgress(0);
                         }
-                        for (OnPageStartedListener listener : pageStartedListeners) {
+                        for (WebViewListener listener : webViewListeners) {
                             listener.onPageStarted(view, url, favicon);
                         }
                     }
@@ -88,7 +87,7 @@ public class WebViewX extends WebView {
                         if (progress != null) {
                             progress.setVisibility(View.GONE);
                         }
-                        for (OnPageFinishedListener listener : pageFinishedListeners) {
+                        for (WebViewListener listener : webViewListeners) {
                             listener.onPageFinished(view, url);
                         }
                     }
@@ -101,35 +100,112 @@ public class WebViewX extends WebView {
                         if (progress != null) {
                             progress.setProgress(newProgress);
                         }
-                        for (OnProgressChangedListener listener : progressChangedListeners) {
+                        for (WebViewListener listener : webViewListeners) {
                             listener.onProgressChanged(view, newProgress);
                         }
+                    }
+
+                    @Override
+                    public void onReceivedTitle(WebView view, String title) {
+                        for (WebViewListener listener : webViewListeners) {
+                            listener.onReceivedTitle(view, title);
+                        }
+                    }
+
+                    @Override
+                    public void onReceivedIcon(WebView view, Bitmap icon) {
+                        for (WebViewListener listener : webViewListeners) {
+                            listener.onReceivedIcon(view, icon);
+                        }
+                    }
+
+                    @Override
+                    public void onShowCustomView(View view, CustomViewCallback callback) {
+                        for (WebViewListener listener : webViewListeners) {
+                            listener.onShowCustomView(view, callback);
+                        }
+                    }
+
+                    @Override
+                    public void onHideCustomView() {
+                        for (WebViewListener listener : webViewListeners) {
+                            listener.onHideCustomView();
+                        }
+                    }
+
+                    @Override
+                    public boolean onCreateWindow(
+                            WebView view,
+                            boolean isDialog,
+                            boolean isUserGesture,
+                            android.os.Message resultMsg) {
+                        boolean handled = false;
+                        for (WebViewListener listener : webViewListeners) {
+                            if (listener.onCreateWindow(view, isDialog, isUserGesture, resultMsg)) {
+                                handled = true;
+                            }
+                        }
+                        return handled;
+                    }
+
+                    @Override
+                    public void onCloseWindow(WebView window) {
+                        for (WebViewListener listener : webViewListeners) {
+                            listener.onCloseWindow(window);
+                        }
+                    }
+
+                    @Override
+                    public boolean onJsAlert(
+                            WebView view,
+                            String url,
+                            String message,
+                            android.webkit.JsResult result) {
+                        for (WebViewListener listener : webViewListeners) {
+                            if (listener.onJsAlert(view, url, message, result)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onJsConfirm(
+                            WebView view,
+                            String url,
+                            String message,
+                            android.webkit.JsResult result) {
+                        for (WebViewListener listener : webViewListeners) {
+                            if (listener.onJsConfirm(view, url, message, result)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onJsPrompt(
+                            WebView view,
+                            String url,
+                            String message,
+                            String defaultValue,
+                            android.webkit.JsPromptResult result) {
+                        for (WebViewListener listener : webViewListeners) {
+                            if (listener.onJsPrompt(view, url, message, defaultValue, result)) {
+                                return true;
+                            }
+                        }
+                        return false;
                     }
                 });
     }
 
-    public void addOnPageStartedListener(OnPageStartedListener listener) {
-        pageStartedListeners.add(listener);
+    public void addWebViewListener(WebViewListener listener) {
+        webViewListeners.add(listener);
     }
 
-    public void removeOnPageStartedListener(OnPageStartedListener listener) {
-        pageStartedListeners.remove(listener);
-    }
-
-    public void addOnPageFinishedListener(OnPageFinishedListener listener) {
-        pageFinishedListeners.add(listener);
-    }
-
-    public void removeOnPageFinishedListener(OnPageFinishedListener listener) {
-        pageFinishedListeners.remove(listener);
-    }
-
-    public void addOnProgressChangedListener(OnProgressChangedListener listener) {
-        progressChangedListeners.add(listener);
-    }
-
-    public void removeOnProgressChangedListener(OnProgressChangedListener listener) {
-        progressChangedListeners.remove(listener);
+    public void removeWebViewListener(WebViewListener listener) {
+        webViewListeners.remove(listener);
     }
 
     public void addShouldOverrideUrlListener(ShouldOverrideUrlListener listener) {
@@ -144,16 +220,49 @@ public class WebViewX extends WebView {
         this.progress = progress;
     }
 
-    public interface OnPageStartedListener {
-        void onPageStarted(WebView view, String url, Bitmap favicon);
-    }
+    public interface WebViewListener {
+        default void onPageStarted(WebView view, String url, Bitmap favicon) {}
 
-    public interface OnPageFinishedListener {
-        void onPageFinished(WebView view, String url);
-    }
+        default void onPageFinished(WebView view, String url) {}
 
-    public interface OnProgressChangedListener {
-        void onProgressChanged(WebView view, int progress);
+        default void onProgressChanged(WebView view, int progress) {}
+
+        default void onReceivedTitle(WebView view, String title) {}
+
+        default void onReceivedIcon(WebView view, Bitmap icon) {}
+
+        default void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback) {}
+
+        default void onHideCustomView() {}
+
+        default boolean onCreateWindow(
+                WebView view,
+                boolean isDialog,
+                boolean isUserGesture,
+                android.os.Message resultMsg) {
+            return false;
+        }
+
+        default void onCloseWindow(WebView window) {}
+
+        default boolean onJsAlert(
+                WebView view, String url, String message, android.webkit.JsResult result) {
+            return false;
+        }
+
+        default boolean onJsConfirm(
+                WebView view, String url, String message, android.webkit.JsResult result) {
+            return false;
+        }
+
+        default boolean onJsPrompt(
+                WebView view,
+                String url,
+                String message,
+                String defaultValue,
+                android.webkit.JsPromptResult result) {
+            return false;
+        }
     }
 
     public interface ShouldOverrideUrlListener {

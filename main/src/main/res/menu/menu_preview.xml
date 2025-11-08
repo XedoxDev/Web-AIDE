@@ -8,4 +8,9 @@
         android:id="@+id/action_open_browser"
         android:title="Open in Browser"
         android:showAsAction="never" />
+
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh"
+        android:showAsAction="never" />
 </menu>

@@ -7,10 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -39,86 +37,70 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            setContentView(R.layout.activity_preview);
+        setContentView(R.layout.activity_preview);
 
-            toolbar = findViewById(R.id.toolbar);
-            webView = findViewById(R.id.web_view);
-            progress = findViewById(R.id.progress);
-            swipeRefresh = findViewById(R.id.refresh_layout);
+        toolbar = findViewById(R.id.toolbar);
+        webView = findViewById(R.id.web_view);
+        progress = findViewById(R.id.progress);
+        swipeRefresh = findViewById(R.id.refresh_layout);
 
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            webView.setProgressBar(progress);
+        webView.setProgressBar(progress);
+        webView.addWebViewListener(
+                new WebViewX.WebViewListener() {
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        currentUrl = url;
+                        swipeRefresh.setRefreshing(true);
+                    }
 
-            WebSettings settings = webView.getSettings();
-            settings.setJavaScriptEnabled(true);
-            settings.setDomStorageEnabled(true);
-            settings.setAllowFileAccess(true);
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
-            webView.setWebViewClient(
-                    new WebViewClient() {
-                        @Override
-                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                            currentUrl = url;
-                            progress.setVisibility(ProgressBar.VISIBLE);
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        currentUrl = url;
+                        swipeRefresh.setRefreshing(false);
+                        if (getSupportActionBar() != null) {
+                            getSupportActionBar().setSubtitle(currentUrl);
                         }
+                    }
 
-                        @Override
-                        public void onPageFinished(WebView view, String url) {
-                            currentUrl = url;
-                            progress.setVisibility(ProgressBar.GONE);
-                            swipeRefresh.setRefreshing(false);
+                    @Override
+                    public void onReceivedTitle(WebView view, String title) {
+                        if (getSupportActionBar() != null && title != null) {
+                            getSupportActionBar().setTitle(title);
                         }
-                    });
+                    }
+                });
+        Intent intent = getIntent();
+        String indexHtml = intent.getStringExtra("index.html");
 
-            webView.setWebChromeClient(
-                    new WebChromeClient() {
-                        @Override
-                        public void onProgressChanged(WebView view, int newProgress) {
-                            progress.setProgress(newProgress);
-                            if (newProgress >= 100) {
-                                progress.setVisibility(ProgressBar.GONE);
-                            } else {
-                                progress.setVisibility(ProgressBar.VISIBLE);
-                            }
-                        }
-                    });
-
-            Intent intent = getIntent();
-            String indexHtml = intent.getStringExtra("index.html");
-
-            if (indexHtml != null && !indexHtml.isBlank()) {
-                File htmlFile = new File(indexHtml);
-                if (htmlFile.exists()) {
-                    startLocalServer(htmlFile.getParentFile());
-                    localServerUrl = "http://localhost:8080/" + htmlFile.getName();
-                    webView.loadUrl(localServerUrl);
-                    currentUrl = localServerUrl;
-                } else {
-                    webView.loadData("File not found", "text/html", "UTF-8");
-                }
-            } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-                Uri data = intent.getData();
-                if (data != null) {
-                    loadHtmlFromUri(data);
-                    currentUrl = data.toString();
-                } else {
-                    webView.loadData("File not found", "text/html", "UTF-8");
-                }
+        if (indexHtml != null && !indexHtml.isBlank()) {
+            File htmlFile = new File(indexHtml);
+            if (htmlFile.exists()) {
+                startLocalServer(htmlFile.getParentFile());
+                localServerUrl = "http://localhost:8080/" + htmlFile.getName();
+                webView.loadUrl(localServerUrl);
+                currentUrl = localServerUrl;
+            } else {
+                webView.loadData("File not found", "text/html", "UTF-8");
             }
-
-            swipeRefresh.setOnRefreshListener(
-                    () -> {
-                        webView.reload();
-                    });
-
-            setWebViewMode(false);
-
-        } catch (Exception err) {
-            ErrorDialog.show(this, err);
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri data = intent.getData();
+            if (data != null) {
+                loadHtmlFromUri(data);
+                currentUrl = data.toString();
+            } else {
+                webView.loadData("File not found", "text/html", "UTF-8");
+            }
         }
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setSubtitle(currentUrl);
+        }
+
+        swipeRefresh.setOnRefreshListener(webView::reload);
+
+        setWebViewMode(false);
     }
 
     @Override
@@ -133,6 +115,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            return true;
         } else if (id == R.id.action_open_browser) {
             if (currentUrl != null) {
                 try {
@@ -153,6 +136,11 @@ public class PreviewActivity extends AppCompatActivity {
             setWebViewMode(isDesktopMode);
             item.setTitle(isDesktopMode ? "Switch to Phone" : "Switch to Desktop");
             webView.reload();
+            return true;
+        } else if (id == R.id.refresh) {
+            swipeRefresh.setRefreshing(false);
+            webView.reload();
+            swipeRefresh.setRefreshing(true);
             return true;
         }
 
@@ -179,13 +167,16 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
     private void loadHtmlFromUri(Uri uri) {
-        try (InputStream is = getContentResolver().openInputStream(uri);
-                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             StringBuilder buffer = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
                 buffer.append(line).append("\n");
             }
+            br.close();
+            is.close();
             webView.loadData(buffer.toString(), "text/html", "UTF-8");
         } catch (Exception e) {
             webView.loadData("Error loading file: " + e.getMessage(), "text/html", "UTF-8");
