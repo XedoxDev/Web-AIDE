@@ -74,13 +74,17 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
     }
 
     public void update(Project project) {
-        int position = indexOf(project);
-        if (position >= 0) {
-            items.set(position, project);
-            notifyItemChanged(position);
-            notifyChange();
-        }
+    int position = indexOf(project);
+    if (position >= 0) {
+        items.set(position, project);
+        notifyItemChanged(position);
+        notifyChange();
     }
+}
+
+public void reload() {
+    setItems(Project.getProjectsList());
+}
 
     public void add(int position, Project project) {
         if (project == null || position < 0 || position > items.size()) return;
