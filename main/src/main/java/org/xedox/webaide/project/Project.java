@@ -89,10 +89,16 @@ public class Project {
         return new File(projectPath, path).getAbsolutePath();
     }
 
-    public static void renameProject(Project project, String newName) {
-        File newFile = new File(project.getParent(), newName);
-        new File(project.getAbsolutePath()).renameTo(newFile);
+    public static Project renameProject(Project project, String newName) throws IOException {
+    File oldFile = new File(project.getAbsolutePath());
+    File newFile = new File(project.getParent(), newName);
+
+    if (!oldFile.renameTo(newFile)) {
+        throw new IOException("Failed to rename project.");
     }
+
+    return new Project(newFile);
+}
 
     public static void removeProject(Project project) {
         project.projectPath.deleteRecursively();
