@@ -78,12 +78,9 @@ public class DevToolsActivity extends BaseActivity
                         () -> {
                             try {
                                 webManager.download(url, DevToolsActivity.this);
-                            } catch (IOException e) {
-                                runOnUiThread(() -> ErrorDialog.show(this, e));
-                                if (loadingDialog != null) {
-                                    loadingDialog.dismiss();
-                                }
-                            }
+                          } catch (IOException e) {
+    runOnUiThread(() -> ErrorDialog.show(this, e));
+}
                         });
         loadingDialog.show();
     }
@@ -203,4 +200,5 @@ public class DevToolsActivity extends BaseActivity
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {}
-}
+                            }
+                    
