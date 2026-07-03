@@ -3,7 +3,6 @@ package org.xedox.utils.dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.xedox.utils.R;
@@ -21,6 +20,7 @@ public class LoadingDialog {
     public LoadingDialog(Context context, String title, Runnable run) {
         this.context = context;
         this.runnable = run;
+
         builder = new DialogBuilder(context);
         builder.setView(R.layout.dialog_loading_layout);
         builder.setTitle(title);
@@ -28,10 +28,6 @@ public class LoadingDialog {
 
         infoText = builder.findViewById(R.id.loading_info);
         progressBar = builder.findViewById(R.id.progress);
-
-        if (runnable != null) {
-            startBackgroundTask();
-        }
     }
 
     public LoadingDialog(Context context, int title, Runnable run) {
@@ -40,61 +36,67 @@ public class LoadingDialog {
 
     public void setRunnable(Runnable runnable) {
         this.runnable = runnable;
-        if (isShowing && runnable != null) {
-            startBackgroundTask();
-        }
     }
 
     private void startBackgroundTask() {
-        runnable.run();
-        dismiss();
+        new Thread(() -> {
+            try {
+                if (runnable != null) {
+                    runnable.run();
+                }
+            } finally {
+                dismiss();
+            }
+        }).start();
     }
 
     public void show() {
-        handler.post(
-                () -> {
-                    if (!isShowing) {
-                        builder.show();
-                        isShowing = true;
-                        if (runnable != null) {
-                            startBackgroundTask();
-                        }
-                    }
-                });
+        handler.post(() -> {
+            if (!isShowing) {
+                builder.show();
+                isShowing = true;
+
+                if (runnable != null) {
+                    startBackgroundTask();
+                }
+            }
+        });
     }
 
     public void dismiss() {
-        handler.post(
-                () -> {
-                    if (isShowing) {
-                        builder.dialog.dismiss();
-                        isShowing = false;
-                    }
-                });
+        handler.post(() -> {
+            if (isShowing) {
+                if (builder.dialog != null && builder.dialog.isShowing()) {
+                    builder.dialog.dismiss();
+                }
+                isShowing = false;
+            }
+        });
     }
 
     public void setMaxProgress(int max) {
-        handler.post(
-                () -> {
-                    if (max <= 0) {
-                        progressBar.setIndeterminate(true);
-                    } else {
-                        progressBar.setIndeterminate(false);
-                        progressBar.setMax(max);
-                    }
-                });
+        handler.post(() -> {
+            if (max <= 0) {
+                progressBar.setIndeterminate(true);
+            } else {
+                progressBar.setIndeterminate(false);
+                progressBar.setMax(max);
+            }
+        });
     }
 
     public void updateProgress(String message, int progress) {
-        handler.post(
-                () -> {
-                    if (isShowing) {
-                        if (message != null) infoText.setText(message);
-                        if (!progressBar.isIndeterminate()) {
-                            progressBar.setProgress(progress);
-                        }
-                    }
-                });
+        handler.post(() -> {
+            if (isShowing) {
+                if (message != null) {
+                    infoText.setText(message);
+                }
+
+                if (!progressBar.isIndeterminate()) {
+                    progressBar.setProgress(progress);
+                }
+            }
+        });
     }
 
     public Handler getHandler() {
